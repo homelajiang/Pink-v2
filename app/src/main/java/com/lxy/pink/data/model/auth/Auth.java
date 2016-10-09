@@ -6,7 +6,7 @@ import com.lxy.pink.data.model.BaseModel;
 /**
  * Created by homelajiang on 2016/8/17 0017.
  */
-public class AuthBean extends BaseModel {
+public class Auth extends BaseModel {
 
     private String username;
     private String privateKey;

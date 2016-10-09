@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by homelajiang on 2016/8/18 0018.
  */
-public class ProfileBean extends BaseModel {
+public class Profile extends BaseModel {
 
     private String nickname;
     private String userImg;

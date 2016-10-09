@@ -38,16 +38,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int screenHeight = displayMetrics.heightPixels;
 
-        Window window = getWindow();
-        GradientDrawable gradientBackgroundDrawable = GradientUtils.create(
-                ContextCompat.getColor(this, R.color.mp_theme_dark_blue_gradientColor),
-                ContextCompat.getColor(this, R.color.mp_theme_dark_blue_background),
-                screenHeight / 2, // (int) Math.hypot(screenWidth / 2, screenHeight / 2),
-                0.5f,
-                0.5f
-        );
-        window.setBackgroundDrawable(gradientBackgroundDrawable);
-        window.setFormat(PixelFormat.RGBA_8888);
+//        Window window = getWindow();
+//        GradientDrawable gradientBackgroundDrawable = GradientUtils.create(
+//                ContextCompat.getColor(this, R.color.mp_theme_dark_blue_gradientColor),
+//                ContextCompat.getColor(this, R.color.mp_theme_dark_blue_background),
+//                screenHeight / 2, // (int) Math.hypot(screenWidth / 2, screenHeight / 2),
+//                0.5f,
+//                0.5f
+//        );
+//        window.setBackgroundDrawable(gradientBackgroundDrawable);
+//        window.setFormat(PixelFormat.RGBA_8888);
     }
 
     @Override
