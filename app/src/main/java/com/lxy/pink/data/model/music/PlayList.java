@@ -1,13 +1,10 @@
-package com.lxy.pink.data.model.file;
-
-import com.lxy.pink.data.model.music.Song;
+package com.lxy.pink.data.model.music;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToMany;
-import org.greenrobot.greendao.annotation.Unique;
+import org.greenrobot.greendao.annotation.Transient;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,85 +13,108 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.lxy.pink.data.db.DaoSession;
 import com.lxy.pink.data.db.SongDao;
-import com.lxy.pink.data.db.FolderDao;
+import com.lxy.pink.data.db.PlayListDao;
 
 /**
  * Created by homelajiang on 2016/10/9 0009.
  */
 
 @Entity
-public class Folder {
-
-    public static final String COLUMN_NAME = "name";
+public class PlayList {
+    public static final int NO_POSITION = -1;
+    public static final String COLUMN_FAVORITE = "favorite";
 
     @Id
     private int id;
-
-    @Property(nameInDb = COLUMN_NAME)
     private String name;
+    private int numOfSongs;
 
-    @Unique
-    private String path;
-    private String munOfSongs;
+    @Property(nameInDb = COLUMN_FAVORITE)
+    private boolean favorite;
+    private Date createdAt;
+    private Date updatedAt;
 
     @ToMany(referencedJoinProperty = "id")
     private List<Song> songs = new ArrayList<>();
-    private Date createAt;
 
+    @Transient
+    private int playingIndex = -1;
+    // cancel playMode
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-
     /** Used for active entity operations. */
-    @Generated(hash = 2091473052)
-    private transient FolderDao myDao;
-    @Generated(hash = 880580247)
-    public Folder(int id, String name, String path, String munOfSongs,
-            Date createAt) {
+    @Generated(hash = 472247056)
+    private transient PlayListDao myDao;
+
+    @Generated(hash = 707646870)
+    public PlayList(int id, String name, int numOfSongs, boolean favorite,
+            Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
-        this.path = path;
-        this.munOfSongs = munOfSongs;
-        this.createAt = createAt;
+        this.numOfSongs = numOfSongs;
+        this.favorite = favorite;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
-    @Generated(hash = 1947132626)
-    public Folder() {
+
+    @Generated(hash = 438209239)
+    public PlayList() {
     }
+
     public int getId() {
         return this.id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return this.name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-    public String getPath() {
-        return this.path;
+
+    public int getNumOfSongs() {
+        return this.numOfSongs;
     }
-    public void setPath(String path) {
-        this.path = path;
+
+    public void setNumOfSongs(int numOfSongs) {
+        this.numOfSongs = numOfSongs;
     }
-    public String getMunOfSongs() {
-        return this.munOfSongs;
+
+    public boolean getFavorite() {
+        return this.favorite;
     }
-    public void setMunOfSongs(String munOfSongs) {
-        this.munOfSongs = munOfSongs;
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
-    public Date getCreateAt() {
-        return this.createAt;
+
+    public Date getCreatedAt() {
+        return this.createdAt;
     }
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
+
+    public Date getUpdatedAt() {
+        return this.updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 1479033852)
+    @Generated(hash = 1449635378)
     public List<Song> getSongs() {
         if (songs == null) {
             final DaoSession daoSession = this.daoSession;
@@ -102,7 +122,7 @@ public class Folder {
                 throw new DaoException("Entity is detached from DAO context");
             }
             SongDao targetDao = daoSession.getSongDao();
-            List<Song> songsNew = targetDao._queryFolder_Songs(id);
+            List<Song> songsNew = targetDao._queryPlayList_Songs(id);
             synchronized (this) {
                 if (songs == null) {
                     songs = songsNew;
@@ -111,11 +131,13 @@ public class Folder {
         }
         return songs;
     }
+
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 432021166)
     public synchronized void resetSongs() {
         songs = null;
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -127,6 +149,7 @@ public class Folder {
         }
         myDao.delete(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -138,6 +161,7 @@ public class Folder {
         }
         myDao.refresh(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -149,11 +173,11 @@ public class Folder {
         }
         myDao.update(this);
     }
+
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1822270472)
+    @Generated(hash = 469739525)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getFolderDao() : null;
+        myDao = daoSession != null ? daoSession.getPlayListDao() : null;
     }
-
 }

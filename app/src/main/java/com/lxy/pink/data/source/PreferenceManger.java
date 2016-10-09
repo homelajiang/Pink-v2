@@ -5,4 +5,6 @@ package com.lxy.pink.data.source;
  */
 
 public class PreferenceManger {
+
+//    private static final String KEY_FIRST
 }
