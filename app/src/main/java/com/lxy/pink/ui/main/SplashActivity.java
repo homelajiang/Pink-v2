@@ -1,28 +1,41 @@
 package com.lxy.pink.ui.main;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.os.Handler;
 
 import com.lxy.pink.R;
 import com.lxy.pink.ui.base.BaseActivity;
+import com.lxy.pink.utils.Config;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by homelajiang on 2016/10/8 0008.
  */
 
 public class SplashActivity extends BaseActivity {
+    private Unbinder unbinder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        unbinder = ButterKnife.bind(this);
+        new Handler()
+                .postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MainActivity.Launch(SplashActivity.this);
+                        finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                }, Config.SPLASH_DELAY);
     }
 
-    public void sayHello(View v) {
-        TextView textView = (TextView) findViewById(R.id.textView);
-        EditText editText = (EditText) findViewById(R.id.editText);
-        textView.setText("Hello, " + editText.getText().toString() + "!");
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }
