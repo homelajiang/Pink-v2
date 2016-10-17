@@ -1,7 +1,5 @@
 package com.lxy.pink.ui.main;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.lxy.pink.R;
@@ -16,9 +14,4 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
-    public static void Launch(Context context) {
-        context.startActivity(new Intent(context, MainActivity.class));
-    }
 }

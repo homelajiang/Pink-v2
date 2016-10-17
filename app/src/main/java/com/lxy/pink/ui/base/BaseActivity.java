@@ -95,4 +95,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected Subscription subscribeEvents() {
         return null;
     }
+
+    public Context getContext(){
+        return this;
+    }
 }

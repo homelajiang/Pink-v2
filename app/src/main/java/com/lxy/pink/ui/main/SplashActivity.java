@@ -1,5 +1,6 @@
 package com.lxy.pink.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -26,12 +27,13 @@ public class SplashActivity extends BaseActivity {
                 .postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        MainActivity.Launch(SplashActivity.this);
+                        getContext().startActivity(new Intent(getContext(), MainActivity.class));
                         finish();
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 }, Config.SPLASH_DELAY);
     }
+
 
     @Override
     protected void onDestroy() {
