@@ -8,7 +8,8 @@
     android:divider="@drawable/common_divider_large_horizontal"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:showDividers="beginning|middle|end">
+    android:showDividers="beginning|middle|end"
+    tools:showIn="@layout/fragment_main">
 
     <RadioButton
         android:id="@+id/radio_btn_main"
@@ -16,30 +17,33 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:button="@drawable/selector_main_nav_home"
-        tools:button="@drawable/ic_main_nav_home_selected"
-        android:checked="true" />
+        android:checked="true"
+        tools:button="@drawable/ic_main_nav_home_selected" />
+
     <RadioButton
         android:id="@+id/radio_btn_music"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:button="@drawable/selector_main_nav_music"
-        tools:button="@drawable/ic_main_nav_music_selected"
-        android:checked="true" />
+        android:checked="true"
+        tools:button="@drawable/ic_main_nav_music_selected" />
+
     <RadioButton
         android:id="@+id/radio_btn_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:button="@drawable/selector_main_nav_video"
-        tools:button="@drawable/ic_main_nav_video_selected"
-        android:checked="true" />
+        android:checked="true"
+        tools:button="@drawable/ic_main_nav_video_selected" />
+
     <RadioButton
         android:id="@+id/radio_btn_news"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:button="@drawable/selector_main_nav_news"
-        tools:button="@drawable/ic_main_nav_news_selected"
-        android:checked="true" />
+        android:checked="true"
+        tools:button="@drawable/ic_main_nav_news_selected" />
 </RadioGroup>

@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 
 import com.lxy.pink.R;
 import com.lxy.pink.ui.base.BaseActivity;
+import com.lxy.pink.ui.home.HomeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +53,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //        mDrawerLayout.addDrawerListener(toggle);
 //        toggle.syncState();
         mNavView.setNavigationItemSelectedListener(this);
+        MainFragment mainFragment = new MainFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, mainFragment, HomeFragment.TAG)
+                .commit();
     }
 
     @Override

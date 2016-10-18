@@ -11,10 +11,10 @@
     <string name="pink_Confirm">Confirm</string>
 
     <!-- Activity/Fragment Titles -->
-    <string name="pink_fragment_title_play_list">Play List</string>
-    <string name="pink_fragment_title_music">Music</string>
-    <string name="pink_fragment_title_local_files">Local Files</string>
-    <string name="pink_fragment_title_settings">Settings</string>
+    <string name="pink_fragment_title_home">首页</string>
+    <string name="pink_fragment_title_music">音乐</string>
+    <string name="pink_fragment_title_video">视频</string>
+    <string name="pink_fragment_title_news">新闻</string>
 
     <string name="pink_activity_title_file_system">SDCard</string>
 
@@ -40,10 +40,10 @@
 
     <!-- Main -->
     <string-array name="pink_main_titles">
-        <item>@string/pink_fragment_title_play_list</item>
+        <item>@string/pink_fragment_title_home</item>
         <item>@string/pink_fragment_title_music</item>
-        <item>@string/pink_fragment_title_local_files</item>
-        <item>@string/pink_fragment_title_settings</item>
+        <item>@string/pink_fragment_title_video</item>
+        <item>@string/pink_fragment_title_news</item>
     </string-array>
 
     <!-- Music -->
