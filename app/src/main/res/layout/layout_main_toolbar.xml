@@ -8,8 +8,7 @@
     android:divider="@drawable/common_divider_large_horizontal"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:showDividers="beginning|middle|end"
-    tools:showIn="@layout/fragment_main">
+    android:showDividers="beginning|middle|end">
 
     <RadioButton
         android:id="@+id/radio_btn_main"

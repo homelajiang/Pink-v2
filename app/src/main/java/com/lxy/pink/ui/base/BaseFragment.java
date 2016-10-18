@@ -1,5 +1,6 @@
 package com.lxy.pink.ui.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,5 +41,9 @@ public abstract class BaseFragment extends Fragment {
             mSubscriptions = new CompositeSubscription();
         }
         mSubscriptions.add(subscription);
+    }
+
+    public Context getContext(){
+        return getActivity();
     }
 }

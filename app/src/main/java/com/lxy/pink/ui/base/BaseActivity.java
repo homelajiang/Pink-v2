@@ -56,6 +56,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         addSubscription(subscribeEvents());
     }
 
+    protected Context getContext(){
+        return this;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -96,7 +100,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         return null;
     }
 
-    public Context getContext(){
-        return this;
-    }
 }
