@@ -2,6 +2,7 @@ package com.lxy.pink.ui.auth;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.data.model.auth.Auth;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.event.AuthCreateEvent;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.utils.Config;
@@ -45,7 +47,8 @@ public class LoginActivity extends BaseActivity implements SignContract.View {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    private SignContract.Presenter presenter;
+    private SignContract.Presenter SignPresenter;
+    private ProfileContract.Presenter profilePresenter;
     private String tempName;
     private String tempPass;
     private ProgressDialog pd;
@@ -74,7 +77,7 @@ public class LoginActivity extends BaseActivity implements SignContract.View {
         if (!checkInput())
             return;
         pd.setMessage(getString(R.string.pink_sign_in_ing));
-        presenter.signIn(tempName, tempPass);
+        SignPresenter.signIn(tempName, tempPass);
     }
 
     @OnClick(R.id.signUp)
@@ -82,12 +85,20 @@ public class LoginActivity extends BaseActivity implements SignContract.View {
         if (!checkInput())
             return;
         pd.setMessage(getString(R.string.pink_sign_up_ing));
-        presenter.signUp(tempName, tempPass);
+        SignPresenter.signUp(tempName, tempPass);
     }
 
     @Override
     public void showLoading() {
+        TT.s(getContext(), R.string.pink_sign_in_success);
         pd.show();
+        new Handler()
+                .postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 500);
     }
 
     @Override
@@ -114,9 +125,9 @@ public class LoginActivity extends BaseActivity implements SignContract.View {
                     ? getString(R.string.pink_error_indescribable) : auth.getMsg());
             return;
         }
+        PreferenceManager.setAuth(this, auth);
         RxBus.getInstance().post(new AuthCreateEvent(auth));
     }
-
 
 
     @Override
@@ -126,7 +137,7 @@ public class LoginActivity extends BaseActivity implements SignContract.View {
 
     @Override
     public void setPresenter(SignContract.Presenter presenter) {
-        this.presenter = presenter;
+        this.SignPresenter = presenter;
     }
 
     @Override
@@ -160,6 +171,6 @@ public class LoginActivity extends BaseActivity implements SignContract.View {
         super.onDestroy();
         pd.dismiss();
         unbinder.unbind();
-        presenter.unSubscribe();
+        SignPresenter.unSubscribe();
     }
 }

@@ -20,6 +20,7 @@ public interface SignContract {
         void handleError(Throwable error);
 
         void onSignIn(Auth auth);
+
     }
 
     interface Presenter extends BasePresenter {

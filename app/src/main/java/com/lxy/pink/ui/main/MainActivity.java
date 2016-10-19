@@ -1,5 +1,7 @@
 package com.lxy.pink.ui.main;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,8 +15,12 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
+import com.lxy.pink.data.model.auth.Auth;
+import com.lxy.pink.data.model.auth.Profile;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.event.AuthCreateEvent;
 import com.lxy.pink.event.ProfileUpdateEvent;
+import com.lxy.pink.ui.auth.LoginActivity;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.ui.home.HomeFragment;
 import com.lxy.pink.utils.TT;
@@ -38,6 +44,8 @@ public class MainActivity extends BaseActivity implements
     DrawerLayout mDrawerLayout;
     private Unbinder unbinder;
     private HeaderViewHolder headerViewHolder;
+    private Auth auth;
+    private Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,13 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void initView() {
+
+        auth = PreferenceManager.getAuth(this);
+        profile = PreferenceManager.getProfile(this);
+        if(auth!= null&&profile!=null){
+            updateProfile(profile);
+        }
+
         headerViewHolder = new HeaderViewHolder(mNavView.getHeaderView(0));
         headerViewHolder.mHeadIcon.setOnClickListener(this);
         headerViewHolder.mName.setOnClickListener(this);
@@ -78,21 +93,29 @@ public class MainActivity extends BaseActivity implements
                     @Override
                     public void call(Object o) {
                         if (o instanceof AuthCreateEvent) {
-
+                            auth = ((AuthCreateEvent) o).auth;
                         } else if (o instanceof ProfileUpdateEvent) {
-
+                            updateProfile(((ProfileUpdateEvent) o).profile);
                         }
                     }
                 })
                 .subscribe(RxBus.defaultSubscriber());
     }
 
-    private void toUserCenter(){
+
+    private void updateProfile(Profile profile) {
+        headerViewHolder.mHeadIcon.setImageURI(Uri.parse(profile.getUserImg()));
+        headerViewHolder.mName.setText(profile.getNickname());
+        headerViewHolder.mInfo.setText(profile.getSignature());
+        //TODO add more info
+    }
+
+    private void toUserCenter() {
 
     }
 
-    private void toLogin(){
-
+    private void toLogin() {
+        startActivity(new Intent(getContext(), LoginActivity.class));
     }
 
     @Override
@@ -100,7 +123,11 @@ public class MainActivity extends BaseActivity implements
         switch (v.getId()) {
             case R.id.name:
             case R.id.head_icon:
-                TT.s(getContext(), "clicked");
+                if (auth == null) {
+                    toLogin();
+                } else {
+                    toUserCenter();
+                }
                 break;
         }
     }
