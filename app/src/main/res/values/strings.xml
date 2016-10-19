@@ -85,5 +85,17 @@
     <string name="pink_menu_play_now">Play now</string>
     <string name="pink_menu_rename">Rename</string>
     <string name="pink_menu_delete">Delete</string>
+    <string name="pink_sign_in">登录</string>
+    <string name="pink_sign_up">注册</string>
+    <string name="pink_login_welcome">欢迎登录</string>
+    <string name="pink_sign_username_null">用户名为空</string>
+    <string name="pink_sign_password_null">密码不能为空</string>
+    <string name="pink_sign_up_ing">注册中...</string>
+    <string name="pink_sign_in_ing">登录中...</string>
+    <string name="pink_sign_hint_username">用户名</string>
+    <string name="pink_sign_hint_password">密码</string>
+    <string name="pink_nav_click_login">点击头像登录</string>
+    <string name="pink_menu_nva_home">首页</string>
+    <string name="pink_error_indescribable">不可描述性错误</string>
 
 </resources>

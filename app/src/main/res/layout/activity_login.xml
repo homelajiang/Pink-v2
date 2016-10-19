@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".3">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".7">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/username"
+                android:layout_alignStart="@+id/username"
+                android:layout_below="@+id/username"
+                android:layout_marginTop="30dp"
+                android:ems="10"
+                android:hint="@string/pink_sign_hint_password"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="41dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/pink_sign_hint_username"/>
+
+            <Button
+                android:id="@+id/signIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/pink_sign_in" />
+
+
+            <Button
+                android:id="@+id/signUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/signIn"
+                android:layout_alignStart="@+id/signIn"
+                android:layout_below="@+id/signIn"
+                android:layout_marginTop="21dp"
+                android:text="@string/pink_sign_up" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+</FrameLayout>

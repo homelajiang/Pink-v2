@@ -3,6 +3,7 @@
     package="com.lxy.pink">
 
     <application
+        android:name=".PinkApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.MainActivity"/>
+        <activity android:name=".ui.auth.LoginActivity"/>
     </application>
 
 </manifest>

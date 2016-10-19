@@ -44,6 +44,7 @@
 
    <!-- CharacterView -->
    <dimen name="mp.characterView.padding">6dp</dimen>
+  <dimen name="pink_head_nav">70dp</dimen>
 
 
 </resources>
