@@ -24,7 +24,6 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 
     @Override
     public void getProfile() {
-
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.lxy.pink.data.source;
 
 import com.lxy.pink.data.model.auth.Auth;
+import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 
@@ -15,19 +16,26 @@ public interface AppContract {
     //remote info
     /*Auth*/
 
-    Observable<Auth> signIn(String username,String password );
+    Observable<Auth> signIn(String username, String password);
 
-    Observable<Auth> signUp(String username,String password );
+    Observable<Auth> signUp(String username, String password);
+
+    /*Profile*/
+
+    Observable<Profile> getProfile(String profileId);
+
+    Observable<Profile> updateProfile(Profile profile);
 
     // weather info
-/**
- * get current weather info
- */
+
+    /**
+     * get current weather info
+     */
     Observable<Weather> getWeatherInfo(String cityId);
 
-/**
- * get forecast weather info
- */
+    /**
+     * get forecast weather info
+     */
     Observable<Forecast> getWeatherForecast(String cityId);
     // playList
 

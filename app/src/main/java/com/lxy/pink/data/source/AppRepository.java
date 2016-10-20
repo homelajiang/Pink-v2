@@ -3,6 +3,7 @@ package com.lxy.pink.data.source;
 
 import com.lxy.pink.Injection;
 import com.lxy.pink.data.model.auth.Auth;
+import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.db.DaoMasterHelper;
@@ -41,6 +42,16 @@ public class AppRepository implements AppContract{
     @Override
     public Observable<Auth> signUp(String username, String password) {
         return appDataSource.signUp(username, password);
+    }
+
+    @Override
+    public Observable<Profile> getProfile(String profileId) {
+        return appDataSource.getProfile(profileId);
+    }
+
+    @Override
+    public Observable<Profile> updateProfile(Profile profile) {
+        return appDataSource.updateProfile(profile);
     }
 
     @Override

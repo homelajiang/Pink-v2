@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.lxy.pink.data.db.DaoSession;
 import com.lxy.pink.data.model.auth.Auth;
+import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.retrofit.RetrofitAPI;
@@ -35,6 +36,16 @@ public class AppDataSource implements AppContract {
         return RetrofitAPI.getInstance()
                 .getRemoteService()
                 .signUp(username, password);
+    }
+
+    @Override
+    public Observable<Profile> getProfile(String profileId) {
+        return null;
+    }
+
+    @Override
+    public Observable<Profile> updateProfile(Profile profile) {
+        return null;
     }
 
     @Override

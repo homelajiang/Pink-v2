@@ -1,10 +1,12 @@
 package com.lxy.pink.data.retrofit.api;
 
 import com.lxy.pink.data.model.auth.Auth;
+import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.utils.Config;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -29,5 +31,7 @@ public interface RemoteService {
             @Field("password") String password
     );
 
+//    @GET("")
+//    Observable<Profile>
 
 }
