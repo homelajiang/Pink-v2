@@ -21,20 +21,20 @@ import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.event.AuthCreateEvent;
 import com.lxy.pink.event.ProfileUpdateEvent;
 import com.lxy.pink.ui.auth.LoginActivity;
+import com.lxy.pink.ui.auth.ProfileContract;
+import com.lxy.pink.ui.auth.ProfilePresenter;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.ui.home.HomeFragment;
-import com.lxy.pink.utils.TT;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity implements
-        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, ProfileContract.View {
 
     @BindView(R.id.fragment_container)
     FrameLayout mFragmentContainer;
@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity implements
     private HeaderViewHolder headerViewHolder;
     private Auth auth;
     private Profile profile;
+    private ProfileContract.Presenter profilePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +54,16 @@ public class MainActivity extends BaseActivity implements
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
         initView();
-
     }
 
     private void initView() {
 
+        new ProfilePresenter(this).subscribe();
+
         auth = PreferenceManager.getAuth(this);
         profile = PreferenceManager.getProfile(this);
-        if(auth!= null&&profile!=null){
+
+        if (auth != null && profile != null) {
             updateProfile(profile);
         }
 
@@ -86,7 +89,6 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected Subscription subscribeEvents() {
-
         return RxBus.getInstance().toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Action1<Object>() {
@@ -94,12 +96,17 @@ public class MainActivity extends BaseActivity implements
                     public void call(Object o) {
                         if (o instanceof AuthCreateEvent) {
                             auth = ((AuthCreateEvent) o).auth;
+                            getProfile();
                         } else if (o instanceof ProfileUpdateEvent) {
                             updateProfile(((ProfileUpdateEvent) o).profile);
                         }
                     }
                 })
                 .subscribe(RxBus.defaultSubscriber());
+    }
+
+    private void getProfile() {
+        profilePresenter.getProfile(auth.getProfileId());
     }
 
 
@@ -153,6 +160,42 @@ public class MainActivity extends BaseActivity implements
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void handleLoadError(Throwable e) {
+
+    }
+
+    @Override
+    public void handleUploadError(Throwable e) {
+
+    }
+
+    @Override
+    public void profileLoad(Profile profile) {
+        PreferenceManager.setProfile(this,profile);
+        updateProfile(profile);
+    }
+
+    @Override
+    public void profileUploaded(Profile profile) {
+
+    }
+
+    @Override
+    public void setPresenter(ProfileContract.Presenter presenter) {
+        this.profilePresenter = presenter;
     }
 
     static class HeaderViewHolder {

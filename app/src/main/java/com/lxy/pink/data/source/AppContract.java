@@ -1,9 +1,13 @@
 package com.lxy.pink.data.source;
 
+import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
+import com.lxy.pink.data.model.location.BdLocation;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -24,7 +28,11 @@ public interface AppContract {
 
     Observable<Profile> getProfile(String profileId);
 
-    Observable<Profile> updateProfile(Profile profile);
+    Observable<Profile> updateProfile(Auth auth, Profile profile);
+
+    /*BdLocation*/
+
+    Observable<BaseModel> updateLocation(Auth auth, List<BdLocation> locationList);
 
     // weather info
 

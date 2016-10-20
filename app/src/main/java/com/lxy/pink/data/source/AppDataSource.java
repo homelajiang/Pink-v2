@@ -3,11 +3,15 @@ package com.lxy.pink.data.source;
 import android.content.Context;
 
 import com.lxy.pink.data.db.DaoSession;
+import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
+import com.lxy.pink.data.model.location.BdLocation;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.retrofit.RetrofitAPI;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -40,11 +44,20 @@ public class AppDataSource implements AppContract {
 
     @Override
     public Observable<Profile> getProfile(String profileId) {
-        return null;
+        return RetrofitAPI.getInstance()
+                .getRemoteService()
+                .queryProfile(profileId);
     }
 
     @Override
-    public Observable<Profile> updateProfile(Profile profile) {
+    public Observable<Profile> updateProfile(Auth auth, Profile profile) {
+        return RetrofitAPI.getInstance()
+                .getRemoteService()
+                .updateProfile(profile);
+    }
+
+    @Override
+    public Observable<BaseModel> updateLocation(Auth auth, List<BdLocation> locationList) {
         return null;
     }
 

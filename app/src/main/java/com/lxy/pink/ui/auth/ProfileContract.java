@@ -1,5 +1,6 @@
 package com.lxy.pink.ui.auth;
 
+import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.ui.base.BasePresenter;
 import com.lxy.pink.ui.base.BaseView;
@@ -15,14 +16,18 @@ public interface ProfileContract {
 
         void hideLoading();
 
+        void handleLoadError(Throwable e);
+
+        void handleUploadError(Throwable e);
+
         void profileLoad(Profile profile);
 
         void profileUploaded(Profile profile);
     }
 
     interface Presenter extends BasePresenter {
-        void getProfile();
+        void getProfile(String profileId);
 
-        void updateProfile(Profile profile);
+        void updateProfile(Auth auth, Profile profile);
     }
 }
