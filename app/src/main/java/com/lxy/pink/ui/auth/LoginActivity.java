@@ -48,7 +48,6 @@ public class LoginActivity extends BaseActivity implements SignContract.View {
     }
 
     private SignContract.Presenter SignPresenter;
-    private ProfileContract.Presenter profilePresenter;
     private String tempName;
     private String tempPass;
     private ProgressDialog pd;

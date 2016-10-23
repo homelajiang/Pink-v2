@@ -1,9 +1,12 @@
 package com.lxy.pink.data.source;
 
+import android.content.ContentResolver;
+
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.BdLocation;
+import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 
@@ -45,6 +48,17 @@ public interface AppContract {
      * get forecast weather info
      */
     Observable<Forecast> getWeatherForecast(String cityId);
+
+    //todoList
+
+    Observable<List<Todo>> getTodoList(ContentResolver cr, long startTimeMillis);
+
+    Observable<Void> updateTodo(ContentResolver cr, Todo todo);
+
+    Observable<Void> deleteTodo(ContentResolver cr, String todoId);
+
+    Observable<Void> insertTodo(ContentResolver cr, Todo todo);
+
     // playList
 
     // Song

@@ -1,6 +1,7 @@
 package com.lxy.pink.data.retrofit;
 
 import com.lxy.pink.data.retrofit.api.RemoteService;
+import com.lxy.pink.data.retrofit.api.TodoService;
 import com.lxy.pink.data.retrofit.api.WeatherService;
 
 /**
@@ -12,4 +13,6 @@ public interface RetrofitApimpl {
     RemoteService getRemoteService();
 
     WeatherService getWeatherService();
+
+    TodoService getTodoService();
 }

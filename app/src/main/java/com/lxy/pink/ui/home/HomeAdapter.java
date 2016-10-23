@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -13,9 +12,8 @@ import com.lxy.pink.R;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.ui.base.adapter.IAdapterView;
-import com.lxy.pink.ui.service.WeatherCallback;
+import com.lxy.pink.ui.service.PinkServiceContract;
 import com.lxy.pink.utils.Config;
-import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by yuan on 2016/10/20.
  */
 
-public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements WeatherCallback {
+public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PinkServiceContract.View {
 
     private static SimpleDateFormat timeFormater;
     private List<Object> dataList = new ArrayList<>();
@@ -93,34 +91,38 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     @Override
-    public void loadWeatherStart() {
+    public void weatherLoadStart() {
+
     }
 
     @Override
-    public void loadWeather(final Weather weather) {
+    public void weatherLoadEnd() {
 
+    }
+
+    @Override
+    public void weatherLoadError(Throwable e) {
+
+    }
+
+    @Override
+    public void weatherLoaded(Weather weather) {
         if (weather.getCod() == Config.HOST_WEATHER_SUCCESS_CODE) {
             dataList.set(0, weather);
             notifyItemChanged(0);
         } else {
 
         }
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                dataList.set(0, weather);
-//                notifyItemChanged(0);
-//            }
-//        },5000);
+    }
+
+    @Override
+    public void todoListLoaded(List<Todo> todoList) {
 
     }
 
     @Override
-    public void loadWeatherError(Throwable e) {
-    }
-
-    @Override
-    public void loadWeatherCompleted() {
+    public void setPresenter(PinkServiceContract.Presenter presenter) {
+        //nothing to do
     }
 
 

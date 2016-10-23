@@ -1,25 +1,31 @@
-package com.lxy.pink.ui.auth;
+package com.lxy.pink.ui.service;
 
-import com.lxy.pink.data.model.auth.Auth;
-import com.lxy.pink.data.model.auth.Profile;
+import android.content.ContentResolver;
+
+import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.AppRepository;
 
+import java.util.List;
+
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by yuan on 2016/10/19.
+ * Created by yuan on 2016/10/23.
  */
 
-public class ProfilePresenter implements ProfileContract.Presenter {
+public class PinkServicePresenter implements PinkServiceContract.Presenter {
 
-    private AppRepository appRepository;
     private CompositeSubscription mSubscriptions;
-    private ProfileContract.View view;
+    private AppRepository appRepository;
+    private PinkServiceContract.View view;
 
-    public ProfilePresenter(ProfileContract.View view) {
+
+    public PinkServicePresenter(PinkServiceContract.View view) {
         this.view = view;
         appRepository = AppRepository.getInstance();
         mSubscriptions = new CompositeSubscription();
@@ -27,61 +33,56 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
-    public void getProfile(String profileId) {
-        appRepository.getProfile(profileId)
+    public void getWeatherById(String cityId) {
+        Subscription subscription = appRepository.getWeatherInfo(cityId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Profile>() {
+                .subscribe(new Subscriber<Weather>() {
 
                     @Override
                     public void onStart() {
-                        view.showLoading();
+                        view.weatherLoadStart();
                     }
 
                     @Override
                     public void onCompleted() {
-                        view.hideLoading();
+                        view.weatherLoadEnd();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        view.handleLoadError(e);
+                        view.weatherLoadError(e);
                     }
 
                     @Override
-                    public void onNext(Profile profile) {
-                        view.profileLoad(profile);
+                    public void onNext(Weather weather) {
+                        view.weatherLoaded(weather);
                     }
                 });
+        mSubscriptions.add(subscription);
     }
 
     @Override
-    public void updateProfile(Auth auth, final Profile profile) {
-        appRepository.updateProfile(auth, profile)
+    public void getTodoList(ContentResolver cr, long startTimeMillis) {
+        Subscription subscription = appRepository.getTodoList(cr, startTimeMillis)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Profile>() {
-
-                    @Override
-                    public void onStart() {
-                        view.showLoading();
-                    }
+                .subscribe(new Subscriber<List<Todo>>() {
 
                     @Override
                     public void onCompleted() {
-                        view.hideLoading();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        view.handleUploadError(e);
                     }
 
                     @Override
-                    public void onNext(Profile profile) {
-                        view.profileUploaded(profile);
+                    public void onNext(List<Todo> todoList) {
+                        view.todoListLoaded(todoList);
                     }
                 });
+        mSubscriptions.add(subscription);
     }
 
     @Override
@@ -91,6 +92,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 
     @Override
     public void unSubscribe() {
-
+        this.view = null;
+        mSubscriptions.clear();
     }
 }

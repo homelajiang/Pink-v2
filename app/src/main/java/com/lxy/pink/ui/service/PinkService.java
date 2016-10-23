@@ -5,26 +5,27 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.ui.base.BaseService;
+
+import java.util.List;
 
 /**
  * Created by yuan on 2016/10/22.
  */
 
-public class PinkService extends BaseService implements WeatherContract.View {
+public class PinkService extends BaseService implements PinkServiceContract.View {
 
 
-    private WeatherPresenter weatherPresenter;
-    private WeatherCallback weatherCallback;
+    private PinkServiceContract.View serviceCallback;
+    private PinkServiceContract.Presenter presenter;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        weatherPresenter = new WeatherPresenter(this);
-        weatherPresenter.subscribe();
-        //TODO weatherPresenter.unSubscribe();
+        new PinkServicePresenter(this).subscribe();
+        // TODO unSubscribe
     }
 
 
@@ -40,42 +41,48 @@ public class PinkService extends BaseService implements WeatherContract.View {
     }
 
 
-    public void registerWeatherCallback(WeatherCallback weatherCallback) {
-        this.weatherCallback = weatherCallback;
+    public void registerWeatherCallback(PinkServiceContract.View weatherCallback) {
+        this.serviceCallback = weatherCallback;
     }
 
     public void unRegisterWeatherCallback() {
-        this.weatherCallback = null;
+        this.serviceCallback = null;
     }
 
 
     @Override
-    public void showWeatherLoading() {
-        if (weatherCallback != null)
-            weatherCallback.loadWeatherStart();
+    public void weatherLoadStart() {
+        if (serviceCallback != null)
+            serviceCallback.weatherLoadStart();
     }
 
     @Override
-    public void hideWeatherLoading() {
-        if (weatherCallback != null)
-            weatherCallback.loadWeatherCompleted();
+    public void weatherLoadEnd() {
+        if (serviceCallback != null)
+            serviceCallback.weatherLoadEnd();
     }
 
     @Override
-    public void handleLoadWeatherError(Throwable e) {
-        if (weatherCallback != null)
-            weatherCallback.loadWeatherError(e);
+    public void weatherLoadError(Throwable e) {
+        if (serviceCallback != null)
+            serviceCallback.weatherLoadError(e);
     }
 
     @Override
-    public void weatherLoad(Weather weather) {
-        if (weatherCallback != null)
-            weatherCallback.loadWeather(weather);
+    public void weatherLoaded(Weather weather) {
+        if (serviceCallback != null)
+            serviceCallback.weatherLoaded(weather);
     }
 
     @Override
-    public void setPresenter(WeatherContract.Presenter presenter) {
-        //nothing to do
+    public void todoListLoaded(List<Todo> todoList) {
+        if (serviceCallback != null)
+            serviceCallback.todoListLoaded(todoList);
+    }
+
+    @Override
+    public void setPresenter(PinkServiceContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 
     public class PinkBinder extends Binder {
@@ -84,7 +91,11 @@ public class PinkService extends BaseService implements WeatherContract.View {
         }
 
         public void getWeatherInfo(String cityId) {
-            weatherPresenter.getWeatherById(cityId);
+            presenter.getWeatherById(cityId);
+        }
+
+        public void getTodoList() {
+            presenter.getTodoList(getContentResolver(), System.currentTimeMillis());
         }
     }
 }

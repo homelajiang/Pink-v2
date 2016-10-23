@@ -17,10 +17,8 @@ import android.view.ViewGroup;
 
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
-import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.service.PinkService;
-import com.lxy.pink.ui.service.WeatherCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,6 +86,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
         pinkBinder = (PinkService.PinkBinder) service;
         pinkBinder.getService().registerWeatherCallback(homeAdapter);
 
+        //TODO
         if (!TextUtils.isEmpty(cityId))
             pinkBinder.getWeatherInfo(cityId);
     }

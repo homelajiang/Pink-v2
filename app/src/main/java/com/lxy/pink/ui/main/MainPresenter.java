@@ -1,61 +1,56 @@
-package com.lxy.pink.ui.service;
+package com.lxy.pink.ui.main;
 
-import com.lxy.pink.data.model.weather.Weather;
+import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.source.AppRepository;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by yuan on 2016/10/20.
+ * Created by yuan on 2016/10/23.
  */
 
-public class WeatherPresenter implements WeatherContract.Presenter {
-
-    private CompositeSubscription mSubscriptions;
+public class MainPresenter implements MainContract.Presenter {
     private AppRepository appRepository;
-    private WeatherContract.View view;
+    private CompositeSubscription mSubscriptions;
+    private MainContract.View view;
 
-    public WeatherPresenter(WeatherContract.View view) {
+    public MainPresenter(MainContract.View view) {
         this.view = view;
         appRepository = AppRepository.getInstance();
         mSubscriptions = new CompositeSubscription();
-        view.setPresenter(this);
+        this.view.setPresenter(this);
     }
 
     @Override
-    public void getWeatherById(String cityId) {
-        appRepository.getWeatherInfo(cityId)
+    public void getProfile(String profileId) {
+        Subscription subscription = appRepository.getProfile(profileId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Weather>() {
-
-                    @Override
-                    public void onStart() {
-                        view.showWeatherLoading();
-                    }
+                .subscribe(new Subscriber<Profile>() {
 
                     @Override
                     public void onCompleted() {
-                        view.hideWeatherLoading();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        view.handleLoadWeatherError(e);
                     }
 
                     @Override
-                    public void onNext(Weather weather) {
-                        view.weatherLoad(weather);
+                    public void onNext(Profile profile) {
+                        view.profileLoad(profile);
                     }
                 });
+        mSubscriptions.add(subscription);
     }
 
     @Override
     public void subscribe() {
+
     }
 
     @Override

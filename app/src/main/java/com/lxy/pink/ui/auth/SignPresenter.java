@@ -4,6 +4,7 @@ import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.source.AppRepository;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -33,7 +34,7 @@ public class SignPresenter implements SignContract.Presenter {
 
     @Override
     public void signIn(String username, String password) {
-        appRepository.signIn(username, password)
+        Subscription subscription = appRepository.signIn(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Auth>() {
@@ -59,6 +60,7 @@ public class SignPresenter implements SignContract.Presenter {
                         view.onSignIn(auth);
                     }
                 });
+        mSubscriptions.add(subscription);
     }
 
     @Override

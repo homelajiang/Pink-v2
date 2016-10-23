@@ -1,5 +1,6 @@
 package com.lxy.pink.data.source;
 
+import android.content.ContentResolver;
 import android.content.Context;
 
 import com.lxy.pink.data.db.DaoSession;
@@ -7,6 +8,7 @@ import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.BdLocation;
+import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.retrofit.RetrofitAPI;
@@ -66,11 +68,39 @@ public class AppDataSource implements AppContract {
     public Observable<Weather> getWeatherInfo(String cityId) {
         return RetrofitAPI.getInstance()
                 .getWeatherService()
-                .getWeatherById(cityId, Config.WEATHER_APPID, Config.WEATHER_LANG,Config.WEATHER_UNITS);
+                .getWeatherById(cityId, Config.WEATHER_APPID, Config.WEATHER_LANG, Config.WEATHER_UNITS);
     }
 
     @Override
     public Observable<Forecast> getWeatherForecast(String cityId) {
         return null;
+    }
+
+    @Override
+    public Observable<List<Todo>> getTodoList(ContentResolver cr, long startTimeMillis) {
+        return RetrofitAPI.getInstance()
+                .getTodoService()
+                .queryTodo(cr, startTimeMillis);
+    }
+
+    @Override
+    public Observable<Void> updateTodo(ContentResolver cr, Todo todo) {
+        return RetrofitAPI.getInstance()
+                .getTodoService()
+                .updateTodo(cr, todo);
+    }
+
+    @Override
+    public Observable<Void> deleteTodo(ContentResolver cr, String todoId) {
+        return RetrofitAPI.getInstance()
+                .getTodoService()
+                .removeTodo(cr, todoId);
+    }
+
+    @Override
+    public Observable<Void> insertTodo(ContentResolver cr, Todo todo) {
+        return RetrofitAPI.getInstance()
+                .getTodoService()
+                .insertTodo(cr, todo);
     }
 }

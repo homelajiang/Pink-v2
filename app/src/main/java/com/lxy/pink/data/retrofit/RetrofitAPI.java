@@ -1,6 +1,7 @@
 package com.lxy.pink.data.retrofit;
 
 import com.lxy.pink.data.retrofit.api.RemoteService;
+import com.lxy.pink.data.retrofit.api.TodoService;
 import com.lxy.pink.data.retrofit.api.WeatherService;
 import com.lxy.pink.utils.Config;
 
@@ -22,6 +23,7 @@ public class RetrofitAPI implements RetrofitApimpl {
     //        client.interceptors().add(new HeaderInterceptor());
 
     private static RetrofitAPI instance;
+    private TodoService todoService;
 
     public static RetrofitAPI getInstance() {
         if (instance == null) {
@@ -29,7 +31,6 @@ public class RetrofitAPI implements RetrofitApimpl {
         }
         return instance;
     }
-
 
     public <T> T getService(String url, Class<T> serviceClass) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -56,7 +57,7 @@ public class RetrofitAPI implements RetrofitApimpl {
      * @return
      */
     @Override
-    public RemoteService getRemoteService() {
+    public  RemoteService getRemoteService() {
         if (this.remoteService == null) {
             this.remoteService = getRxJavaService(Config.HOST, RemoteService.class);
         }
@@ -74,5 +75,13 @@ public class RetrofitAPI implements RetrofitApimpl {
             this.weatherService = getRxJavaService(Config.HOST_WEATHER, WeatherService.class);
         }
         return weatherService;
+    }
+
+    @Override
+    public TodoService getTodoService() {
+        if(this.todoService == null){
+            this.todoService = new TodoService();
+        }
+        return todoService;
     }
 }

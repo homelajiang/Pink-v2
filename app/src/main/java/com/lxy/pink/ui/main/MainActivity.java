@@ -21,8 +21,6 @@ import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.event.AuthCreateEvent;
 import com.lxy.pink.event.ProfileUpdateEvent;
 import com.lxy.pink.ui.auth.LoginActivity;
-import com.lxy.pink.ui.auth.ProfileContract;
-import com.lxy.pink.ui.auth.ProfilePresenter;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.ui.home.HomeFragment;
 import com.lxy.pink.ui.service.PinkService;
@@ -35,7 +33,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity implements
-        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, ProfileContract.View {
+        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, MainContract.View {
 
     @BindView(R.id.fragment_container)
     FrameLayout mFragmentContainer;
@@ -47,7 +45,7 @@ public class MainActivity extends BaseActivity implements
     private HeaderViewHolder headerViewHolder;
     private Auth auth;
     private Profile profile;
-    private ProfileContract.Presenter profilePresenter;
+    private MainContract.Presenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +59,7 @@ public class MainActivity extends BaseActivity implements
 
         startService(new Intent(getContext(), PinkService.class));
 
-        new ProfilePresenter(this).subscribe();
+        new MainPresenter(this).subscribe();
 
         auth = PreferenceManager.getAuth(this);
         profile = PreferenceManager.getProfile(this);
@@ -108,7 +106,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void getProfile() {
-        profilePresenter.getProfile(auth.getProfileId());
+        mainPresenter.getProfile(auth.getProfileId());
     }
 
 
@@ -165,39 +163,14 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void handleLoadError(Throwable e) {
-
-    }
-
-    @Override
-    public void handleUploadError(Throwable e) {
-
-    }
-
-    @Override
     public void profileLoad(Profile profile) {
         PreferenceManager.setProfile(this, profile);
         updateProfile(profile);
     }
 
     @Override
-    public void profileUploaded(Profile profile) {
-
-    }
-
-    @Override
-    public void setPresenter(ProfileContract.Presenter presenter) {
-        this.profilePresenter = presenter;
+    public void setPresenter(MainContract.Presenter presenter) {
+        this.mainPresenter = presenter;
     }
 
     static class HeaderViewHolder {
