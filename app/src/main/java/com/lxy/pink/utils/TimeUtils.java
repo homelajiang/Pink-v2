@@ -2,6 +2,9 @@ package com.lxy.pink.utils;
 
 import android.annotation.SuppressLint;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by homelajiang on 2016/10/8 0008.
  */
@@ -20,4 +23,9 @@ public class TimeUtils {
         else
             return String.format("%02d:%02d", minute, second);
     }
+
+//    public static String formartDurationToWeatherDate(int duration){
+//        Date date = new Date(duration);
+//
+//    }
 }

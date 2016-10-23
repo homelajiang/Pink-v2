@@ -1,8 +1,16 @@
 package com.lxy.pink.ui.home;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +19,8 @@ import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.ui.base.BaseFragment;
+import com.lxy.pink.ui.service.PinkService;
+import com.lxy.pink.ui.service.WeatherCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,14 +32,18 @@ import rx.functions.Action1;
  * Created by yuan on 2016/10/18.
  */
 
-public class HomeFragment extends BaseFragment implements WeatherContract.View {
+public class HomeFragment extends BaseFragment implements ServiceConnection {
 
     public static final String TAG = "HomeFragment";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    public boolean serviceConnected;
+    private String cityId="1886760";
+
     private View root;
-    private WeatherContract.Presenter weatherPresenter;
+    private PinkService.PinkBinder pinkBinder;
+    private HomeAdapter homeAdapter;
 
     @Nullable
     @Override
@@ -37,14 +51,22 @@ public class HomeFragment extends BaseFragment implements WeatherContract.View {
         root = inflater.inflate(R.layout.recyclerview, container, false);
         ButterKnife.bind(this, root);
         initView();
+        initData();
         return root;
     }
 
+    private void initData() {
+        Intent intent = new Intent(getContext(), PinkService.class);
+        getActivity().bindService(intent, this, Context.BIND_AUTO_CREATE);
+    }
+
     private void initView() {
-
-
-
-        new WeatherPresenter(this).subscribe();
+        homeAdapter = new HomeAdapter();
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+//        recyclerView.addItemDecoration();
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(homeAdapter);
     }
 
     @Override
@@ -61,27 +83,26 @@ public class HomeFragment extends BaseFragment implements WeatherContract.View {
     }
 
     @Override
-    public void showLoading() {
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        serviceConnected = true;
+        pinkBinder = (PinkService.PinkBinder) service;
+        pinkBinder.getService().registerWeatherCallback(homeAdapter);
 
+        if (!TextUtils.isEmpty(cityId))
+            pinkBinder.getWeatherInfo(cityId);
     }
 
     @Override
-    public void hideLoading() {
-
+    public void onServiceDisconnected(ComponentName name) {
+        pinkBinder.getService().unRegisterWeatherCallback();
+        serviceConnected = false;
+        pinkBinder = null;
     }
 
     @Override
-    public void handleLoadWeatherError(Throwable e) {
-
-    }
-
-    @Override
-    public void weatherLoad(Weather weather) {
-
-    }
-
-    @Override
-    public void setPresenter(WeatherContract.Presenter presenter) {
-        this.weatherPresenter = presenter;
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (serviceConnected)
+            getActivity().unbindService(this);
     }
 }

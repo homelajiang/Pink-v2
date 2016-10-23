@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.home;
+package com.lxy.pink.ui.service;
 
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.AppRepository;
@@ -34,12 +34,12 @@ public class WeatherPresenter implements WeatherContract.Presenter {
 
                     @Override
                     public void onStart() {
-                        view.showLoading();
+                        view.showWeatherLoading();
                     }
 
                     @Override
                     public void onCompleted() {
-                        view.hideLoading();
+                        view.hideWeatherLoading();
                     }
 
                     @Override
@@ -56,7 +56,6 @@ public class WeatherPresenter implements WeatherContract.Presenter {
 
     @Override
     public void subscribe() {
-
     }
 
     @Override

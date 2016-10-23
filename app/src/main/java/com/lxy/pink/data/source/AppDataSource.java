@@ -10,6 +10,7 @@ import com.lxy.pink.data.model.location.BdLocation;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.retrofit.RetrofitAPI;
+import com.lxy.pink.utils.Config;
 
 import java.util.List;
 
@@ -63,7 +64,9 @@ public class AppDataSource implements AppContract {
 
     @Override
     public Observable<Weather> getWeatherInfo(String cityId) {
-        return null;
+        return RetrofitAPI.getInstance()
+                .getWeatherService()
+                .getWeatherById(cityId, Config.WEATHER_APPID, Config.WEATHER_LANG,Config.WEATHER_UNITS);
     }
 
     @Override

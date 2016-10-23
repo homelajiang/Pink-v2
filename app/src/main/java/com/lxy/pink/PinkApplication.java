@@ -44,7 +44,7 @@ public class PinkApplication extends Application {
                 .init("PINK")                 // default PRETTYLOGGER or use just init()
                 .methodCount(3)                 // default 2
 //                .hideThreadInfo()               // default shown
-                .logLevel(LogLevel.NONE)        // default LogLevel.FULL   Note: Use LogLevel.NONE for the release versions.
+                .logLevel(LogLevel.FULL)        // default LogLevel.FULL   Note: Use LogLevel.NONE for the release versions.
                 .methodOffset(2)                // default 0
 //                .logAdapter(new AndroidLogAdapter()) //default AndroidLogAdapter
         ;

@@ -25,6 +25,7 @@ import com.lxy.pink.ui.auth.ProfileContract;
 import com.lxy.pink.ui.auth.ProfilePresenter;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.ui.home.HomeFragment;
+import com.lxy.pink.ui.service.PinkService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,14 +59,12 @@ public class MainActivity extends BaseActivity implements
 
     private void initView() {
 
+        startService(new Intent(getContext(), PinkService.class));
+
         new ProfilePresenter(this).subscribe();
 
         auth = PreferenceManager.getAuth(this);
         profile = PreferenceManager.getProfile(this);
-
-        if (auth != null && profile != null) {
-            updateProfile(profile);
-        }
 
         headerViewHolder = new HeaderViewHolder(mNavView.getHeaderView(0));
         headerViewHolder.mHeadIcon.setOnClickListener(this);
@@ -85,6 +84,9 @@ public class MainActivity extends BaseActivity implements
                 .beginTransaction()
                 .replace(R.id.fragment_container, mainFragment, HomeFragment.TAG)
                 .commit();
+        if (auth != null && profile != null) {
+            updateProfile(profile);
+        }
     }
 
     @Override
@@ -184,7 +186,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void profileLoad(Profile profile) {
-        PreferenceManager.setProfile(this,profile);
+        PreferenceManager.setProfile(this, profile);
         updateProfile(profile);
     }
 

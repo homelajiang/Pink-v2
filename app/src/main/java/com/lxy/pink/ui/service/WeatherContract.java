@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.home;
+package com.lxy.pink.ui.service;
 
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.ui.base.BasePresenter;
@@ -11,9 +11,9 @@ import com.lxy.pink.ui.base.BaseView;
 public interface WeatherContract {
 
     interface View extends BaseView<Presenter> {
-        void showLoading();
+        void showWeatherLoading();
 
-        void hideLoading();
+        void hideWeatherLoading();
 
         void handleLoadWeatherError(Throwable e);
 
