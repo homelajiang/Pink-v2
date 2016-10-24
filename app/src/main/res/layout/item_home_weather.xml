@@ -37,8 +37,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         fresco:actualImageScaleType="centerCrop"
-                        fresco:failureImage="@drawable/ic_background"
-                        fresco:failureImageScaleType="centerCrop"
                         fresco:placeholderImage="@drawable/ic_background"
                         fresco:placeholderImageScaleType="centerCrop" />
 
@@ -50,7 +48,6 @@
                         android:layout_marginStart="-15dp"
                         android:layout_marginTop="-30dp"
                         fresco:actualImageScaleType="fitCenter"
-                        fresco:failureImage="@drawable/ic_sun"
                         fresco:placeholderImage="@drawable/ic_sun" />
 
                     <com.facebook.drawee.view.SimpleDraweeView
@@ -62,7 +59,6 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
                         fresco:actualImageScaleType="fitCenter"
-                        fresco:failureImage="@drawable/ic_light"
                         fresco:placeholderImage="@drawable/ic_light" />
 
                     <TextView
@@ -146,7 +142,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         fresco:actualImageScaleType="fitCenter"
-        fresco:failureImage="@drawable/ic_building"
         fresco:placeholderImage="@drawable/ic_building" />
 
 </RelativeLayout>

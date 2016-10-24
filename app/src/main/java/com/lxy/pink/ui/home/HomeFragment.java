@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,8 @@ import com.lxy.pink.ui.service.PinkService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import kr.co.namee.permissiongen.PermissionGen;
+import kr.co.namee.permissiongen.PermissionSuccess;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -37,7 +40,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     RecyclerView recyclerView;
 
     public boolean serviceConnected;
-    private String cityId="1886760";
+    private String cityId = "1886760";
 
     private View root;
     private PinkService.PinkBinder pinkBinder;
@@ -86,10 +89,14 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
         pinkBinder = (PinkService.PinkBinder) service;
         pinkBinder.getService().registerWeatherCallback(homeAdapter);
 
-        //TODO
-        if (!TextUtils.isEmpty(cityId))
-            pinkBinder.getWeatherInfo(cityId);
+        pinkBinder.getWeatherInfo();
+        getTodoInfo();
     }
+
+    private void getTodoInfo() {
+        //TODO
+    }
+
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
@@ -103,5 +110,11 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
         super.onDestroyView();
         if (serviceConnected)
             getActivity().unbindService(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 }

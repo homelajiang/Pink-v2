@@ -14,6 +14,7 @@ import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.ui.base.adapter.IAdapterView;
 import com.lxy.pink.ui.service.PinkServiceContract;
 import com.lxy.pink.utils.Config;
+import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public void todoListLoaded(List<Todo> todoList) {
-
+        Logger.d(todoList.size()+"");
     }
 
     @Override

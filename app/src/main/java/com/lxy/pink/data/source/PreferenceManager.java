@@ -35,6 +35,7 @@ public class PreferenceManager {
 
     private static Auth authBean;
     private static Profile profileBean;
+    private static String cityIdString;
 
     private static SharedPreferences preferences(Context context) {
         return context.getSharedPreferences(Config.SP_NAME, Context.MODE_PRIVATE);
@@ -44,13 +45,25 @@ public class PreferenceManager {
         return preferences(context).edit();
     }
 
+    public static String getCityId(Context context) {
+        if (TextUtils.isEmpty(cityIdString)) {
+            cityIdString = preferences(context).getString("cityId", null);
+        }
+        return cityIdString;
+    }
 
-    private static boolean firstOpen(Context context) {
+    public static void setCityId(Context context, String cityId) {
+        cityIdString = cityId;
+        edit(context).putString("cityId", cityId).apply();
+    }
+
+
+    public static boolean isFirstOpen(Context context) {
         return preferences(context).getBoolean(KEY_FIRST_OPEN, false);
     }
 
-    private static void setFirstOpen(Context context) {
-        edit(context).putBoolean(KEY_FIRST_OPEN, false);
+    public static void setFirstOpen(Context context) {
+        edit(context).putBoolean(KEY_FIRST_OPEN, false).apply();
     }
 
 

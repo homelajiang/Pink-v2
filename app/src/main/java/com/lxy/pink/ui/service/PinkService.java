@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.weather.Weather;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseService;
 
 import java.util.List;
@@ -90,8 +91,8 @@ public class PinkService extends BaseService implements PinkServiceContract.View
             return PinkService.this;
         }
 
-        public void getWeatherInfo(String cityId) {
-            presenter.getWeatherById(cityId);
+        public void getWeatherInfo() {
+            presenter.getWeatherById(PreferenceManager.getCityId(getContext()));
         }
 
         public void getTodoList() {

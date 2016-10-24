@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.main;
+package com.lxy.pink.ui.splash;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.lxy.pink.R;
 import com.lxy.pink.ui.base.BaseActivity;
+import com.lxy.pink.ui.main.MainActivity;
 import com.lxy.pink.utils.Config;
 
 import butterknife.BindView;

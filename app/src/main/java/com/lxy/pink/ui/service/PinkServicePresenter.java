@@ -1,6 +1,7 @@
 package com.lxy.pink.ui.service;
 
 import android.content.ContentResolver;
+import android.text.TextUtils;
 
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.weather.Weather;
@@ -34,6 +35,8 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter {
 
     @Override
     public void getWeatherById(String cityId) {
+        if (TextUtils.isEmpty(cityId))
+            return;
         Subscription subscription = appRepository.getWeatherInfo(cityId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
