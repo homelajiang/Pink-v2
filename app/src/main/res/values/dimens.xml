@@ -9,7 +9,8 @@
 
 
    <!-- Common -->
-   <dimen name="mp.divider.line">1px</dimen>
+    <dimen name="cardview_item_default_radius">5dp</dimen>
+    <dimen name="mp.divider.line">1px</dimen>
    <dimen name="mp.divider.small">4dp</dimen>
    <dimen name="mp.divider.normal">8dp</dimen>
    <dimen name="mp.divider.large">16dp</dimen>

@@ -1,5 +1,6 @@
 package com.lxy.pink.ui.home;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +23,8 @@ import com.lxy.pink.ui.service.PinkService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import kr.co.namee.permissiongen.PermissionGen;
-import kr.co.namee.permissiongen.PermissionSuccess;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -32,7 +32,7 @@ import rx.functions.Action1;
 /**
  * Created by yuan on 2016/10/18.
  */
-
+@RuntimePermissions
 public class HomeFragment extends BaseFragment implements ServiceConnection {
 
     public static final String TAG = "HomeFragment";
@@ -45,6 +45,11 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     private View root;
     private PinkService.PinkBinder pinkBinder;
     private HomeAdapter homeAdapter;
+
+    private static String[] READ_CALENDAR = new String[]{
+            Manifest.permission.READ_CALENDAR
+    };
+    private int READ_CALENDAR_CODE = 0x011;
 
     @Nullable
     @Override
@@ -90,13 +95,15 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
         pinkBinder.getService().registerWeatherCallback(homeAdapter);
 
         pinkBinder.getWeatherInfo();
-        getTodoInfo();
+        HomeFragmentPermissionsDispatcher.getTodoInfoWithCheck(this);
     }
 
-    private void getTodoInfo() {
-        //TODO
+    @NeedsPermission(Manifest.permission.READ_CALENDAR)
+    public void getTodoInfo() {
+        if(pinkBinder!=null){
+            pinkBinder.getTodoList();
+        }
     }
-
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
@@ -115,6 +122,8 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        HomeFragmentPermissionsDispatcher.onRequestPermissionsResult(this,requestCode,grantResults);
     }
+
+
 }

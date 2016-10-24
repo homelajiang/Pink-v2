@@ -21,7 +21,8 @@
         <!--ActionMode-->
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/PINK.Theme.Widget.ActionMode</item>
-        <item name="actionModeCloseButtonStyle">@style/PINK.Theme.Widget.ActionMode.CloseButton</item>
+        <item name="actionModeCloseButtonStyle">@style/PINK.Theme.Widget.ActionMode.CloseButton
+        </item>
 
         <!--AlertDialog-->
         <item name="alertDialogTheme">@style/PINK.Theme.Widget.AlertDialog</item>
@@ -29,12 +30,16 @@
 
         <!--PopupMenu-->
         <item name="popupMenuStyle">@style/PINK.Theme.Widget.PopupMenu</item>
-        <item name="textAppearanceLargePopupMenu">@style/PINK.Theme.TextAppearance.LargePopupMenu</item>
-        <item name="textAppearanceSmallPopupMenu">@style/PINK.Theme.TextAppearance.SmallPopupMenu</item>
+        <item name="textAppearanceLargePopupMenu">@style/PINK.Theme.TextAppearance.LargePopupMenu
+        </item>
+        <item name="textAppearanceSmallPopupMenu">@style/PINK.Theme.TextAppearance.SmallPopupMenu
+        </item>
 
     </style>
 
     <style name="PINK.Theme" parent="AppTheme" />
+
+    <style name="PINK.Theme.Launcher"></style>
 
     <!--widget-->
 
