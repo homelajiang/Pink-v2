@@ -9,6 +9,7 @@ import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.BdLocation;
 import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.db.DaoMasterHelper;
@@ -78,8 +79,8 @@ public class AppRepository implements AppContract {
     }
 
     @Override
-    public Observable<List<Todo>> getTodoList(ContentResolver cr, long startTimeMillis) {
-        return appDataSource.getTodoList(cr, startTimeMillis);
+    public Observable<TodoList> getTodoList(ContentResolver cr) {
+        return appDataSource.getTodoList(cr);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.lxy.pink.ui.home;
 
+import android.content.Context;
 import android.net.Uri;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +12,16 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.ui.base.adapter.IAdapterView;
 import com.lxy.pink.ui.service.PinkServiceContract;
+import com.lxy.pink.ui.widget.ExListView;
 import com.lxy.pink.utils.Config;
-import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -32,9 +36,11 @@ import butterknife.ButterKnife;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PinkServiceContract.View {
 
     private static SimpleDateFormat timeFormater;
+    private final Context context;
     private List<Object> dataList = new ArrayList<>();
 
-    public HomeAdapter() {
+    public HomeAdapter(Context context) {
+        this.context = context;
         this.timeFormater = new SimpleDateFormat("HH:mm", Locale.getDefault());
         dataList.add(new Weather());
     }
@@ -46,8 +52,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 return new WeatherViewHolder(
                         LayoutInflater.from(parent.getContext())
                                 .inflate(R.layout.item_home_weather, parent, false));
-            case NotifyType.TODO:
-                return new TodoViewHolder(
+            case NotifyType.TODO_LIST:
+                return new TodoListViewHolder(
                         LayoutInflater.from(parent.getContext())
                                 .inflate(R.layout.item_home_todo, parent, false));
             default:
@@ -62,11 +68,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         switch (holder.getItemViewType()) {
             case NotifyType.WEATHER:
                 Weather weather = (Weather) getItem(position);
-//                ((WeatherViewHolder) holder).
                 if (weather.getId() <= 0)
                     return;
                 ((WeatherViewHolder) holder).bind(weather, position);
-            case NotifyType.TODO:
+            case NotifyType.TODO_LIST:
+                TodoList todoList = (TodoList) getItem(position);
+                ((TodoListViewHolder) holder).bind(todoList, position);
             default:
         }
     }
@@ -81,8 +88,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         int type = NotifyType.OTHER;
         if (o instanceof Weather)
             type = NotifyType.WEATHER;
-        if (o instanceof Todo)
-            type = NotifyType.TODO;
+        if (o instanceof TodoList)
+            type = NotifyType.TODO_LIST;
         return type;
     }
 
@@ -117,8 +124,23 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     @Override
-    public void todoListLoaded(List<Todo> todoList) {
-        Logger.d(todoList.size()+"");
+    public void todoListLoaded(TodoList todoList) {
+        if (todoList == null || todoList.size() <= 0)
+            return;
+        int index = 0;
+        for (int i = 1; i < dataList.size(); i++) {
+            if (getItemViewType(i) == NotifyType.TODO_LIST) {
+                index = i;
+                break;
+            }
+        }
+        if (index >= 1) {
+            dataList.set(index, todoList);
+            notifyItemChanged(index);
+        } else {
+            dataList.add(todoList);
+            notifyItemInserted(dataList.size() - 1);
+        }
     }
 
     @Override
@@ -127,17 +149,41 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
 
-    static class TodoViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.test)
-        TextView test;
+    class TodoListViewHolder extends RecyclerView.ViewHolder implements IAdapterView<TodoList> {
 
-        TodoViewHolder(View view) {
+        private TextView count;
+        private View headView;
+        @BindView(R.id.exListView)
+        ExListView mExListView;
+        TodoAdapter todoAdapter;
+
+        TodoListViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            todoAdapter = new TodoAdapter(context);
+            mExListView.setAdapter(todoAdapter);
+            this.headView = LayoutInflater.from(context).inflate(R.layout.item_home_todo_header, null);
+            this.count = (TextView) headView.findViewById(R.id.todo_count);
+            mExListView.addHeaderView(headView);
         }
 
-        void bindData(Todo todo) {
-            //TODO
+        @Override
+        public void bind(TodoList item, int position) {
+            count.setText(String.format(context.getString(R.string.pink_todo_count), item.size()));
+            List<Todo> temp = new ArrayList<>();
+            long now = System.currentTimeMillis();
+
+            for (Todo todo : item.getTodoList()) {
+
+                long start = Long.parseLong(todo.getDtstart());
+                long end = Long.parseLong(todo.getDtend());
+
+                if (end - start == 86400000 || start >= now) {
+                    temp.add(todo);
+                }
+            }
+
+            todoAdapter.setList(temp);
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.text.TextUtils;
 
 import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.AppRepository;
 
@@ -66,22 +67,24 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter {
     }
 
     @Override
-    public void getTodoList(ContentResolver cr, long startTimeMillis) {
-        Subscription subscription = appRepository.getTodoList(cr, startTimeMillis)
+    public void getTodoList(ContentResolver cr) {
+
+        Subscription subscription = appRepository.getTodoList(cr)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Todo>>() {
-
+                .subscribe(new Subscriber<TodoList>() {
                     @Override
                     public void onCompleted() {
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+
                     }
 
                     @Override
-                    public void onNext(List<Todo> todoList) {
+                    public void onNext(TodoList todoList) {
                         view.todoListLoaded(todoList);
                     }
                 });

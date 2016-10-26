@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity implements
         headerViewHolder.mHeadIcon.setImageURI(Uri.parse(profile.getUserImg()));
         headerViewHolder.mName.setText(profile.getNickname());
         headerViewHolder.mInfo.setText(profile.getSignature());
-        //TODO add more info
+        //TODO_LIST add more info
     }
 
     private void toUserCenter() {

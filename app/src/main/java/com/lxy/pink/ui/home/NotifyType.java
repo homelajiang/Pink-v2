@@ -6,6 +6,6 @@ package com.lxy.pink.ui.home;
 
 public interface NotifyType {
     int WEATHER = 1;
-    int TODO = 2;
+    int TODO_LIST = 2;
     int OTHER = 999;
 }

@@ -67,7 +67,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     }
 
     private void initView() {
-        homeAdapter = new HomeAdapter();
+        homeAdapter = new HomeAdapter(getContext());
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 //        recyclerView.addItemDecoration();

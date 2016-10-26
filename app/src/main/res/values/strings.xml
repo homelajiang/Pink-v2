@@ -99,4 +99,9 @@
     <string name="pink_error_indescribable">不可描述性错误</string>
     <string name="pink_sign_in_success">登录成功</string>
 
+    <!--TodoList-->
+    <string name="pink_todo_count">%1$d个代办事项</string>
+    <string name="pink_todo_all_day">全&#160; 天</string>
+
+
 </resources>

@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseService;
@@ -26,7 +27,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     public void onCreate() {
         super.onCreate();
         new PinkServicePresenter(this).subscribe();
-        // TODO unSubscribe
+        // TODO_LIST unSubscribe
     }
 
 
@@ -76,7 +77,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     }
 
     @Override
-    public void todoListLoaded(List<Todo> todoList) {
+    public void todoListLoaded(TodoList todoList) {
         if (serviceCallback != null)
             serviceCallback.todoListLoaded(todoList);
     }
@@ -96,7 +97,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         }
 
         public void getTodoList() {
-            presenter.getTodoList(getContentResolver(), System.currentTimeMillis());
+            presenter.getTodoList(getContentResolver());
         }
     }
 }

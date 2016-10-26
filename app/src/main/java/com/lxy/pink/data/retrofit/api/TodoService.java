@@ -6,8 +6,11 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 
 import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.todo.TodoList;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import rx.Observable;
@@ -21,10 +24,10 @@ public class TodoService {
 
 
     //query
-    public Observable<List<Todo>> queryTodo(final ContentResolver cr, final long startTimeMillis) {
-        return Observable.create(new Observable.OnSubscribe<List<Todo>>() {
+    public Observable<TodoList> queryTodo(final ContentResolver cr) {
+        return Observable.create(new Observable.OnSubscribe<TodoList>() {
             @Override
-            public void call(Subscriber<? super List<Todo>> subscriber) {
+            public void call(Subscriber<? super TodoList> subscriber) {
                 subscriber.onStart();
 
                 Uri calenderEventUri = Uri.parse("content://com.android.calendar/events");
@@ -32,6 +35,12 @@ public class TodoService {
                 String options = CalendarContract.Events.DTSTART + ">=? and "
                         + CalendarContract.Events.DTSTART
                         + "<=?";
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
 
                 Cursor cursor = cr.query(calenderEventUri,
                         new String[]{
@@ -44,8 +53,8 @@ public class TodoService {
                         },
                         options,
                         new String[]{
-                                String.valueOf(startTimeMillis),
-                                String.valueOf(startTimeMillis + 86400000)
+                                String.valueOf(calendar.getTimeInMillis()),
+                                String.valueOf(calendar.getTimeInMillis() + 86399999)
                         }, null);
                 List<Todo> todoList = new ArrayList<>();
                 while (cursor != null && cursor.moveToNext()) {
@@ -61,24 +70,24 @@ public class TodoService {
                 if (cursor != null) {
                     cursor.close();
                 }
-                subscriber.onNext(todoList);
+                subscriber.onNext(new TodoList(todoList));
                 subscriber.onCompleted();
             }
         });
     }
 
     //insert
-    public Observable<Void> insertTodo(final ContentResolver cr,Todo todo) {
+    public Observable<Void> insertTodo(final ContentResolver cr, Todo todo) {
         return null;
     }
 
     //update
-    public Observable<Void> updateTodo(final ContentResolver cr,Todo todo) {
+    public Observable<Void> updateTodo(final ContentResolver cr, Todo todo) {
         return null;
     }
 
     //delete
-    public Observable<Void> removeTodo(final ContentResolver cr,String calendarId) {
+    public Observable<Void> removeTodo(final ContentResolver cr, String calendarId) {
         return null;
     }
 }

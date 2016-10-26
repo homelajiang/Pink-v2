@@ -7,6 +7,7 @@ import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.BdLocation;
 import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 
@@ -51,7 +52,7 @@ public interface AppContract {
 
     //todoList
 
-    Observable<List<Todo>> getTodoList(ContentResolver cr, long startTimeMillis);
+    Observable<TodoList> getTodoList(ContentResolver cr);
 
     Observable<Void> updateTodo(ContentResolver cr, Todo todo);
 

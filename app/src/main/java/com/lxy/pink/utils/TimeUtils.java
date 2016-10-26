@@ -24,8 +24,12 @@ public class TimeUtils {
             return String.format("%02d:%02d", minute, second);
     }
 
-//    public static String formartDurationToWeatherDate(int duration){
-//        Date date = new Date(duration);
-//
-//    }
+    @SuppressLint("DefaultLocale")
+    public static String formartToTime(long milliseconds) {
+        Date date = new Date(milliseconds);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return String.format("%02d:%02d",calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
+
+    }
 }
