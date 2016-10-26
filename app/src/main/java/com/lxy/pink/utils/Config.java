@@ -19,7 +19,7 @@ public class Config {
     public static final int HOST_WEATHER_SUCCESS_CODE = 200;
 
     public static final long SPLASH_DELAY = 500;
-    public static long DEFAULT_LOCATE_DELAY = 30 * 1000;
+    public static final int DEFAULT_LOCATE_DELAY = 30 * 1000;
     public static final long LOCATION_UPLOAD_DELAY = 2 * 60 * 1000;
 
     public static final long LOCATION_CLEAN_DELAY = 10 * 60 * 1000;
