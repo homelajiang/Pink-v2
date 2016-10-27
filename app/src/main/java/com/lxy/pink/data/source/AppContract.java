@@ -45,6 +45,8 @@ public interface AppContract {
      */
     Observable<Weather> getWeatherInfo(String cityId);
 
+    Observable<Weather> getWeatherInfo(double lat,double lon);
+
     /**
      * get forecast weather info
      */

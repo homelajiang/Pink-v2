@@ -12,18 +12,25 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.service.PinkService;
+import com.lxy.pink.ui.service.PinkServiceContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,16 +47,11 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     RecyclerView recyclerView;
 
     public boolean serviceConnected;
-    private String cityId = "1886760";
 
     private View root;
     private PinkService.PinkBinder pinkBinder;
     private HomeAdapter homeAdapter;
-
-    private static String[] READ_CALENDAR = new String[]{
-            Manifest.permission.READ_CALENDAR
-    };
-    private int READ_CALENDAR_CODE = 0x011;
+    private boolean requestWeather;
 
     @Nullable
     @Override
@@ -93,14 +95,45 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
         serviceConnected = true;
         pinkBinder = (PinkService.PinkBinder) service;
         pinkBinder.getService().registerWeatherCallback(homeAdapter);
-
-        pinkBinder.getWeatherInfo();
         HomeFragmentPermissionsDispatcher.getTodoInfoWithCheck(this);
+
+        String cityId = PreferenceManager.getCityId(getContext());
+        if (!TextUtils.isEmpty(cityId)) {
+            pinkBinder.getWeatherById(cityId);
+        } else {
+            HomeFragmentPermissionsDispatcher.getWeatherByLocationWithCheck(this);
+            this.requestWeather = true;
+        }
+    }
+
+    @NeedsPermission({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
+    public void getWeatherByLocation() {
+        if (pinkBinder != null) {
+            pinkBinder.getWeatherByLocation();
+        }
+    }
+
+    @OnPermissionDenied({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
+    public void getLocationFail() {
+        if (requestWeather) {
+            requestWeather = false;
+            homeAdapter.weatherLocationFail();
+        }
+    }
+
+    @OnShowRationale({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
+    public void showWhyLocation(final PermissionRequest request) {
+
+    }
+
+    @OnNeverAskAgain({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
+    public void neveraskLocation() {
+
     }
 
     @NeedsPermission(Manifest.permission.READ_CALENDAR)
     public void getTodoInfo() {
-        if(pinkBinder!=null){
+        if (pinkBinder != null) {
             pinkBinder.getTodoList();
         }
     }
@@ -122,7 +155,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        HomeFragmentPermissionsDispatcher.onRequestPermissionsResult(this,requestCode,grantResults);
+        HomeFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
 

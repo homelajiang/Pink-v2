@@ -69,7 +69,14 @@ public class AppDataSource implements AppContract {
     public Observable<Weather> getWeatherInfo(String cityId) {
         return RetrofitAPI.getInstance()
                 .getWeatherService()
-                .getWeatherById(cityId, Config.WEATHER_APPID, Config.WEATHER_LANG, Config.WEATHER_UNITS);
+                .getWeather(cityId, Config.WEATHER_APPID, Config.WEATHER_LANG, Config.WEATHER_UNITS);
+    }
+
+    @Override
+    public Observable<Weather> getWeatherInfo(double lat, double lon) {
+        return RetrofitAPI.getInstance()
+                .getWeatherService()
+                .getWeather(lat, lon, Config.WEATHER_APPID, Config.WEATHER_LANG, Config.WEATHER_UNITS);
     }
 
     @Override

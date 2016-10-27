@@ -67,6 +67,36 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter {
     }
 
     @Override
+    public void getWeatherByLocation(double lat, double lon) {
+        Subscription subscription = appRepository.getWeatherInfo(lat, lon)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Weather>() {
+
+                    @Override
+                    public void onStart() {
+                        view.weatherLoadStart();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        view.weatherLoadEnd();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.weatherLoadError(e);
+                    }
+
+                    @Override
+                    public void onNext(Weather weather) {
+                        view.weatherLoaded(weather);
+                    }
+                });
+        mSubscriptions.add(subscription);
+    }
+
+    @Override
     public void getTodoList(ContentResolver cr) {
 
         Subscription subscription = appRepository.getTodoList(cr)

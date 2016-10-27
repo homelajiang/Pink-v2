@@ -12,10 +12,20 @@ import rx.Observable;
 
 public interface WeatherService {
     @GET("data/2.5/weather")
-    Observable<Weather> getWeatherById(
+    Observable<Weather> getWeather(
             @Query("id") String cityId,
             @Query("APPID") String appId,
             @Query("lang") String lang,
             @Query("units") String units
     );
+
+    @GET("data/2.5/weather")
+    Observable<Weather> getWeather(
+      @Query("lat") double lat,
+      @Query("lon") double lon,
+      @Query("APPID") String appId,
+      @Query("lang") String lang,
+      @Query("units") String units
+    );
+
 }

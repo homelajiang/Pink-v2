@@ -8,12 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.adapter.IAdapterView;
 import com.lxy.pink.ui.service.PinkServiceContract;
 import com.lxy.pink.ui.widget.ExListView;
@@ -71,9 +74,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 if (weather.getId() <= 0)
                     return;
                 ((WeatherViewHolder) holder).bind(weather, position);
+                break;
             case NotifyType.TODO_LIST:
                 TodoList todoList = (TodoList) getItem(position);
                 ((TodoListViewHolder) holder).bind(todoList, position);
+                break;
             default:
         }
     }
@@ -116,6 +121,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     @Override
     public void weatherLoaded(Weather weather) {
         if (weather.getCod() == Config.HOST_WEATHER_SUCCESS_CODE) {
+            PreferenceManager.setCityId(context, String.valueOf(weather.getId()));
             dataList.set(0, weather);
             notifyItemChanged(0);
         } else {
@@ -141,6 +147,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             dataList.add(todoList);
             notifyItemInserted(dataList.size() - 1);
         }
+    }
+
+    @Override
+    public void weatherLocationSuccess(double lat, double lon) {
+        //nothing to do
+    }
+
+    @Override
+    public void weatherLocationFail() {
+        //TODO get location fail
+        Toast.makeText(context, "定位失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override

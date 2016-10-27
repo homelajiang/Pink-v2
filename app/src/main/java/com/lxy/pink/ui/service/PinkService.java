@@ -11,14 +11,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.lxy.pink.data.model.location.BdLocation;
-import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseService;
 import com.lxy.pink.utils.Config;
-
-import java.util.List;
 
 /**
  * Created by yuan on 2016/10/22.
@@ -31,6 +28,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     private PinkServiceContract.Presenter presenter;
     private LocationClient mLocationClient;
     private String preLocalTime;
+    private boolean weatherRequestLocation;
 
     @Override
     public void onCreate() {
@@ -69,7 +67,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         option.setCoorType("bd0911");
-        option.setScanSpan(Config.DEFAULT_LOCATE_DELAY);
+//        option.setScanSpan(Config.DEFAULT_LOCATE_DELAY);
         option.setIsNeedAddress(false);
         option.setOpenGps(false);
         option.setLocationNotify(false);
@@ -88,10 +86,23 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         if (bdLocation == null)
             return;
         //some thing to do
+        if (weatherRequestLocation) {
+            weatherRequestLocation = false;
+            int locationType = bdLocation.getLocType();
+
+            if (locationType == BDLocation.TypeGpsLocation ||
+                    locationType == BDLocation.TypeNetWorkLocation ||
+                    locationType == BDLocation.TypeOffLineLocation) {
+                this.weatherLocationSuccess(bdLocation.getLatitude(), bdLocation.getLongitude());
+            } else {
+                this.weatherLocationFail();
+            }
+        }
 
         //if location not change  Don't save it
         if (bdLocation.getTime().equals(preLocalTime))
             return;
+
 
         preLocalTime = bdLocation.getTime();
         BdLocation bdLoc = new BdLocation();
@@ -145,6 +156,17 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     }
 
     @Override
+    public void weatherLocationSuccess(double lat, double lon) {
+        presenter.getWeatherByLocation(lat, lon);
+    }
+
+    @Override
+    public void weatherLocationFail() {
+        if (serviceCallback != null)
+            serviceCallback.weatherLocationFail();
+    }
+
+    @Override
     public void setPresenter(PinkServiceContract.Presenter presenter) {
         this.presenter = presenter;
     }
@@ -154,12 +176,28 @@ public class PinkService extends BaseService implements PinkServiceContract.View
             return PinkService.this;
         }
 
-        public void getWeatherInfo() {
-            presenter.getWeatherById(PreferenceManager.getCityId(getContext()));
+        public void getWeatherById(String cityId) {
+            presenter.getWeatherById(cityId);
+        }
+
+        public void getWeatherByLocation() {
+            if (mLocationClient == null) {
+                weatherLocationFail();
+                return;
+            }
+            weatherRequestLocation = true;
+            boolean isStarted = mLocationClient.isStarted();
+            if (isStarted) {
+                mLocationClient.requestLocation();
+            } else {
+                mLocationClient.start();
+            }
+
         }
 
         public void getTodoList() {
             presenter.getTodoList(getContentResolver());
         }
+
     }
 }

@@ -2,6 +2,8 @@ package com.lxy.pink.ui.service;
 
 import android.content.ContentResolver;
 
+import com.baidu.location.BDLocation;
+import com.lxy.pink.data.model.location.BdLocation;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
@@ -25,10 +27,16 @@ public interface PinkServiceContract {
         void weatherLoaded(Weather weather);
 
         void todoListLoaded(TodoList todoList);
+
+        void weatherLocationSuccess(double lat, double lon);
+
+        void weatherLocationFail();
     }
 
     interface Presenter extends BasePresenter {
         void getWeatherById(String cityId);
+
+        void getWeatherByLocation(double lat, double lon);
 
         void getTodoList(ContentResolver cr);
     }

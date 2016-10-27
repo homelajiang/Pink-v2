@@ -5,4 +5,91 @@ package com.lxy.pink.data.model.location;
  */
 
 public class BdLocation {
+    private int locType;
+    private String time;
+    private double latitude;
+    private double longitude;
+    private double altitude;
+    private float speed;
+    private float radius;
+    private float direction;
+    private int operators;
+    private long saveTime = System.currentTimeMillis();
+
+
+    public int getLocType() {
+        return locType;
+    }
+
+    public void setLocType(int locType) {
+        this.locType = locType;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getAltitude() {
+        return altitude;
+    }
+
+    public void setAltitude(double altitude) {
+        this.altitude = altitude;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
+    public float getDirection() {
+        return direction;
+    }
+
+    public void setDirection(float direction) {
+        this.direction = direction;
+    }
+
+    public int getOperators() {
+        return operators;
+    }
+
+    public void setOperators(int operators) {
+        this.operators = operators;
+    }
+
+    public long getSaveTime() {
+        return saveTime;
+    }
 }
