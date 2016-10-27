@@ -147,6 +147,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             dataList.add(todoList);
             notifyItemInserted(dataList.size() - 1);
         }
+        //TODO when no current to do notify it!!!
     }
 
     @Override

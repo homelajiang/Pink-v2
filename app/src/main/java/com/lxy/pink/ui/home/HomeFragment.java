@@ -127,7 +127,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     }
 
     @OnNeverAskAgain({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
-    public void neveraskLocation() {
+    public void neverskLocation() {
 
     }
 
