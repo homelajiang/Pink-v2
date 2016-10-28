@@ -102,6 +102,7 @@
     <!--TodoList-->
     <string name="pink_todo_count">%1$d个代办事项</string>
     <string name="pink_todo_all_day">全&#160; 天</string>
+    <string name="pink_weather_auto_location_fail">获取位置信息失败</string>
 
 
 </resources>

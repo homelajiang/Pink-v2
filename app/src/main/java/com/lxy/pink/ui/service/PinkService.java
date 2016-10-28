@@ -16,6 +16,7 @@ import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseService;
 import com.lxy.pink.utils.Config;
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by yuan on 2016/10/22.
@@ -29,6 +30,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     private LocationClient mLocationClient;
     private String preLocalTime;
     private boolean weatherRequestLocation;
+//    private boolean otherRequestLocation;
 
     @Override
     public void onCreate() {
@@ -67,7 +69,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         option.setCoorType("bd0911");
-//        option.setScanSpan(Config.DEFAULT_LOCATE_DELAY);
+        option.setScanSpan(Config.DEFAULT_LOCATE_DELAY);
         option.setIsNeedAddress(false);
         option.setOpenGps(false);
         option.setLocationNotify(false);
@@ -83,6 +85,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
+        Logger.d("location");
         if (bdLocation == null)
             return;
         //some thing to do
@@ -181,18 +184,8 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         }
 
         public void getWeatherByLocation() {
-            if (mLocationClient == null) {
-                weatherLocationFail();
-                return;
-            }
             weatherRequestLocation = true;
-            boolean isStarted = mLocationClient.isStarted();
-            if (isStarted) {
-                mLocationClient.requestLocation();
-            } else {
-                mLocationClient.start();
-            }
-
+            mLocationClient.start();
         }
 
         public void getTodoList() {

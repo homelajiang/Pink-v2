@@ -5,13 +5,17 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +55,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     private View root;
     private PinkService.PinkBinder pinkBinder;
     private HomeAdapter homeAdapter;
-    private boolean requestWeather;
+    private String cityId;
 
     @Nullable
     @Override
@@ -70,9 +74,18 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
 
     private void initView() {
         homeAdapter = new HomeAdapter(getContext());
-        recyclerView.setLayoutManager(
-                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-//        recyclerView.addItemDecoration();
+        StaggeredGridLayoutManager staggeredGridLayoutManager
+                = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.left = 20;
+                outRect.right = 20;
+                outRect.bottom = 20;
+            }
+        });
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(homeAdapter);
     }
@@ -95,28 +108,47 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
         serviceConnected = true;
         pinkBinder = (PinkService.PinkBinder) service;
         pinkBinder.getService().registerWeatherCallback(homeAdapter);
+
         HomeFragmentPermissionsDispatcher.getTodoInfoWithCheck(this);
 
-        String cityId = PreferenceManager.getCityId(getContext());
+        cityId = PreferenceManager.getCityId(getContext());
+
         if (!TextUtils.isEmpty(cityId)) {
             pinkBinder.getWeatherById(cityId);
+            recyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    HomeFragmentPermissionsDispatcher.getLocationWithCheck(HomeFragment.this);
+                }
+            }, 10000);
         } else {
-            HomeFragmentPermissionsDispatcher.getWeatherByLocationWithCheck(this);
-            this.requestWeather = true;
+            HomeFragmentPermissionsDispatcher.getLocationWithCheck(HomeFragment.this);
+        }
+    }
+
+    @NeedsPermission(Manifest.permission.READ_CALENDAR)
+    public void getTodoInfo() {
+        if (pinkBinder != null) {
+            pinkBinder.getTodoList();
         }
     }
 
     @NeedsPermission({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
-    public void getWeatherByLocation() {
-        if (pinkBinder != null) {
-            pinkBinder.getWeatherByLocation();
-        }
+    public void getLocation() {
+        if (pinkBinder == null)
+            return;
+        pinkBinder.getWeatherByLocation();
+    }
+
+
+    @OnPermissionDenied(Manifest.permission.READ_CALENDAR)
+    public void getTodoPermissionFail() {
+        //TODO
     }
 
     @OnPermissionDenied({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
     public void getLocationFail() {
-        if (requestWeather) {
-            requestWeather = false;
+        if (TextUtils.isEmpty(cityId)) {
             homeAdapter.weatherLocationFail();
         }
     }
@@ -127,14 +159,9 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     }
 
     @OnNeverAskAgain({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
-    public void neverskLocation() {
-
-    }
-
-    @NeedsPermission(Manifest.permission.READ_CALENDAR)
-    public void getTodoInfo() {
-        if (pinkBinder != null) {
-            pinkBinder.getTodoList();
+    public void neverAskLocation() {
+        if (TextUtils.isEmpty(cityId)) {
+            homeAdapter.weatherLocationFail();
         }
     }
 
@@ -148,8 +175,9 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (serviceConnected)
+        if (serviceConnected){
             getActivity().unbindService(this);
+        }
     }
 
     @Override

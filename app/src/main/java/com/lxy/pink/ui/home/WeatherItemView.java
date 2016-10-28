@@ -1,0 +1,83 @@
+package com.lxy.pink.ui.home;
+
+import android.content.Context;
+import android.net.Uri;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.lxy.pink.R;
+import com.lxy.pink.data.model.weather.Weather;
+import com.lxy.pink.ui.base.adapter.IAdapterView;
+import com.lxy.pink.utils.Config;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class WeatherItemView extends RelativeLayout implements IAdapterView<Weather> {
+    private final SimpleDateFormat timeFormat;
+    @BindView(R.id.location)
+    TextView location;
+    @BindView(R.id.date)
+    TextView date;
+    @BindView(R.id.time)
+    TextView time;
+    @BindView(R.id.background)
+    SimpleDraweeView background;
+    @BindView(R.id.building)
+    SimpleDraweeView building;
+    @BindView(R.id.sun)
+    SimpleDraweeView sun;
+    @BindView(R.id.light)
+    SimpleDraweeView light;
+    @BindView(R.id.temperature)
+    TextView temperature;
+    @BindView(R.id.description)
+    TextView description;
+
+    public WeatherItemView(Context context) {
+        super(context);
+        this.timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        View.inflate(context, R.layout.item_home_weather, this);
+        ButterKnife.bind(this);
+    }
+
+
+    @Override
+    public void bind(Weather weather, int position) {
+        if (weather.getId() <= 0)
+            return;
+        location.setText(String.valueOf(weather.getName()));
+        temperature.setText(String.valueOf((int) weather.getMain().getTemp() + "°"));
+        if (weather.getWeather() != null && weather.getWeather().size() > 0) {
+            Weather.WeatherBean weatherBean = weather.getWeather().get(0);
+
+            description.setText(String.valueOf(weatherBean.getDescription()));
+            background.setImageURI(getWeatherResourceUri("background", weatherBean.getId()));
+            light.setImageURI(getWeatherResourceUri("light", weatherBean.getId()));
+            sun.setImageURI(getWeatherResourceUri("sun", weatherBean.getId()));
+            building.setImageURI(getWeatherResourceUri("building", weatherBean.getId()));
+
+        } else {
+            description.setText(null);
+        }
+        Date date = new Date(weather.getDt() * 1000L);
+        this.date.setText(date.toString().substring(0, 10));
+        this.time.setText(timeFormat.format(date));
+    }
+
+    private Uri getWeatherResourceUri(String partName, int weatherId) {
+        String url = Config.HOST_WEATHER_IMG + partName + "/" + weatherId + "/" + System.currentTimeMillis();
+        return Uri.parse(url);
+    }
+
+    public void autoLocFail() {
+        location.setText(R.string.pink_weather_auto_location_fail);
+    }
+}
