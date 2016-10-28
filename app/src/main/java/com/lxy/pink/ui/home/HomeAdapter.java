@@ -248,7 +248,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             if (weather.getWeather() != null && weather.getWeather().size() > 0) {
                 Weather.WeatherBean weatherBean = weather.getWeather().get(0);
 
-                description.setText(String.valueOf(weatherBean.getMain()));
+                description.setText(String.valueOf(weatherBean.getDescription()));
                 background.setImageURI(getWeatherResourceUri("background", weatherBean.getId()));
                 light.setImageURI(getWeatherResourceUri("light", weatherBean.getId()));
                 sun.setImageURI(getWeatherResourceUri("sun", weatherBean.getId()));
