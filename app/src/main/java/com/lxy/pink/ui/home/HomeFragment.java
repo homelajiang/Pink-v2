@@ -23,7 +23,11 @@ import android.widget.Toast;
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.ui.base.BaseFragment;
+import com.lxy.pink.ui.permission.FcPermissions;
+import com.lxy.pink.ui.permission.FcPermissionsCallbacks;
 import com.lxy.pink.ui.service.PinkService;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +38,7 @@ import rx.functions.Action1;
 /**
  * Created by yuan on 2016/10/18.
  */
-public class HomeFragment extends BaseFragment implements ServiceConnection {
+public class HomeFragment extends BaseFragment implements ServiceConnection, FcPermissionsCallbacks {
 
     public static final String TAG = "HomeFragment";
     @BindView(R.id.recyclerView)
@@ -52,7 +56,6 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
     };
-
     private int PERMISSION_CODE_ALL = 3;
 
     @Nullable
@@ -114,22 +117,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
      * ★ burst link ★
      */
     private void burstLink() {
-        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR)) {
-            //TODO
-            Toast.makeText(getContext(), "calendar", Toast.LENGTH_SHORT).show();
-            requestPermissions(PERMISSION_ALL, PERMISSION_CODE_ALL);
-
-        } else if (shouldShowRequestPermissionRationale( Manifest.permission.WRITE_CALENDAR)) {
-            //TODO
-            Toast.makeText(getContext(), "calendar", Toast.LENGTH_SHORT).show();
-            requestPermissions(PERMISSION_ALL, PERMISSION_CODE_ALL);
-        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            //TODO
-            Toast.makeText(getContext(), "location", Toast.LENGTH_SHORT).show();
-            requestPermissions(PERMISSION_ALL, PERMISSION_CODE_ALL);
-        } else {
-            requestPermissions(PERMISSION_ALL, PERMISSION_CODE_ALL);
-        }
+        FcPermissions.requestPermissions(this, "开始获取权限", PERMISSION_CODE_ALL, PERMISSION_ALL);
     }
 
     @Override
@@ -137,19 +125,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            pinkBinder.getTodoList();
-        }
-//        for (int permission : grantResults) {
-//
-//            if (permission.equals(Manifest.permission.READ_CALENDAR)) {
-//                pinkBinder.getTodoList();
-//            }
-//            if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
-//                pinkBinder.getWeather();
-//            }
-//        }
-        Toast.makeText(getContext(), grantResults.length + "", Toast.LENGTH_SHORT).show();
+        FcPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -184,5 +160,31 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     public void onDestroy() {
         super.onDestroy();
         homeAdapter.stopClock();
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        if (perms.contains(Manifest.permission.READ_CALENDAR)) {
+            if(pinkBinder!=null){
+                pinkBinder.getTodoList();
+            }
+        }
+        if (perms.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if(pinkBinder!=null){
+                pinkBinder.getWeather();
+            }
+        }
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        if (perms.contains(Manifest.permission.READ_CALENDAR)) {
+            FcPermissions.checkDeniedPermissionsNeverAskAgain(this, "需要获取读取日历的权限"
+                    , R.string.pink_setting, R.string.pink_cancel, null, perms);
+        }
+        if (perms.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            FcPermissions.checkDeniedPermissionsNeverAskAgain(this, "需要获取地理位置的权限"
+                    , R.string.pink_setting, R.string.pink_cancel, null, perms);
+        }
     }
 }

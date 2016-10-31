@@ -10,7 +10,6 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="08:30"
         android:textColor="#aaaaaa" />
 
     <TextView
@@ -19,6 +18,5 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:layout_marginLeft="@dimen/mp.divider.xlarge"
-        android:layout_marginStart="@dimen/mp.divider.xlarge"
-        android:text="全  天" />
+        android:layout_marginStart="@dimen/mp.divider.xlarge" />
 </LinearLayout>

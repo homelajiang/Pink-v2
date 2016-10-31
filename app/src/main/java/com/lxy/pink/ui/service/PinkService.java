@@ -188,17 +188,18 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         }
 
         public void getWeather(){
-
+            String cityId = PreferenceManager.getCityId(getContext());
+            if(!TextUtils.isEmpty(cityId)){
+                presenter.getWeatherById(cityId);
+            }else {
+                weatherRequestLocation = true;
+                mLocationClient.start();
+                weatherLocationStart();
+            }
         }
 
         public void getWeatherById(String cityId) {
             presenter.getWeatherById(cityId);
-        }
-
-        public void getWeatherByLocation() {
-            weatherRequestLocation = true;
-            mLocationClient.start();
-            weatherLocationStart();
         }
 
         public void getTodoList() {

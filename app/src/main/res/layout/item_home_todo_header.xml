@@ -17,7 +17,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="#f00"
-            app:srcCompat="@drawable/ic_main_nav_home" />
+            android:tint="@color/pink"
+            app:srcCompat="@drawable/ic_event_black_24dp" />
 
 </LinearLayout>

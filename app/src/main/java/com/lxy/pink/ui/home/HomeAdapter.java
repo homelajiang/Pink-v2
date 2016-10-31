@@ -82,9 +82,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 return new RecyclerView.ViewHolder(weatherItemView) {
                 };
             case NotifyType.TODO_LIST:
-                return new TodoListViewHolder(
-                        LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item_home_todo, parent, false));
+                return new RecyclerView.ViewHolder(new TodoItemView(context)) {
+                };
             default:
                 return new OtherViewHolder(
                         LayoutInflater.from(parent.getContext())
@@ -101,7 +100,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 break;
             case NotifyType.TODO_LIST:
                 TodoList todoList = (TodoList) getItem(position);
-                ((TodoListViewHolder) holder).bind(todoList, position);
+                ((TodoItemView) holder.itemView).bind(todoList, position);
                 break;
             default:
         }
@@ -170,7 +169,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             dataList.add(todoList);
             notifyItemInserted(dataList.size() - 1);
         }
-        //TODO when no current to do notify it!!!
     }
 
     @Override
@@ -196,44 +194,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         //nothing to do
     }
 
-
-    class TodoListViewHolder extends RecyclerView.ViewHolder implements IAdapterView<TodoList> {
-
-        private TextView count;
-        private View headView;
-        @BindView(R.id.exListView)
-        ExListView mExListView;
-        TodoAdapter todoAdapter;
-
-        TodoListViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-            todoAdapter = new TodoAdapter(context);
-            mExListView.setAdapter(todoAdapter);
-            this.headView = LayoutInflater.from(context).inflate(R.layout.item_home_todo_header, null);
-            this.count = (TextView) headView.findViewById(R.id.todo_count);
-            mExListView.addHeaderView(headView);
-        }
-
-        @Override
-        public void bind(TodoList item, int position) {
-            count.setText(String.format(context.getString(R.string.pink_todo_count), item.size()));
-            List<Todo> temp = new ArrayList<>();
-            long now = System.currentTimeMillis();
-
-            for (Todo todo : item.getTodoList()) {
-
-                long start = Long.parseLong(todo.getDtstart());
-                long end = Long.parseLong(todo.getDtend());
-
-                if (end - start == 86400000 || start >= now) {
-                    temp.add(todo);
-                }
-            }
-
-            todoAdapter.setList(temp);
-        }
-    }
 
     static class OtherViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.test)
