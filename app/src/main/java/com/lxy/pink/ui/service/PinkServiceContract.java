@@ -28,6 +28,8 @@ public interface PinkServiceContract {
 
         void todoListLoaded(TodoList todoList);
 
+        void weatherLocationStart();
+
         void weatherLocationSuccess(double lat, double lon);
 
         void weatherLocationFail();

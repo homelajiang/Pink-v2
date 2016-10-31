@@ -159,7 +159,15 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     }
 
     @Override
+    public void weatherLocationStart() {
+        if (serviceCallback != null)
+            serviceCallback.weatherLocationStart();
+    }
+
+    @Override
     public void weatherLocationSuccess(double lat, double lon) {
+        if (serviceCallback != null)
+            serviceCallback.weatherLocationSuccess(lat, lon);
         presenter.getWeatherByLocation(lat, lon);
     }
 
@@ -179,6 +187,10 @@ public class PinkService extends BaseService implements PinkServiceContract.View
             return PinkService.this;
         }
 
+        public void getWeather(){
+
+        }
+
         public void getWeatherById(String cityId) {
             presenter.getWeatherById(cityId);
         }
@@ -186,6 +198,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         public void getWeatherByLocation() {
             weatherRequestLocation = true;
             mLocationClient.start();
+            weatherLocationStart();
         }
 
         public void getTodoList() {

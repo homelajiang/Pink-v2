@@ -63,6 +63,6 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.0'
 //    compile 'com.lovedise:permissiongen:0.0.6'
 
-    compile 'com.github.hotchemi:permissionsdispatcher:2.2.0'
-    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.2.0'
+//    compile 'com.github.hotchemi:permissionsdispatcher:2.2.0'
+//    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.2.0'
 }

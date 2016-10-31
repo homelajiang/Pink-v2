@@ -2,7 +2,9 @@ package com.lxy.pink.ui.home;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,6 +41,10 @@ public class WeatherItemView extends RelativeLayout implements IAdapterView<Weat
     TextView temperature;
     @BindView(R.id.description)
     TextView description;
+    @BindView(R.id.location_icon)
+    AppCompatImageView mLocationIcon;
+    @BindView(R.id.refresh)
+    AppCompatImageView mRefresh;
 
     public WeatherItemView(Context context) {
         super(context);
@@ -67,10 +73,29 @@ public class WeatherItemView extends RelativeLayout implements IAdapterView<Weat
         } else {
             description.setText(null);
         }
-        Date date = new Date(weather.getDt() * 1000L);
+    }
+
+    public void bindClock() {
+        Date date = new Date();
         this.date.setText(date.toString().substring(0, 10));
         this.time.setText(timeFormat.format(date));
     }
+
+    public void startLocationAnimation(Animation animation){
+        this.mLocationIcon.startAnimation(animation);
+    }
+    public void stopLocationAnimation(){
+        this.mLocationIcon.clearAnimation();
+    }
+
+    public void startLoadWeatherAnimation(Animation animation){
+        this.mRefresh.startAnimation(animation);
+    }
+
+    public void stopLoadWeatherAnimation(){
+        this.mRefresh.clearAnimation();
+    }
+
 
     private Uri getWeatherResourceUri(String partName, int weatherId) {
         String url = Config.HOST_WEATHER_IMG + partName + "/" + weatherId + "/" + System.currentTimeMillis();

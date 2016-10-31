@@ -5,37 +5,28 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
-import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.service.PinkService;
-import com.lxy.pink.ui.service.PinkServiceContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnNeverAskAgain;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.OnShowRationale;
-import permissions.dispatcher.PermissionRequest;
-import permissions.dispatcher.RuntimePermissions;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -43,7 +34,6 @@ import rx.functions.Action1;
 /**
  * Created by yuan on 2016/10/18.
  */
-@RuntimePermissions
 public class HomeFragment extends BaseFragment implements ServiceConnection {
 
     public static final String TAG = "HomeFragment";
@@ -56,6 +46,14 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     private PinkService.PinkBinder pinkBinder;
     private HomeAdapter homeAdapter;
     private String cityId;
+    private String[] PERMISSION_ALL = {
+            Manifest.permission.READ_CALENDAR,
+            Manifest.permission.WRITE_CALENDAR,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+
+    private int PERMISSION_CODE_ALL = 3;
 
     @Nullable
     @Override
@@ -109,60 +107,49 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
         pinkBinder = (PinkService.PinkBinder) service;
         pinkBinder.getService().registerWeatherCallback(homeAdapter);
 
-        HomeFragmentPermissionsDispatcher.getTodoInfoWithCheck(this);
+        burstLink();
+    }
 
-        cityId = PreferenceManager.getCityId(getContext());
+    /**
+     * ★ burst link ★
+     */
+    private void burstLink() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR)) {
+            //TODO
+            Toast.makeText(getContext(), "calendar", Toast.LENGTH_SHORT).show();
+            requestPermissions(PERMISSION_ALL, PERMISSION_CODE_ALL);
 
-        if (!TextUtils.isEmpty(cityId)) {
-            pinkBinder.getWeatherById(cityId);
-            recyclerView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    HomeFragmentPermissionsDispatcher.getLocationWithCheck(HomeFragment.this);
-                }
-            }, 10000);
+        } else if (shouldShowRequestPermissionRationale( Manifest.permission.WRITE_CALENDAR)) {
+            //TODO
+            Toast.makeText(getContext(), "calendar", Toast.LENGTH_SHORT).show();
+            requestPermissions(PERMISSION_ALL, PERMISSION_CODE_ALL);
+        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            //TODO
+            Toast.makeText(getContext(), "location", Toast.LENGTH_SHORT).show();
+            requestPermissions(PERMISSION_ALL, PERMISSION_CODE_ALL);
         } else {
-            HomeFragmentPermissionsDispatcher.getLocationWithCheck(HomeFragment.this);
+            requestPermissions(PERMISSION_ALL, PERMISSION_CODE_ALL);
         }
     }
 
-    @NeedsPermission(Manifest.permission.READ_CALENDAR)
-    public void getTodoInfo() {
-        if (pinkBinder != null) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             pinkBinder.getTodoList();
         }
-    }
-
-    @NeedsPermission({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
-    public void getLocation() {
-        if (pinkBinder == null)
-            return;
-        pinkBinder.getWeatherByLocation();
-    }
-
-
-    @OnPermissionDenied(Manifest.permission.READ_CALENDAR)
-    public void getTodoPermissionFail() {
-        //TODO
-    }
-
-    @OnPermissionDenied({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
-    public void getLocationFail() {
-        if (TextUtils.isEmpty(cityId)) {
-            homeAdapter.weatherLocationFail();
-        }
-    }
-
-    @OnShowRationale({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
-    public void showWhyLocation(final PermissionRequest request) {
-
-    }
-
-    @OnNeverAskAgain({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION})
-    public void neverAskLocation() {
-        if (TextUtils.isEmpty(cityId)) {
-            homeAdapter.weatherLocationFail();
-        }
+//        for (int permission : grantResults) {
+//
+//            if (permission.equals(Manifest.permission.READ_CALENDAR)) {
+//                pinkBinder.getTodoList();
+//            }
+//            if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
+//                pinkBinder.getWeather();
+//            }
+//        }
+        Toast.makeText(getContext(), grantResults.length + "", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -175,16 +162,27 @@ public class HomeFragment extends BaseFragment implements ServiceConnection {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (serviceConnected){
+        if (serviceConnected) {
             getActivity().unbindService(this);
         }
     }
 
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        HomeFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    public void onResume() {
+        super.onResume();
+        homeAdapter.startClock();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        homeAdapter.stopClock();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        homeAdapter.stopClock();
+    }
 }

@@ -2,10 +2,13 @@ package com.lxy.pink.ui.home;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.lxy.pink.ui.base.adapter.IAdapterView;
 import com.lxy.pink.ui.service.PinkServiceContract;
 import com.lxy.pink.ui.widget.ExListView;
 import com.lxy.pink.utils.Config;
+import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +41,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     private static SimpleDateFormat timeFormat;
     private final Context context;
+    private final Handler handler;
+    private final Runnable clockRunnable;
+    private final Animation flickerAnimation;
+    private final Animation unLimitedRotate;
     private List<Object> dataList = new ArrayList<>();
     public WeatherItemView weatherItemView;
 
@@ -44,6 +52,26 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         this.context = context;
         timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         dataList.add(new Weather());
+        handler = new Handler();
+        flickerAnimation = AnimationUtils.loadAnimation(context, R.anim.flicker);
+        unLimitedRotate = AnimationUtils.loadAnimation(context, R.anim.unlimited_rotate);
+        clockRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (weatherItemView != null) {
+                    weatherItemView.bindClock();
+                }
+                handler.postDelayed(clockRunnable, 1000);
+            }
+        };
+    }
+
+    public void stopClock() {
+        handler.removeCallbacks(clockRunnable);
+    }
+
+    public void startClock() {
+        handler.post(clockRunnable);
     }
 
     @Override
@@ -101,24 +129,24 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public void weatherLoadStart() {
-
+        weatherItemView.startLoadWeatherAnimation(unLimitedRotate);
     }
 
     @Override
     public void weatherLoadEnd() {
-
+        weatherItemView.stopLoadWeatherAnimation();
     }
 
     @Override
     public void weatherLoadError(Throwable e) {
-
+        weatherItemView.stopLoadWeatherAnimation();
     }
 
     @Override
     public void weatherLoaded(Weather weather) {
         if (weather.getCod() == Config.HOST_WEATHER_SUCCESS_CODE) {
             PreferenceManager.setCityId(context, String.valueOf(weather.getId()));
-            weatherItemView.bind(weather,0);
+            weatherItemView.bind(weather, 0);
         } else {
             weatherLoadError(null);
         }
@@ -146,13 +174,19 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     @Override
+    public void weatherLocationStart() {
+        weatherItemView.startLocationAnimation(flickerAnimation);
+    }
+
+    @Override
     public void weatherLocationSuccess(double lat, double lon) {
-        //nothing to do
+        weatherItemView.stopLocationAnimation();
     }
 
     @Override
     public void weatherLocationFail() {
-        if(weatherItemView != null){
+        if (weatherItemView != null) {
+            weatherItemView.stopLocationAnimation();
             weatherItemView.autoLocFail();
         }
     }
