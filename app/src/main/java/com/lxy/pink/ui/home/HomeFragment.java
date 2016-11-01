@@ -138,6 +138,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        homeAdapter.stopClock();
         if (serviceConnected) {
             getActivity().unbindService(this);
         }
@@ -153,12 +154,6 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     @Override
     public void onPause() {
         super.onPause();
-        homeAdapter.stopClock();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
         homeAdapter.stopClock();
     }
 
