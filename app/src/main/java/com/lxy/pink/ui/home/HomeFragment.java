@@ -112,7 +112,10 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
 
         burstLink();
     }
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
 
+    }
     /**
      * ★ burst link ★
      */
@@ -128,18 +131,15 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
         FcPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-        pinkBinder.getService().unRegisterWeatherCallback();
-        serviceConnected = false;
-        pinkBinder = null;
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         homeAdapter.stopClock();
         if (serviceConnected) {
+            pinkBinder.getService().unRegisterWeatherCallback();
+            serviceConnected = false;
+            pinkBinder = null;
             getActivity().unbindService(this);
         }
     }

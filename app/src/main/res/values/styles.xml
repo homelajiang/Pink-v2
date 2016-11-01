@@ -39,7 +39,9 @@
 
     <style name="PINK.Theme" parent="AppTheme" />
 
-    <style name="PINK.Theme.Launcher"></style>
+    <style name="PINK.Theme.Launcher">
+        <item name="android:windowBackground">@drawable/bg_launcher</item>
+    </style>
 
     <!--widget-->
 
