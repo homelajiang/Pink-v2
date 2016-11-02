@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.music.player;
+package com.lxy.pink.ui.player;
 
 /**
  * Created by homelajiang on 2016/10/9 0009.
