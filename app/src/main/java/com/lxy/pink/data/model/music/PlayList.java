@@ -13,6 +13,7 @@ import java.util.Random;
 
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+
 import com.lxy.pink.data.db.DaoSession;
 import com.lxy.pink.data.db.SongDao;
 import com.lxy.pink.data.db.PlayListDao;
@@ -43,16 +44,20 @@ public class PlayList {
     @Transient
     private int playingIndex = -1;
     // cancel playMode
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 472247056)
     private transient PlayListDao myDao;
 
     @Generated(hash = 707646870)
     public PlayList(int id, String name, int numOfSongs, boolean favorite,
-            Date createdAt, Date updatedAt) {
+                    Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.numOfSongs = numOfSongs;
@@ -63,6 +68,10 @@ public class PlayList {
 
     @Generated(hash = 438209239)
     public PlayList() {
+    }
+
+    public int getItemCount() {
+        return songs == null ? 0 : songs.size();
     }
 
     public int getPlayingIndex() {
@@ -100,28 +109,28 @@ public class PlayList {
     /**
      * The current song being played or is playing based on the {@link #playingIndex}
      */
-    public Song getCurrentSong(){
-        if(playingIndex !=NO_POSITION){
+    public Song getCurrentSong() {
+        if (playingIndex != NO_POSITION) {
             return songs.get(playingIndex);
         }
         return null;
     }
 
-    public boolean hasNext(boolean fromComplete,PlayMode playMode){
-        if(songs.isEmpty())
+    public boolean hasNext(boolean fromComplete, PlayMode playMode) {
+        if (songs.isEmpty())
             return false;
-            if( fromComplete && playMode == PlayMode.LIST && playingIndex+1>=songs.size())
-                return false;
+        if (fromComplete && playMode == PlayMode.LIST && playingIndex + 1 >= songs.size())
+            return false;
         return true;
     }
 
     public Song next(PlayMode playMode) {
-        switch (playMode){
+        switch (playMode) {
             case LOOP:
             case LIST:
             case SINGLE:
-                int newIndex = playingIndex+1;
-                if(newIndex>=songs.size()){
+                int newIndex = playingIndex + 1;
+                if (newIndex >= songs.size()) {
                     newIndex = 0;
                 }
                 playingIndex = newIndex;
@@ -133,21 +142,43 @@ public class PlayList {
         return songs.get(playingIndex);
     }
 
-    private int randomPlayIndex(){
+    private int randomPlayIndex() {
         int randomIndex = new Random().nextInt(songs.size());
-        if(songs.size()>1&& randomIndex == playingIndex){
+        if (songs.size() > 1 && randomIndex == playingIndex) {
             randomPlayIndex();
         }
         return randomIndex;
     }
 
-    public boolean prepare(){
-        if(songs.isEmpty())
+    public boolean prepare() {
+        if (songs.isEmpty())
             return false;
-        if(playingIndex == NO_POSITION){
+        if (playingIndex == NO_POSITION) {
             playingIndex = 0;
         }
         return true;
+    }
+
+    public boolean hasLast() {
+        return songs != null && songs.size() != 0;
+    }
+
+    public Song last(PlayMode playMode) {
+        switch (playMode) {
+            case LOOP:
+            case LIST:
+            case SINGLE:
+                int newIndex = playingIndex - 1;
+                if (newIndex < 0) {
+                    newIndex = songs.size() - 1;
+                }
+                playingIndex = newIndex;
+                break;
+            case SHUFFLE:
+                playingIndex = randomPlayIndex();
+                break;
+        }
+        return songs.get(playingIndex);
     }
 
 
@@ -197,7 +228,9 @@ public class PlayList {
         return songs;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 432021166)
     public synchronized void resetSongs() {
         songs = null;
@@ -239,7 +272,9 @@ public class PlayList {
         myDao.update(this);
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 469739525)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

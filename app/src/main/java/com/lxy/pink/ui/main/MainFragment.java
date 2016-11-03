@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import com.lxy.pink.R;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.home.HomeFragment;
-import com.lxy.pink.ui.music.MusicFragment;
+import com.lxy.pink.ui.music.playList.PlayListFragment;
 import com.lxy.pink.ui.news.NewsFragment;
 import com.lxy.pink.ui.video.VideoFragment;
 
@@ -60,7 +60,7 @@ public class MainFragment extends BaseFragment {
         BaseFragment[] fragments = new BaseFragment[titles.length];
 
         fragments[0] = new HomeFragment();
-        fragments[1] = new MusicFragment();
+        fragments[1] = new PlayListFragment();
         fragments[2] = new VideoFragment();
         fragments[3] = new NewsFragment();
 
