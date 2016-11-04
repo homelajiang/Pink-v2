@@ -3,21 +3,29 @@ package com.lxy.pink.data.source;
 import android.content.ContentResolver;
 import android.content.Context;
 
+import com.lxy.pink.PinkApplication;
+import com.lxy.pink.R;
 import com.lxy.pink.data.db.DaoSession;
+import com.lxy.pink.data.db.PlayListDao;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.BdLocation;
+import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.retrofit.RetrofitAPI;
+import com.lxy.pink.data.source.db.DaoMasterHelper;
 import com.lxy.pink.utils.Config;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by homelajiang on 2016/10/9 0009.
@@ -110,5 +118,62 @@ public class AppDataSource implements AppContract {
         return RetrofitAPI.getInstance()
                 .getTodoService()
                 .insertTodo(cr, todo);
+    }
+
+    @Override
+    public Observable<List<PlayList>> playList() {
+        return Observable.create(new Observable.OnSubscribe<List<PlayList>>() {
+            @Override
+            public void call(Subscriber<? super List<PlayList>> subscriber) {
+                List<PlayList> playLists = daoSession
+                        .getPlayListDao()
+                        .queryBuilder()
+                        .orderAsc(PlayListDao.Properties.CreatedAt)
+                        .list();
+
+                if (playLists == null)
+                    playLists = new ArrayList<>();
+
+                if (playLists.isEmpty()) {
+                    PlayList tempPlayList = new PlayList();
+                    tempPlayList.setName(context.getString(R.string.pink_local_play_list));
+                    Date date = new Date();
+                    tempPlayList.setCreatedAt(date);
+                    tempPlayList.setUpdatedAt(date);
+                    tempPlayList.setFavorite(true);
+                    long id = daoSession.getPlayListDao().insert(tempPlayList);
+                    if (id < 0) {
+                        subscriber.onError(new Throwable("insert default playList error!"));
+                    } else {
+                        playLists.add(tempPlayList);
+                        subscriber.onNext(playLists);
+                        subscriber.onCompleted();
+                    }
+                } else {
+                    subscriber.onNext(playLists);
+                    subscriber.onCompleted();
+                }
+            }
+        });
+    }
+
+    @Override
+    public List<PlayList> cachedPlayList() {
+        return null;
+    }
+
+    @Override
+    public Observable<PlayList> create(PlayList playList) {
+        return null;
+    }
+
+    @Override
+    public Observable<PlayList> update(PlayList playList) {
+        return null;
+    }
+
+    @Override
+    public Observable<PlayList> delete(PlayList playList) {
+        return null;
     }
 }

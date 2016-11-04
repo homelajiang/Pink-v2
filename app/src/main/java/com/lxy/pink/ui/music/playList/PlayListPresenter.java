@@ -2,7 +2,14 @@ package com.lxy.pink.ui.music.playList;
 
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.source.AppRepository;
+import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -25,7 +32,27 @@ public class PlayListPresenter implements PlayListContract.Presenter {
 
     @Override
     public void loadPlayList() {
+        Subscription subscription = mRepository.playList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<PlayList>>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.d("completed");
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<PlayList> playLists) {
+                        Logger.d("done");
+                        mView.onPlayListLoaded(playLists);
+                    }
+                });
+        mSubscriptions.add(subscription);
     }
 
     @Override

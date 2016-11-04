@@ -85,7 +85,8 @@ public class PlayListFragment extends BaseFragment implements
 
     @Override
     public void onPlayListLoaded(List<PlayList> playLists) {
-
+        mAdapter.setData(playLists);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

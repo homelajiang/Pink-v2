@@ -6,6 +6,7 @@ import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.BdLocation;
+import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Forecast;
@@ -45,7 +46,7 @@ public interface AppContract {
      */
     Observable<Weather> getWeatherInfo(String cityId);
 
-    Observable<Weather> getWeatherInfo(double lat,double lon);
+    Observable<Weather> getWeatherInfo(double lat, double lon);
 
     /**
      * get forecast weather info
@@ -63,6 +64,15 @@ public interface AppContract {
     Observable<Void> insertTodo(ContentResolver cr, Todo todo);
 
     // playList
+    Observable<List<PlayList>> playList();
+
+    List<PlayList> cachedPlayList();
+
+    Observable<PlayList> create(PlayList playList);
+
+    Observable<PlayList> update(PlayList playList);
+
+    Observable<PlayList> delete(PlayList playList);
 
     // Song
 
