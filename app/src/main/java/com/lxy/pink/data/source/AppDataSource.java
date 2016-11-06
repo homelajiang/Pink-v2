@@ -2,22 +2,22 @@ package com.lxy.pink.data.source;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 
-import com.lxy.pink.PinkApplication;
-import com.lxy.pink.R;
 import com.lxy.pink.data.db.DaoSession;
-import com.lxy.pink.data.db.PlayListDao;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.BdLocation;
 import com.lxy.pink.data.model.music.PlayList;
+import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.retrofit.RetrofitAPI;
-import com.lxy.pink.data.source.db.DaoMasterHelper;
 import com.lxy.pink.utils.Config;
 
 import java.util.ArrayList;
@@ -121,59 +121,87 @@ public class AppDataSource implements AppContract {
     }
 
     @Override
-    public Observable<List<PlayList>> playList() {
-        return Observable.create(new Observable.OnSubscribe<List<PlayList>>() {
+    public Observable<PlayList> playList(List<String> filters) {
+        return Observable.create(new Observable.OnSubscribe<PlayList>() {
             @Override
-            public void call(Subscriber<? super List<PlayList>> subscriber) {
-                List<PlayList> playLists = daoSession
-                        .getPlayListDao()
-                        .queryBuilder()
-                        .orderAsc(PlayListDao.Properties.CreatedAt)
-                        .list();
+            public void call(Subscriber<? super PlayList> subscriber) {
+                ContentResolver cr = context.getContentResolver();
 
-                if (playLists == null)
-                    playLists = new ArrayList<>();
+                Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+//                String options = MediaStore.Audio.Media.DATA+""
 
-                if (playLists.isEmpty()) {
-                    PlayList tempPlayList = new PlayList();
-                    tempPlayList.setName(context.getString(R.string.pink_local_play_list));
-                    Date date = new Date();
-                    tempPlayList.setCreatedAt(date);
-                    tempPlayList.setUpdatedAt(date);
-                    tempPlayList.setFavorite(true);
-                    long id = daoSession.getPlayListDao().insert(tempPlayList);
-                    if (id < 0) {
-                        subscriber.onError(new Throwable("insert default playList error!"));
-                    } else {
-                        playLists.add(tempPlayList);
-                        subscriber.onNext(playLists);
-                        subscriber.onCompleted();
-                    }
-                } else {
-                    subscriber.onNext(playLists);
-                    subscriber.onCompleted();
+
+                Cursor musicCursor = cr.query(
+                        songUri,
+                        null,
+                        null,
+                        null,
+                        MediaStore.Audio.Media._ID + " DESC");
+
+                if (musicCursor == null) {
+                    subscriber.onError(new Throwable("musicCursor is null"));
+                    return;
                 }
+
+                List<Song> songList = new ArrayList<>();
+                while (musicCursor.moveToNext()) {
+
+                    int isMusic = musicCursor.getInt(musicCursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC));
+                    if (isMusic != 0) {
+                        Song song = new Song();
+                        song.setId(musicCursor.getLong(musicCursor.getColumnIndex(MediaStore.Audio.Media._ID)));
+                        song.setTitle(musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+                        song.setArtist(musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+                        song.setAlbum(musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
+                        song.setAlbumId(musicCursor.getLong(musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
+                        song.setDuration(musicCursor.getLong(musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
+                        song.setSize(musicCursor.getLong(musicCursor.getColumnIndex(MediaStore.Audio.Media.SIZE)));
+                        song.setPath(musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
+                        songList.add(song);
+                    }
+                    Date date = new Date();
+                    PlayList playList = new PlayList(
+                            0,
+                            "default",
+                            songList.size(),
+                            true,
+                            date,
+                            date);
+                    playList.setSongs(songList);
+
+                    subscriber.onNext(playList);
+                    subscriber.onCompleted();
+
+                }
+//                List<PlayList> playLists = daoSession
+//                        .getPlayListDao()
+//                        .queryBuilder()
+//                        .orderAsc(PlayListDao.Properties.CreatedAt)
+//                        .list();
+//
+//                if (playLists == null)
+//                    playLists = new ArrayList<>();
+//
+//                if (playLists.isEmpty()) {
+//                    PlayList tempPlayList = new PlayList();
+//                    tempPlayList.setName(context.getString(R.string.pink_local_play_list));
+//                    Date date = new Date();
+//                    tempPlayList.setCreatedAt(date);
+//                    tempPlayList.setUpdatedAt(date);
+//                    tempPlayList.setFavorite(true);
+//                    long id = daoSession.getPlayListDao().insert(tempPlayList);
+//                    if (id < 0) {
+//                        subscriber.onError(new Throwable("insert default playList error!"));
+//                    } else {
+//                        playLists.add(tempPlayList);
+//                        subscriber.onNext(playLists);
+//                        subscriber.onCompleted();
+//                    }
+//                } else {
+//                    subscriber.onNext(playLists);
+//                    subscriber.onCompleted();
+//                }
             }
         });
-    }
-
-    @Override
-    public List<PlayList> cachedPlayList() {
-        return null;
-    }
-
-    @Override
-    public Observable<PlayList> create(PlayList playList) {
-        return null;
-    }
-
-    @Override
-    public Observable<PlayList> update(PlayList playList) {
-        return null;
-    }
-
-    @Override
-    public Observable<PlayList> delete(PlayList playList) {
-        return null;
     }
 }

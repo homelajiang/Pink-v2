@@ -1,8 +1,8 @@
-package com.lxy.pink.ui.music.playList;
+package com.lxy.pink.ui.music.musicList;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,6 @@ import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.base.adapter.OnItemClickListener;
 import com.lxy.pink.ui.common.DefaultDividerDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,13 +23,13 @@ import butterknife.ButterKnife;
  * Created by yuan on 2016/10/18.
  */
 
-public class PlayListFragment extends BaseFragment implements
-        PlayListAdapter.AddPlayListCallback, PlayListContract.View {
+public class SongListFragment extends BaseFragment implements
+        SongListAdapter.AddPlayListCallback, SongListContract.View {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private View root;
-    private PlayListAdapter mAdapter;
-    private PlayListContract.Presenter presenter;
+    private SongListAdapter mAdapter;
+    private SongListContract.Presenter presenter;
 
     @Nullable
     @Override
@@ -43,28 +42,30 @@ public class PlayListFragment extends BaseFragment implements
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new PlayListAdapter(getContext(), null);
-        mAdapter.setItemClickListener(new OnItemClickListener() {
+        mAdapter = new SongListAdapter(getContext(), null);
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                // TODO: 2016/11/6
             }
         });
         mAdapter.setAddPlayListCallback(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return 2;
+            }
+        });
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DefaultDividerDecoration());
 
-        new PlayListPresenter(this).subscribe();
+        new SongListPresenter(this).subscribe();
     }
 
     @Override
     public void onAction(View actionView, int position) {
-
-    }
-
-    @Override
-    public void onAddPlayList() {
 
     }
 
@@ -84,28 +85,13 @@ public class PlayListFragment extends BaseFragment implements
     }
 
     @Override
-    public void onPlayListLoaded(List<PlayList> playLists) {
-        mAdapter.setData(playLists);
+    public void onMusicListLoaded(PlayList playList) {
+        mAdapter.setPlayList(playList);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onPlayListCreate(PlayList playList) {
-
-    }
-
-    @Override
-    public void onPlayListEdited(PlayList playList) {
-
-    }
-
-    @Override
-    public void onPlayListDeleted(PlayList playList) {
-
-    }
-
-    @Override
-    public void setPresenter(PlayListContract.Presenter presenter) {
+    public void setPresenter(SongListContract.Presenter presenter) {
         this.presenter = presenter;
     }
 }

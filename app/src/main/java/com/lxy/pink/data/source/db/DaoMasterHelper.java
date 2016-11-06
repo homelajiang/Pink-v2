@@ -3,7 +3,6 @@ package com.lxy.pink.data.source.db;
 import com.lxy.pink.Injection;
 import com.lxy.pink.data.db.DaoMaster;
 import com.lxy.pink.data.db.DaoSession;
-import com.lxy.pink.data.source.AppContract;
 import com.lxy.pink.utils.Config;
 
 /**

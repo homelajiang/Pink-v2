@@ -64,17 +64,5 @@ public interface AppContract {
     Observable<Void> insertTodo(ContentResolver cr, Todo todo);
 
     // playList
-    Observable<List<PlayList>> playList();
-
-    List<PlayList> cachedPlayList();
-
-    Observable<PlayList> create(PlayList playList);
-
-    Observable<PlayList> update(PlayList playList);
-
-    Observable<PlayList> delete(PlayList playList);
-
-    // Song
-
-    // Folder
+    Observable<PlayList> playList(List<String> filters);
 }

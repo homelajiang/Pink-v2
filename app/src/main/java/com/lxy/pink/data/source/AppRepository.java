@@ -108,36 +108,7 @@ public class AppRepository implements AppContract {
     }
 
     @Override
-    public Observable<List<PlayList>> playList() {
-        return appDataSource.playList()
-                .doOnNext(new Action1<List<PlayList>>() {
-                    @Override
-                    public void call(List<PlayList> playLists) {
-                        mCachedPlayList = playLists;
-                    }
-                });
-    }
-
-    @Override
-    public List<PlayList> cachedPlayList() {
-        if (mCachedPlayList == null) {
-            return new ArrayList<>();
-        }
-        return mCachedPlayList;
-    }
-
-    @Override
-    public Observable<PlayList> create(PlayList playList) {
-        return appDataSource.create(playList);
-    }
-
-    @Override
-    public Observable<PlayList> update(PlayList playList) {
-        return appDataSource.update(playList);
-    }
-
-    @Override
-    public Observable<PlayList> delete(PlayList playList) {
-        return appDataSource.delete(playList);
+    public Observable<PlayList> playList(List<String> filters) {
+        return appDataSource.playList(filters);
     }
 }

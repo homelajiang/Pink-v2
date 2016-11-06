@@ -1,9 +1,10 @@
-package com.lxy.pink.ui.music.playList;
+package com.lxy.pink.ui.music.musicList;
 
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.source.AppRepository;
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -16,13 +17,13 @@ import rx.subscriptions.CompositeSubscription;
  * Created by homelajiang on 2016/11/3 0003.
  */
 
-public class PlayListPresenter implements PlayListContract.Presenter {
+public class SongListPresenter implements SongListContract.Presenter {
 
-    private PlayListContract.View mView;
+    private SongListContract.View mView;
     private AppRepository mRepository;
     private CompositeSubscription mSubscriptions;
 
-    public PlayListPresenter(PlayListContract.View view) {
+    public SongListPresenter(SongListContract.View view) {
         mView = view;
         mRepository = AppRepository.getInstance();
         mSubscriptions = new CompositeSubscription();
@@ -31,11 +32,12 @@ public class PlayListPresenter implements PlayListContract.Presenter {
 
 
     @Override
-    public void loadPlayList() {
-        Subscription subscription = mRepository.playList()
+    public void loadMusicList(List<String> filters) {
+
+        Subscription subscription = mRepository.playList(filters)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<PlayList>>() {
+                .subscribe(new Subscriber<PlayList>() {
                     @Override
                     public void onCompleted() {
                         Logger.d("completed");
@@ -43,36 +45,21 @@ public class PlayListPresenter implements PlayListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.d("error");
                     }
 
                     @Override
-                    public void onNext(List<PlayList> playLists) {
+                    public void onNext(PlayList playList) {
                         Logger.d("done");
-                        mView.onPlayListLoaded(playLists);
+                        mView.onMusicListLoaded(playList);
                     }
                 });
         mSubscriptions.add(subscription);
     }
 
     @Override
-    public void createPlatList(PlayList playList) {
-
-    }
-
-    @Override
-    public void editPlayList(PlayList playList) {
-
-    }
-
-    @Override
-    public void deletePlayList(PlayList playList) {
-
-    }
-
-    @Override
     public void subscribe() {
-        loadPlayList();
+        loadMusicList(new ArrayList<String>());
     }
 
     @Override
