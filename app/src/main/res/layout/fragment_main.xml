@@ -7,22 +7,22 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.main.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
-        style="@style/AppTheme.AppBarOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            style="@style/AppTheme.AppBarOverlay"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-            <!--app:layout_scrollFlags="scroll|enterAlways"-->
+            android:layout_height="wrap_content">
 
-            <include layout="@layout/layout_main_toolbar" />
-        </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+                <!--app:layout_scrollFlags="scroll|enterAlways"-->
 
-    </android.support.design.widget.AppBarLayout>
+                <include layout="@layout/layout_main_toolbar" />
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
@@ -30,4 +30,12 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <include
+        android:id="@+id/bottomSheet"
+        layout="@layout/music_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="@dimen/pink_music_controller_height"
+        app:layout_behavior="@string/bottom_sheet_behavior" />
 </android.support.design.widget.CoordinatorLayout>

@@ -7,12 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.lxy.pink.R;
+import com.lxy.pink.RxBus;
 import com.lxy.pink.data.model.music.PlayList;
+import com.lxy.pink.event.PlayListNowEvent;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.base.adapter.OnItemClickListener;
 import com.lxy.pink.ui.common.DefaultDividerDecoration;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -30,6 +34,7 @@ public class SongListFragment extends BaseFragment implements
     private View root;
     private SongListAdapter mAdapter;
     private SongListContract.Presenter presenter;
+    private PlayList playList;
 
     @Nullable
     @Override
@@ -46,10 +51,13 @@ public class SongListFragment extends BaseFragment implements
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                // TODO: 2016/11/6
+                if (playList != null) {
+                    PlayListNowEvent e = new PlayListNowEvent(playList, position);
+                    RxBus.getInstance().post(e);
+                }
             }
         });
-        mAdapter.setAddPlayListCallback(this);
+        mAdapter.addPlayListCallback(this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -66,7 +74,7 @@ public class SongListFragment extends BaseFragment implements
 
     @Override
     public void onAction(View actionView, int position) {
-
+        Logger.d(position);
     }
 
     @Override
@@ -86,6 +94,7 @@ public class SongListFragment extends BaseFragment implements
 
     @Override
     public void onMusicListLoaded(PlayList playList) {
+        this.playList = playList;
         mAdapter.setPlayList(playList);
         mAdapter.notifyDataSetChanged();
     }

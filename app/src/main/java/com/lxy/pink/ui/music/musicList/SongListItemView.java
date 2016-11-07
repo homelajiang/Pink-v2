@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.ui.base.adapter.IAdapterView;
+import com.lxy.pink.utils.TimeUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,5 +41,8 @@ public class SongListItemView extends RelativeLayout implements IAdapterView<Son
     @Override
     public void bind(Song song, int position) {
         textViewName.setText(song.getTitle());
+        textViewIndex.setText(String.valueOf(position+1));
+        textViewInfo.setText(String.format("%s | %s", TimeUtils
+                .formatDuration((int) song.getDuration()),String.valueOf(song.getArtist())));
     }
 }

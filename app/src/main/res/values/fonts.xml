@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="pink_font_roboto_regular">fonts/Roboto-Regular_ttf</string>
-    <string name="pink_font_roboto_medium">fonts/Roboto-Medium_ttf</string>
-    <string name="pink_font_roboto_thin">fonts/Roboto-Thin_ttf</string>
-    <string name="pink_font_roboto_monospace_regular">fonts/Roboto-Monospace-Regular_ttf</string>
+    <string name="pink_font_roboto_regular">fonts/Roboto-Regular.ttf</string>
+    <string name="pink_font_roboto_medium">fonts/Roboto-Medium.ttf</string>
+    <string name="pink_font_roboto_thin">fonts/Roboto-Thin.ttf</string>
+    <string name="pink_font_roboto_monospace_regular">fonts/Roboto-Monospace-Regular.ttf</string>
 </resources>

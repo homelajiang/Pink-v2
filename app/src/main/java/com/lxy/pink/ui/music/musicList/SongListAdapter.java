@@ -24,7 +24,7 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private PlayList playList;
     private View mHeaderView;
     private TextView textViewSummary;
-    private AddPlayListCallback mAddPlayListCallback;
+    private AddPlayListCallback mPlayListCallback;
     private final int HEADER = 1;
     private final int NORMAL = 0;
     private OnItemClickListener onItemClickListener;
@@ -44,8 +44,8 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    public void setAddPlayListCallback(AddPlayListCallback callback) {
-        mAddPlayListCallback = callback;
+    public void addPlayListCallback(AddPlayListCallback callback) {
+        mPlayListCallback = callback;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -54,12 +54,36 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final RecyclerView.ViewHolder holder;
         if (viewType == HEADER) {
-            return new RecyclerView.ViewHolder(new SongListItemHeaderView(mContext)) {
+            holder = new RecyclerView.ViewHolder(new SongListItemHeaderView(mContext)) {
             };
+        } else {
+            holder = new RecyclerView.ViewHolder(new SongListItemView(mContext)) {
+            };
+            if (mPlayListCallback != null) {
+                ((SongListItemView) holder
+                        .itemView).layoutAction
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mPlayListCallback.onAction(v,holder.getAdapterPosition()-1);
+                            }
+                        });
+            }
         }
-        return new RecyclerView.ViewHolder(new SongListItemView(mContext)) {
-        };
+        if (onItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onItemClick(position - 1);
+                    }
+                }
+            });
+        }
+        return holder;
     }
 
     @Override
@@ -67,15 +91,7 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (getItemViewType(position) == HEADER) {
             ((SongListItemHeaderView) holder.itemView).bind(playList, position);
         } else {
-            ((SongListItemView) holder.itemView).bind(playList.getSong(position - 1), position);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(position - 1);
-                    }
-                }
-            });
+            ((SongListItemView) holder.itemView).bind(playList.getSong(position - 1), position - 1);
         }
     }
 
@@ -89,7 +105,7 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        if(playList == null){
+        if (playList == null) {
             return 0;
         }
         return playList.getItemCount() + 1;

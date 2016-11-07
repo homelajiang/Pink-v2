@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
+import com.lxy.pink.ui.player.PlayMode;
 import com.lxy.pink.utils.Config;
 
 import java.util.Date;
@@ -32,6 +33,7 @@ public class PreferenceManager {
     private static final String KEY_EXP = "exp";
     private static final String KEY_LEVEL = "level";
     private static final String KEY_MOBILE = "mobile";
+    private static final String KEY_PLAY_MUSIC_MODE = "key_play_music_mode";
 
     private static Auth authBean;
     private static Profile profileBean;
@@ -146,5 +148,16 @@ public class PreferenceManager {
         profile.setLevel(sp.getInt(KEY_LEVEL, 0));
         profile.setMobile(sp.getString(KEY_MOBILE, null));
         return profile;
+    }
+
+    public static PlayMode lastPlayMode(Context context) {
+        String playModeName = preferences(context).getString(KEY_PLAY_MUSIC_MODE, null);
+        if (playModeName != null) {
+            return PlayMode.valueOf(playModeName);
+        }
+        return PlayMode.getDefault();
+    }
+    public static void setPlayMode(Context context, PlayMode playMode) {
+        edit(context).putString(KEY_PLAY_MUSIC_MODE, playMode.name()).commit();
     }
 }

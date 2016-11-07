@@ -46,6 +46,10 @@
    <!-- CharacterView -->
    <dimen name="mp.characterView.padding">6dp</dimen>
   <dimen name="pink_head_nav">70dp</dimen>
+    <dimen name="pink_music_controller_height">60dp</dimen>
+    <dimen name="pink_music_controller_album">55dp</dimen>
+    <dimen name="pink_music_controller">40dp</dimen>
+    <dimen name="pink_music_controller_progress">2dp</dimen>
 
 
 </resources>

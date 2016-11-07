@@ -60,7 +60,7 @@ public class TodoAdapter extends BaseAdapter {
         if (end - start == 86400000) {
             viewHolder.time.setText(context.getString(R.string.pink_todo_all_day));
         } else {
-            viewHolder.time.setText(TimeUtils.formartToTime(Long.parseLong(todo.getDtstart())));
+            viewHolder.time.setText(TimeUtils.formatToTime(Long.parseLong(todo.getDtstart())));
         }
         viewHolder.content.setText(todo.getTitle());
         return convertView;

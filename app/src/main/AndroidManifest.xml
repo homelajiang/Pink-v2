@@ -28,6 +28,7 @@
         <activity android:name=".ui.auth.LoginActivity" />
 
         <service android:name=".ui.service.PinkService" />
+        <service android:name=".ui.player.PlaybackService"/>
     </application>
 
 </manifest>

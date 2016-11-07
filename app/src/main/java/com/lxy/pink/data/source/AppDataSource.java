@@ -142,7 +142,6 @@ public class AppDataSource implements AppContract {
                     subscriber.onError(new Throwable("musicCursor is null"));
                     return;
                 }
-
                 List<Song> songList = new ArrayList<>();
                 while (musicCursor.moveToNext()) {
 
@@ -159,48 +158,20 @@ public class AppDataSource implements AppContract {
                         song.setPath(musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
                         songList.add(song);
                     }
-                    Date date = new Date();
-                    PlayList playList = new PlayList(
-                            0,
-                            "default",
-                            songList.size(),
-                            true,
-                            date,
-                            date);
-                    playList.setSongs(songList);
-
-                    subscriber.onNext(playList);
-                    subscriber.onCompleted();
-
                 }
-//                List<PlayList> playLists = daoSession
-//                        .getPlayListDao()
-//                        .queryBuilder()
-//                        .orderAsc(PlayListDao.Properties.CreatedAt)
-//                        .list();
-//
-//                if (playLists == null)
-//                    playLists = new ArrayList<>();
-//
-//                if (playLists.isEmpty()) {
-//                    PlayList tempPlayList = new PlayList();
-//                    tempPlayList.setName(context.getString(R.string.pink_local_play_list));
-//                    Date date = new Date();
-//                    tempPlayList.setCreatedAt(date);
-//                    tempPlayList.setUpdatedAt(date);
-//                    tempPlayList.setFavorite(true);
-//                    long id = daoSession.getPlayListDao().insert(tempPlayList);
-//                    if (id < 0) {
-//                        subscriber.onError(new Throwable("insert default playList error!"));
-//                    } else {
-//                        playLists.add(tempPlayList);
-//                        subscriber.onNext(playLists);
-//                        subscriber.onCompleted();
-//                    }
-//                } else {
-//                    subscriber.onNext(playLists);
-//                    subscriber.onCompleted();
-//                }
+                musicCursor.close();
+                Date date = new Date();
+                PlayList playList = new PlayList(
+                        0,
+                        "default",
+                        songList.size(),
+                        true,
+                        date,
+                        date);
+                playList.setSongs(songList);
+
+                subscriber.onNext(playList);
+                subscriber.onCompleted();
             }
         });
     }

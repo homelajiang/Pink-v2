@@ -25,7 +25,7 @@ public class TimeUtils {
     }
 
     @SuppressLint("DefaultLocale")
-    public static String formartToTime(long milliseconds) {
+    public static String formatToTime(long milliseconds) {
         Date date = new Date(milliseconds);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

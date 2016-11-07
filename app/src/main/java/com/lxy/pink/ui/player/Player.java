@@ -15,7 +15,7 @@ import java.util.List;
  * Created by homelajiang on 2016/11/2 0002.
  */
 
-public class Player implements MediaPlayer.OnCompletionListener, IPlayback ,MediaPlayer.OnPreparedListener{
+public class Player implements MediaPlayer.OnCompletionListener, IPlayback, MediaPlayer.OnPreparedListener {
     private static final String TAG = "Player";
     private static volatile Player sInstance;
 
@@ -32,7 +32,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback ,Medi
         mPlayer = new MediaPlayer();
         mPlayList = new PlayList();
         mPlayer.setOnCompletionListener(this);
-        mPlayer.setOnPreparedListener(this);
+//        mPlayer.setOnPreparedListener(this);
     }
 
     public static Player getInstance() {
@@ -86,9 +86,9 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback ,Medi
             try {
                 mPlayer.reset();
                 mPlayer.setDataSource(song.getPath());
-//                mPlayer.prepare();
-//                mPlayer.start();
-                mPlayer.prepareAsync();
+                mPlayer.prepare();
+                mPlayer.start();
+                notifyPlayStatusChanged(true);
             } catch (IOException e) {
                 Logger.d(e);
                 notifyPlayStatusChanged(false);

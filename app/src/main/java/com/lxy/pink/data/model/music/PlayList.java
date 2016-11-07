@@ -80,14 +80,12 @@ public class PlayList {
         }
         return null;
     }
-
     public Song getSong(int index) {
         if (songs == null || songs.size() <= index) {
             return null;
         }
         return songs.get(index);
     }
-
     public List<Song> getSongs() {
         if (songs == null) {
             return new ArrayList<>();
