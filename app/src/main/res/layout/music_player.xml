@@ -3,19 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mp.theme.dark_blue.background"
+    android:clickable="true"
     android:elevation="@dimen/design_appbar_elevation"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/pink_music_controller_height"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pink_music_controller_height">
+            android:layout_height="60dp"
+            android:background="@color/white">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <com.facebook.drawee.view.SimpleDraweeView xmlns:fresco="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/ctrl_album"
                 android:layout_width="@dimen/pink_music_controller_album"
                 android:layout_height="@dimen/pink_music_controller_album"
@@ -23,7 +26,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp" />
+                android:layout_marginStart="5dp"
+                fresco:fadeDuration="300" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -42,8 +46,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="?android:attr/textColorPrimary" />
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/ctrl_sub_title"
@@ -155,6 +158,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:max="10000"
                 tools:progress="5000" />
 
@@ -213,6 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:scaleType="center"
                 android:tint="#000"
                 app:srcCompat="@drawable/ic_play_mode_list" />

@@ -160,13 +160,22 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, root);
         BottomSheetBehavior<LinearLayout> bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetCallback() {
 
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                //// TODO: 2016/11/7 0007
                 bottomSheetState = newState;
+                if (bottomSheetState == BottomSheetBehavior.STATE_EXPANDED) {
+                    mCtrlPlay.setVisibility(View.GONE);
+                    mCtrlNext.setVisibility(View.GONE);
+                    mProgressBar.setVisibility(View.GONE);
+                }
+                if (bottomSheetState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    mCtrlPlay.setVisibility(View.VISIBLE);
+                    mCtrlNext.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -250,7 +259,7 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
         mPlayer.playLast();
     }
 
-    @OnClick({R.id.button_play_next , R.id.ctrl_next})
+    @OnClick({R.id.button_play_next, R.id.ctrl_next})
     public void onPlayNextAction(View view) {
         if (mPlayer == null)
             return;
@@ -269,7 +278,7 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
         updatePlayMode(newMode);
     }
 
-    @OnClick({R.id.button_play_toggle , R.id.ctrl_play})
+    @OnClick({R.id.button_play_toggle, R.id.ctrl_play})
     public void onPlayToggleAction(View view) {
         if (mPlayer == null)
             return;

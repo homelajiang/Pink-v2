@@ -16,6 +16,7 @@ import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.ui.main.MainActivity;
 import com.lxy.pink.utils.AlbumUtils;
+import com.lxy.pink.utils.MediaHelper;
 
 /**
  * Created by homelajiang on 2016/11/3 0003.
@@ -105,7 +106,7 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
 
     @Override
     public boolean play(PlayList list, int startIndex) {
-        return mPlayer.play(list,startIndex);
+        return mPlayer.play(list, startIndex);
     }
 
     @Override
@@ -155,22 +156,22 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
 
     @Override
     public void registerCallback(Callback callback) {
-mPlayer.registerCallback(callback);
+        mPlayer.registerCallback(callback);
     }
 
     @Override
     public void unregisterCallback(Callback callback) {
-mPlayer.unregisterCallback(callback);
+        mPlayer.unregisterCallback(callback);
     }
 
     @Override
     public void removeCallbacks() {
-mPlayer.removeCallbacks();
+        mPlayer.removeCallbacks();
     }
 
     @Override
     public void releasePlayer() {
-mPlayer.releasePlayer();
+        mPlayer.releasePlayer();
         super.onDestroy();
     }
 
@@ -194,76 +195,71 @@ mPlayer.releasePlayer();
         showNotification();
     }
 
-    private void showNotification(){
-        PendingIntent contentIntent = PendingIntent.getActivity(this,0,new Intent(this, MainActivity.class),0);
+    private void showNotification() {
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 
         Notification notification = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.mipmap.ic_launcher)
-        .setWhen(System.currentTimeMillis())
-        .setContentIntent(contentIntent)
-        .setCustomContentView(null)
-        .setCustomBigContentView(null)
-        .setPriority(NotificationCompat.PRIORITY_MAX)
-        .setOngoing(true)
-        .build();
-startForeground(NOTIFICATION_ID,notification);
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setWhen(System.currentTimeMillis())
+                .setContentIntent(contentIntent)
+                .setCustomContentView(getSmallContentView())
+                .setCustomBigContentView(getBigContentView())
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setOngoing(true)
+                .build();
+        startForeground(NOTIFICATION_ID, notification);
 
     }
 
-    private RemoteViews getSmallContentView(){
-        if(mContentViewSmall == null){
-            mContentViewSmall = new RemoteViews(getPackageName(),R.layout.remote_view_music_player_small);
-            setUpRemoteView(mContentViewSmall,false);
+    private RemoteViews getSmallContentView() {
+        if (mContentViewSmall == null) {
+            mContentViewSmall = new RemoteViews(getPackageName(), R.layout.remote_view_music_player_small);
+            setUpRemoteView(mContentViewSmall, false);
         }
-        updateRemoteViews(mContentViewSmall,false);
+        updateRemoteViews(mContentViewSmall);
         return mContentViewSmall;
     }
 
-    private RemoteViews getBigContentView(){
-        if(mContentViewBig == null){
-            mContentViewBig = new RemoteViews(getPackageName(),R.layout.remote_view_music_player);
-            setUpRemoteView(mContentViewBig,true);
+    private RemoteViews getBigContentView() {
+        if (mContentViewBig == null) {
+            mContentViewBig = new RemoteViews(getPackageName(), R.layout.remote_view_music_player);
+            setUpRemoteView(mContentViewBig, true);
         }
-        updateRemoteViews(mContentViewBig,true);
+        updateRemoteViews(mContentViewBig);
         return mContentViewBig;
     }
 
-    private void setUpRemoteView(RemoteViews remoteView,boolean isBig) {
-        remoteView.setImageViewResource(R.id.image_view_close,R.drawable.ic_clear_black_24dp);
-        remoteView.setImageViewResource(R.id.image_view_play_next,R.drawable.ic_skip_next_black_24dp);
-        remoteView.setImageViewResource(R.id.image_view_play_toggle,R.drawable.ic_play_circle_outline_black_36dp);
+    private void setUpRemoteView(RemoteViews remoteView, boolean isBig) {
+        remoteView.setImageViewResource(R.id.image_view_close, R.drawable.ic_clear_black_24dp);
+        remoteView.setImageViewResource(R.id.image_view_play_next, R.drawable.ic_skip_next_black_24dp);
+        remoteView.setImageViewResource(R.id.image_view_play_toggle, R.drawable.ic_play_circle_outline_black_36dp);
 
-        remoteView.setOnClickPendingIntent(R.id.button_close,getPendingIntent(ACTION_STOP_SERVICE));
-        remoteView.setOnClickPendingIntent(R.id.button_play_next,getPendingIntent(ACTION_PLAY_NEXT));
-        remoteView.setOnClickPendingIntent(R.id.button_play_toggle,getPendingIntent(ACTION_PLAY_TOGGLE));
+        remoteView.setOnClickPendingIntent(R.id.button_close, getPendingIntent(ACTION_STOP_SERVICE));
+        remoteView.setOnClickPendingIntent(R.id.button_play_next, getPendingIntent(ACTION_PLAY_NEXT));
+        remoteView.setOnClickPendingIntent(R.id.button_play_toggle, getPendingIntent(ACTION_PLAY_TOGGLE));
 
-        if(isBig){
-            remoteView.setImageViewResource(R.id.image_view_play_last,R.drawable.ic_skip_previous_black_24dp);
-            remoteView.setOnClickPendingIntent(R.id.button_play_last,getPendingIntent(ACTION_PLAY_LAST));
+        if (isBig) {
+            remoteView.setImageViewResource(R.id.image_view_play_last, R.drawable.ic_skip_previous_black_24dp);
+            remoteView.setOnClickPendingIntent(R.id.button_play_last, getPendingIntent(ACTION_PLAY_LAST));
         }
     }
 
-    private void updateRemoteViews(RemoteViews remoteView,boolean isBig) {
+    private void updateRemoteViews(RemoteViews remoteView) {
         Song currentSong = mPlayer.getPlayingSong();
-        if(currentSong !=null){
-            remoteView.setTextViewText(R.id.text_view_name,currentSong.getDisplayName());
-            remoteView.setTextViewText(R.id.text_view_artist,currentSong.getArtist());
+        if (currentSong != null) {
+            remoteView.setTextViewText(R.id.text_view_name, currentSong.getTitle());
+            remoteView.setTextViewText(R.id.text_view_artist, currentSong.getArtist());
         }
 
-        remoteView.setImageViewResource(R.id.image_view_play_toggle,isPlaying()?
-                R.drawable.ic_pause_circle_outline_black_36dp: R.drawable.ic_play_circle_outline_black_36dp);
+        remoteView.setImageViewResource(R.id.image_view_play_toggle, isPlaying() ?
+                R.drawable.ic_pause_circle_outline_black_36dp : R.drawable.ic_play_circle_outline_black_36dp);
 
-        Bitmap album = AlbumUtils.parseAlbum(getPlayingSong());
-        if(album == null){
-            remoteView.setImageViewResource(R.id.image_view_album,R.mipmap.ic_launcher);
-        }else {
-            remoteView.setImageViewBitmap(R.id.image_view_album,album);
-        }
-
-
+        remoteView.setImageViewUri(R.id.image_view_album,
+                MediaHelper.getCoverUri(getPlayingSong().getAlbumId(), getPlayingSong().getId()));
     }
-    private PendingIntent getPendingIntent(String action){
-        return PendingIntent.getService(this,0,new Intent(action),0);
+
+    private PendingIntent getPendingIntent(String action) {
+        return PendingIntent.getService(this, 0, new Intent(action), 0);
     }
 
 
