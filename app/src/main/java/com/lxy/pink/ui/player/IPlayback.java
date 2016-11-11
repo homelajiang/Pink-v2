@@ -26,6 +26,7 @@ public interface IPlayback {
     boolean playNext();
 
     boolean pause();
+
     boolean isPlaying();
 
     int getProgress();

@@ -7,18 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.data.model.music.PlayList;
+import com.lxy.pink.event.PlayListLoadedEvent;
 import com.lxy.pink.event.PlayListNowEvent;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.base.adapter.OnItemClickListener;
 import com.lxy.pink.ui.common.DefaultDividerDecoration;
 import com.orhanobut.logger.Logger;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +39,7 @@ public class SongListFragment extends BaseFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.recyclerview, container, false);
         ButterKnife.bind(this, root);
+
         return root;
     }
 
@@ -58,11 +57,11 @@ public class SongListFragment extends BaseFragment implements
             }
         });
         mAdapter.addPlayListCallback(this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 12);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return 2;
+                return 12;
             }
         });
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -97,6 +96,10 @@ public class SongListFragment extends BaseFragment implements
         this.playList = playList;
         mAdapter.setPlayList(playList);
         mAdapter.notifyDataSetChanged();
+        if (playList != null) {
+            PlayListLoadedEvent e = new PlayListLoadedEvent(playList);
+            RxBus.getInstance().post(e);
+        }
     }
 
     @Override

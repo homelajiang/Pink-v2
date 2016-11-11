@@ -9,6 +9,7 @@ import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.ui.player.PlayMode;
 import com.lxy.pink.utils.Config;
 
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -34,6 +35,7 @@ public class PreferenceManager {
     private static final String KEY_LEVEL = "level";
     private static final String KEY_MOBILE = "mobile";
     private static final String KEY_PLAY_MUSIC_MODE = "key_play_music_mode";
+    private static final String KEY_LAST_SONG = "key_last_song";
 
     private static Auth authBean;
     private static Profile profileBean;
@@ -157,7 +159,16 @@ public class PreferenceManager {
         }
         return PlayMode.getDefault();
     }
+
     public static void setPlayMode(Context context, PlayMode playMode) {
         edit(context).putString(KEY_PLAY_MUSIC_MODE, playMode.name()).commit();
+    }
+
+    public static void setLastSong(Context context, long id) {
+        edit(context).putLong(KEY_LAST_SONG, id).apply();
+    }
+
+    public static long getLastSong(Context context) {
+        return preferences(context).getLong(KEY_LAST_SONG, 0);
     }
 }

@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +31,7 @@ import com.lxy.pink.RxBus;
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.data.source.PreferenceManager;
+import com.lxy.pink.event.PlayListLoadedEvent;
 import com.lxy.pink.event.PlayListNowEvent;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.home.HomeFragment;
@@ -43,6 +44,7 @@ import com.lxy.pink.ui.video.VideoFragment;
 import com.lxy.pink.utils.MediaHelper;
 import com.lxy.pink.utils.TimeUtils;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -62,7 +64,7 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
         IPlayback.Callback {
 
     static final int DEFAULT_PAGE_INDEX = 0;
-
+    public static final String TAG = "MainFragment";
     @BindViews({R.id.radio_btn_main, R.id.radio_btn_music,
             R.id.radio_btn_video, R.id.radio_btn_news})
     List<RadioButton> radioButtons;
@@ -124,6 +126,8 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
     AppCompatImageView mButtonFavoriteToggle;
     @BindView(R.id.layout_play_controls)
     LinearLayout mLayoutPlayControls;
+    @BindView(R.id.ctrl_layout)
+    LinearLayout mCtrlLayout;
     private String[] titles;
     private final int UPDATE_PROGRESS_INTERVAL = 1000;
     private PlaybackService mPlayer;
@@ -152,6 +156,7 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
         }
     };
     private MainFragmentContract.Presenter presenter;
+    private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
 
     @Nullable
     @Override
@@ -159,23 +164,15 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, root);
-        BottomSheetBehavior<LinearLayout> bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
+        bottomSheetBehavior.setHideable(true);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetCallback() {
 
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 bottomSheetState = newState;
-                if (bottomSheetState == BottomSheetBehavior.STATE_EXPANDED) {
-                    mCtrlPlay.setVisibility(View.GONE);
-                    mCtrlNext.setVisibility(View.GONE);
-                    mProgressBar.setVisibility(View.GONE);
-                }
-                if (bottomSheetState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mCtrlPlay.setVisibility(View.VISIBLE);
-                    mCtrlNext.setVisibility(View.VISIBLE);
-                    mProgressBar.setVisibility(View.VISIBLE);
-                }
+                updateBottomSheetState();
             }
 
             @Override
@@ -203,6 +200,14 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
                 if (mPlayer.isPlaying()) {
                     handler.removeCallbacks(progressCallback);
                     handler.post(progressCallback);
+                }
+            }
+        });
+        mCtrlLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bottomSheetState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
             }
         });
@@ -242,6 +247,19 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
         radioButtons.get(DEFAULT_PAGE_INDEX).setChecked(true);
         new MainFragmentPresenter(getContext(), this).subscribe();
         return root;
+    }
+
+    public void updateBottomSheetState() {
+        if (bottomSheetState == BottomSheetBehavior.STATE_EXPANDED) {
+            mCtrlPlay.setVisibility(View.GONE);
+            mCtrlNext.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
+        }
+        if (bottomSheetState == BottomSheetBehavior.STATE_COLLAPSED) {
+            mCtrlPlay.setVisibility(View.VISIBLE);
+            mCtrlNext.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnCheckedChanged({R.id.radio_btn_main, R.id.radio_btn_music,
@@ -320,10 +338,44 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
                     public void call(Object o) {
                         if (o instanceof PlayListNowEvent) {
                             onPlayListNowEvent((PlayListNowEvent) o);
+                        } else if (o instanceof PlayListLoadedEvent) {
+                            onPlayListEvent((PlayListLoadedEvent) o);
                         }
                     }
                 })
                 .subscribe(RxBus.defaultSubscriber());
+    }
+
+    private void onPlayListEvent(PlayListLoadedEvent o) {
+        PlayList playList = o.playList;
+
+        if (playList == null)
+            return;
+
+        long songId = PreferenceManager.getLastSong(getContext());
+
+        if (songId == 0)
+            return;
+
+        int playIndex = -1;
+
+        for (int i = 0; i < playList.getNumOfSongs(); i++) {
+            if (songId == playList.getSong(i).getId()) {
+                playIndex = i;
+                break;
+            }
+        }
+
+        if (playIndex == -1)
+            return;
+
+        playList.setPlayingIndex(playIndex);
+        mPlayer.setPlayList(playList);
+
+        onSongUpdated(playList.getCurrentSong());
+
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        bottomSheetBehavior.setHideable(false);
     }
 
     private void onPlayListNowEvent(PlayListNowEvent o) {
@@ -356,6 +408,7 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
 
     @Override
     public void onSongUpdated(@Nullable Song song) {
+
         if (song == null) {
             mButtonPlayToggle.setImageResource(R.drawable.ic_play_circle_outline_black_36dp);
             mCtrlPlay.setImageResource(R.drawable.ic_play_circle_outline_black_36dp);
@@ -365,6 +418,10 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
             seekTo(0);
             handler.removeCallbacks(progressCallback);
             return;
+        }
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bottomSheetBehavior.setHideable(false);
         }
 
         mTextViewName.setText(song.getTitle());
@@ -469,4 +526,15 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
     private void seekTo(int duration) {
         mPlayer.seekTo(duration);
     }
+
+    public int getBottomSheetState() {
+        return bottomSheetState;
+    }
+
+    public void collapsedBottomSheet() {
+        if (bottomSheetState == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+    }
+
 }

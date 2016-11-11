@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
     private List<Callback> mCallbacks = new ArrayList<>(2);
 
     private boolean isPaused;
+    private int playProgress;
 
     private Player() {
         mPlayMode = PlayMode.LIST;// TODO: 2016/11/2 0002 need get from sp
@@ -86,9 +88,11 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
             try {
                 mPlayer.reset();
                 mPlayer.setDataSource(song.getPath());
-                mPlayer.prepare();
-                mPlayer.start();
-                notifyPlayStatusChanged(true);
+//                mPlayer.prepare();
+//                mPlayer.start();
+//                notifyPlayStatusChanged(true);
+                mPlayer.prepareAsync();
+                mPlayer.setOnPreparedListener(this);
             } catch (IOException e) {
                 Logger.d(e);
                 notifyPlayStatusChanged(false);
@@ -252,6 +256,11 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        if (playProgress <= 0 || playProgress <= mPlayList.getCurrentSong().getDuration()) {
+            mp.seekTo(playProgress);
+        }
         mp.start();
+        playProgress = 0;
+        notifyPlayStatusChanged(true);
     }
 }

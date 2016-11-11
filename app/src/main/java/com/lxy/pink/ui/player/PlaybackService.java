@@ -14,9 +14,11 @@ import android.widget.RemoteViews;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.main.MainActivity;
 import com.lxy.pink.utils.AlbumUtils;
 import com.lxy.pink.utils.MediaHelper;
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by homelajiang on 2016/11/3 0003.
@@ -196,6 +198,11 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     }
 
     private void showNotification() {
+
+        if(mPlayer.getPlayingSong()!=null){
+            PreferenceManager.setLastSong(this, mPlayer.getPlayingSong().getId());
+        }
+
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 
         Notification notification = new NotificationCompat.Builder(this)

@@ -36,6 +36,8 @@ public interface MainFragmentContract {
     interface Presenter extends BasePresenter {
         void retrieveLastPlayMode();
 
+        void restoreLastSong();
+
         void bindPlaybackService();
 
         void unbindPlaybackService();

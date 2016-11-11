@@ -1,80 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/mp.list.itemHeight"
-    android:background="@color/mp.list.background"
-    >
+    android:background="@color/mp.list.background">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackground"
         android:layout_marginBottom="@dimen/mp.divider.line"
-        />
+        android:background="?attr/selectableItemBackground" />
 
     <TextView
-        android:id="@+id/text_view_index"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="24dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/mp.margin.large"
-        android:layout_marginRight="@dimen/mp.margin.large"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="@color/mp.text.hint"
-        tools:text="1"
-        />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="@dimen/mp.material.marginLeft"
-        android:layout_marginStart="@dimen/mp.material.marginLeft"
-        android:layout_toLeftOf="@+id/layout_action"
-        android:layout_toStartOf="@+id/layout_action"
-        >
-
-        <TextView
-            style="@style/PINK.Theme.TextAppearance.List.Title"
-            android:id="@+id/text_view_name"
-            tools:text="Pain(feat.Future)"
-            />
-
-        <TextView
-            style="@style/PINK.Theme.TextAppearance.List.Hint"
-            android:id="@+id/text_view_info"
-            android:layout_marginTop="@dimen/mp.margin.small"
-            tools:text="04:52 | Pusha T"
-            />
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/layout_action"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:paddingRight="@dimen/mp.margin.large"
-        android:paddingLeft="@dimen/mp.margin.large"
-        >
+        android:drawablePadding="5dp"
+        android:layout_marginLeft="@dimen/mp.margin.normal"
+        android:layout_marginStart="@dimen/mp.margin.normal"
+        android:drawableLeft="@drawable/ic_play_circle_outline_black_24dp"
+        android:drawableStart="@drawable/ic_play_circle_outline_black_24dp"
+        android:gravity="center_vertical"
+        android:text="@string/pink_play_all" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/image_button_action"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:scaleType="center"
-            app:srcCompat="@drawable/ic_list_item_action"
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="end"
+        android:divider="@drawable/common_divider_large_horizontal"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:showDividers="beginning|middle|end"
+        tools:showIn="@layout/fragment_main">
+
+        <RadioButton
+            android:id="@+id/radio_btn_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            />
-    </FrameLayout>
+            android:button="@drawable/selector_music_item_view"
+            tools:button="@drawable/selector_music_item_view" />
+
+        <RadioButton
+            android:id="@+id/radio_btn_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:button="@drawable/selector_music_item_list"
+            android:checked="true"
+            tools:button="@drawable/selector_music_item_list" />
+    </RadioGroup>
+
 </RelativeLayout>

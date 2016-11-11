@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ import com.lxy.pink.ui.auth.LoginActivity;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.ui.home.HomeFragment;
 import com.lxy.pink.ui.service.PinkService;
+import com.squareup.haha.perflib.Main;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,7 +83,7 @@ public class MainActivity extends BaseActivity implements
         MainFragment mainFragment = new MainFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, mainFragment, HomeFragment.TAG)
+                .replace(R.id.fragment_container, mainFragment, MainFragment.TAG)
                 .commit();
         if (auth != null && profile != null) {
             updateProfile(profile);
@@ -151,6 +154,12 @@ public class MainActivity extends BaseActivity implements
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
+        Fragment temp = getSupportFragmentManager().findFragmentByTag(MainFragment.TAG);
+        if (temp != null && ((MainFragment) temp).getBottomSheetState()
+                == BottomSheetBehavior.STATE_EXPANDED) {
+            ((MainFragment) temp).collapsedBottomSheet();
         } else {
             super.onBackPressed();
         }

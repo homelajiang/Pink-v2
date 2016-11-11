@@ -58,6 +58,11 @@ public class MainFragmentPresenter implements MainFragmentContract.Presenter {
     }
 
     @Override
+    public void restoreLastSong() {
+
+    }
+
+    @Override
     public void bindPlaybackService() {
         context.bindService(new Intent(context, PlaybackService.class), connection, BIND_AUTO_CREATE);
     }

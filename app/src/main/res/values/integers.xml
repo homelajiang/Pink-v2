@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="anim_duration_long" >500</integer>
+    <integer name="pink_span_size_item">4</integer>
+    <integer name="pink_span_size_list">12</integer>
 </resources>
