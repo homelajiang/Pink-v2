@@ -34,6 +34,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, BDLo
     private AppRepository appRepository;
     private PinkServiceContract.View view;
     private LocationClient mLocationClient;
+    private Object objLock = new Object();
 
 
     public PinkServicePresenter(PinkServiceContract.View view) {
@@ -51,7 +52,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, BDLo
         mLocationClient = new LocationClient(Injection.provideContext());
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setCoorType("bd0911");
+        option.setCoorType("bd0911");//可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
         option.setScanSpan(Config.DEFAULT_LOCATE_DELAY);
         option.setIsNeedAddress(false);
         option.setOpenGps(false);
@@ -154,7 +155,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, BDLo
 
     @Override
     public void getLocation() {
-        mLocationClient.start();
+        startLocation();
     }
 
     @Override
@@ -168,9 +169,25 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, BDLo
         mSubscriptions.clear();
     }
 
+    public void startLocation() {
+        synchronized (objLock) {
+            if (mLocationClient != null && !mLocationClient.isStarted()) {
+                mLocationClient.start();
+            }
+        }
+    }
+
+    public void stopLocation() {
+        synchronized (objLock) {
+            if (mLocationClient != null && mLocationClient.isStarted()) {
+                mLocationClient.stop();
+            }
+        }
+    }
+
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
-        mLocationClient.stop();
+        stopLocation();
         if (bdLocation == null) {
             view.locationError();
             Logger.d("get Location Error!");
