@@ -22,22 +22,18 @@ import com.orhanobut.logger.Logger;
  * Created by yuan on 2016/10/22.
  */
 
-public class PinkService extends BaseService implements PinkServiceContract.View, BDLocationListener {
+public class PinkService extends BaseService implements PinkServiceContract.View {
 
 
     private PinkServiceContract.View serviceCallback;
     private PinkServiceContract.Presenter presenter;
-    private LocationClient mLocationClient;
-    private String preLocalTime;
     private boolean weatherRequestLocation;
-//    private boolean otherRequestLocation;
 
     @Override
     public void onCreate() {
         super.onCreate();
         new PinkServicePresenter(this).subscribe();
         // TODO_LIST unSubscribe
-        initBaiduMap();
     }
 
 
@@ -59,73 +55,6 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     public void unRegisterWeatherCallback() {
         this.serviceCallback = null;
-    }
-
-    private void initBaiduMap() {
-        if (mLocationClient != null) {
-            return;
-        }
-        mLocationClient = new LocationClient(getApplicationContext());
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setCoorType("bd0911");
-        option.setScanSpan(Config.DEFAULT_LOCATE_DELAY);
-        option.setIsNeedAddress(false);
-        option.setOpenGps(false);
-        option.setLocationNotify(false);
-        option.setIsNeedLocationDescribe(false);
-        option.setIsNeedLocationPoiList(false);
-        option.setIgnoreKillProcess(false);
-        option.SetIgnoreCacheException(true);
-        option.setEnableSimulateGps(false);
-        mLocationClient.setLocOption(option);
-        mLocationClient.registerLocationListener(this);
-    }
-
-
-    @Override
-    public void onReceiveLocation(BDLocation bdLocation) {
-        Logger.d("location");
-        if (bdLocation == null)
-            return;
-        //some thing to do
-        if (weatherRequestLocation) {
-            weatherRequestLocation = false;
-            int locationType = bdLocation.getLocType();
-
-            if (locationType == BDLocation.TypeGpsLocation ||
-                    locationType == BDLocation.TypeNetWorkLocation ||
-                    locationType == BDLocation.TypeOffLineLocation) {
-                this.weatherLocationSuccess(bdLocation.getLatitude(), bdLocation.getLongitude());
-            } else {
-                this.weatherLocationFail();
-            }
-        }
-
-        //if location not change  Don't save it
-        if (bdLocation.getTime().equals(preLocalTime))
-            return;
-
-
-        preLocalTime = bdLocation.getTime();
-        BdLocation bdLoc = new BdLocation();
-
-        bdLoc.setTime(bdLocation.getTime());
-        bdLoc.setLatitude(bdLocation.getLatitude());
-        bdLoc.setLongitude(bdLocation.getLongitude());
-        bdLoc.setRadius(bdLocation.getRadius());
-        bdLoc.setLocType(bdLocation.getLocType());
-        if (bdLocation.getLocType() == BDLocation.TypeGpsLocation) {
-            bdLoc.setAltitude(bdLocation.getAltitude());
-            bdLoc.setSpeed(bdLocation.getSpeed());
-            bdLoc.setDirection(bdLocation.getDirection());
-        } else if (bdLocation.getLocType() == BDLocation.TypeNetWorkLocation) {
-            bdLoc.setOperators(bdLocation.getOperators());
-        } else if (bdLoc.getLocType() == BDLocation.TypeOffLineLocation) {
-
-        } else {
-            return;
-        }
     }
 
     @Override
@@ -159,22 +88,32 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     }
 
     @Override
-    public void weatherLocationStart() {
-        if (serviceCallback != null)
-            serviceCallback.weatherLocationStart();
+    public void locationStart() {
+        if (weatherRequestLocation && serviceCallback != null) {
+            serviceCallback.locationStart();
+        }
+
     }
 
     @Override
-    public void weatherLocationSuccess(double lat, double lon) {
-        if (serviceCallback != null)
-            serviceCallback.weatherLocationSuccess(lat, lon);
-        presenter.getWeatherByLocation(lat, lon);
+    public void locationLoaded(BdLocation bdLocation) {
+        if (weatherRequestLocation && serviceCallback != null) {
+            serviceCallback.locationLoaded(bdLocation);
+            weatherRequestLocation = false;
+            presenter.getWeatherByLocation(bdLocation.getLatitude(), bdLocation.getLongitude());
+        }
     }
 
     @Override
-    public void weatherLocationFail() {
-        if (serviceCallback != null)
-            serviceCallback.weatherLocationFail();
+    public void locationError() {
+        if (weatherRequestLocation && serviceCallback != null) {
+            serviceCallback.locationError();
+            weatherRequestLocation = false;
+            String cityId = PreferenceManager.getCityId(getContext());
+            if (!TextUtils.isEmpty(cityId)) {
+                presenter.getWeatherById(cityId);
+            }
+        }
     }
 
     @Override
@@ -188,17 +127,8 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         }
 
         public void getWeather() {
-            String cityId = PreferenceManager.getCityId(getContext());
-            if (!TextUtils.isEmpty(cityId)) {
-                presenter.getWeatherById(cityId);
-            }
             weatherRequestLocation = true;
-            mLocationClient.start();
-            weatherLocationStart();
-        }
-
-        public void getWeatherById(String cityId) {
-            presenter.getWeatherById(cityId);
+            presenter.getLocation();
         }
 
         public void getTodoList() {

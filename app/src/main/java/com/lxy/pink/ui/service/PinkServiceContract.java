@@ -26,13 +26,16 @@ public interface PinkServiceContract {
 
         void weatherLoaded(Weather weather);
 
+
         void todoListLoaded(TodoList todoList);
 
-        void weatherLocationStart();
 
-        void weatherLocationSuccess(double lat, double lon);
+        void locationStart();
 
-        void weatherLocationFail();
+        void locationLoaded(BdLocation bdLocation);
+
+        void locationError();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -41,5 +44,7 @@ public interface PinkServiceContract {
         void getWeatherByLocation(double lat, double lon);
 
         void getTodoList(ContentResolver cr);
+
+        void getLocation();
     }
 }

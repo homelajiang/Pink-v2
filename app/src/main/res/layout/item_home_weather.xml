@@ -46,6 +46,7 @@
                         android:layout_marginLeft="-15dp"
                         android:layout_marginStart="-15dp"
                         android:layout_marginTop="-30dp"
+                        android:visibility="visible"
                         fresco:actualImageScaleType="fitCenter"
                         fresco:placeholderImage="@drawable/ic_sun" />
 

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.location.BdLocation;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
@@ -172,20 +173,23 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     @Override
-    public void weatherLocationStart() {
-        weatherItemView.startLocationAnimation(flickerAnimation);
+    public void locationStart() {
+        if (weatherItemView != null) {
+            weatherItemView.startLocationAnimation(flickerAnimation);
+        }
     }
 
     @Override
-    public void weatherLocationSuccess(double lat, double lon) {
-        weatherItemView.stopLocationAnimation();
-    }
-
-    @Override
-    public void weatherLocationFail() {
+    public void locationLoaded(BdLocation bdLocation) {
         if (weatherItemView != null) {
             weatherItemView.stopLocationAnimation();
-            weatherItemView.autoLocFail();
+        }
+    }
+
+    @Override
+    public void locationError() {
+        if (weatherItemView != null) {
+            weatherItemView.stopLocationAnimation();
         }
     }
 

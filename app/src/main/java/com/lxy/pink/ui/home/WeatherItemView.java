@@ -15,6 +15,7 @@ import com.lxy.pink.ui.base.adapter.IAdapterView;
 import com.lxy.pink.utils.Config;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -23,6 +24,8 @@ import butterknife.ButterKnife;
 
 public class WeatherItemView extends RelativeLayout implements IAdapterView<Weather> {
     private final SimpleDateFormat timeFormat;
+    private final SimpleDateFormat dateTimeFormat;
+    private Context context;
     @BindView(R.id.location)
     TextView location;
     @BindView(R.id.date)
@@ -48,7 +51,10 @@ public class WeatherItemView extends RelativeLayout implements IAdapterView<Weat
 
     public WeatherItemView(Context context) {
         super(context);
+        this.context = context;
         this.timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        this.dateTimeFormat = new SimpleDateFormat("MM/dd HH:mm",Locale.getDefault());
 
         View.inflate(context, R.layout.item_home_weather, this);
         ButterKnife.bind(this);
@@ -69,6 +75,22 @@ public class WeatherItemView extends RelativeLayout implements IAdapterView<Weat
             light.setImageURI(getWeatherResourceUri("light", weatherBean.getId()));
             sun.setImageURI(getWeatherResourceUri("sun", weatherBean.getId()));
             building.setImageURI(getWeatherResourceUri("building", weatherBean.getId()));
+            Date publishDate = new Date(weather.getDt()*1000l);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR,0);
+            calendar.set(Calendar.MINUTE,0);
+            calendar.set(Calendar.SECOND,0);
+            calendar.set(Calendar.MILLISECOND,0);
+
+            //TODO 显示方式
+//            if(publishDate.getTime()>=calendar.getTimeInMillis()){
+//                this.date.setText(timeFormat.format(publishDate));
+//            }else {
+//                this.date.setText(dateTimeFormat.format(publishDate));
+//            }
+//
+//
+//            this.date.setText(weather.getDt());
 
         } else {
             description.setText(null);
