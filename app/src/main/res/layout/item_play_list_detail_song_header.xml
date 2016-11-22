@@ -25,36 +25,4 @@
         android:gravity="center_vertical"
         android:text="@string/pink_play_all" />
 
-    <RadioGroup
-        android:id="@+id/radio_group"
-        android:layout_width="wrap_content"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="end"
-        android:divider="@drawable/common_divider_large_horizontal"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:showDividers="beginning|middle|end"
-        tools:showIn="@layout/fragment_main">
-
-        <RadioButton
-            android:id="@+id/radio_btn_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:button="@drawable/selector_music_item_view"
-            tools:button="@drawable/selector_music_item_view" />
-
-        <RadioButton
-            android:id="@+id/radio_btn_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:button="@drawable/selector_music_item_list"
-            android:checked="true"
-            tools:button="@drawable/selector_music_item_list" />
-    </RadioGroup>
-
 </RelativeLayout>

@@ -40,17 +40,14 @@ public class SongListPresenter implements SongListContract.Presenter {
                 .subscribe(new Subscriber<PlayList>() {
                     @Override
                     public void onCompleted() {
-                        Logger.d("completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.d("error");
                     }
 
                     @Override
                     public void onNext(PlayList playList) {
-                        Logger.d("done");
                         mView.onMusicListLoaded(playList);
                     }
                 });

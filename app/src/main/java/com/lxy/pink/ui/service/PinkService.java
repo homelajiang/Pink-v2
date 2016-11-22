@@ -2,6 +2,7 @@ package com.lxy.pink.ui.service;
 
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -33,6 +34,12 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     public void onCreate() {
         super.onCreate();
         new PinkServicePresenter(this).subscribe();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                presenter.getLocation();
+            }
+        },10000);
         // TODO_LIST unSubscribe
     }
 

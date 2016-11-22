@@ -39,6 +39,15 @@
                 <action android:name="com.lxy.pink.music.ACTION.STOP_SERVICE" />
             </intent-filter>
         </service>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":baiduLocation" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="c3C9Ns8UGaC1LfW4ox5DyLsmoeZN4jHm" />
     </application>
 
 </manifest>

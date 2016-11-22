@@ -33,13 +33,6 @@ public class SongListItemHeaderView extends RelativeLayout implements IAdapterVi
         ButterKnife.bind(this);
     }
 
-    @OnCheckedChanged({R.id.radio_btn_item, R.id.radio_btn_list})
-    public void onRadioButtonChecked(RadioButton button, boolean isChecked) {
-        if (isChecked) {
-            Toast.makeText(context,"fjdskf",Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     public void bind(PlayList playList, int position) {
 

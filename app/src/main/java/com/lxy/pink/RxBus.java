@@ -5,6 +5,8 @@ package com.lxy.pink;
  */
 
 
+import android.util.Log;
+
 import com.orhanobut.logger.Logger;
 
 import rx.Observable;
@@ -62,17 +64,17 @@ public class RxBus {
         return new Subscriber<Object>() {
             @Override
             public void onCompleted() {
-                Logger.t(TAG).d("off duty!");
+                Log.e(TAG, "off duty!");
             }
 
             @Override
             public void onError(Throwable e) {
-                Logger.t(TAG).e("RxBus Error!");
+                Log.e(TAG, "RxBus Error!");
             }
 
             @Override
             public void onNext(Object o) {
-                Logger.t(TAG).d("new event received!");
+                Log.d(TAG, "new event received!");
             }
         };
     }
