@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lxy.pink">
 
+    <!--获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!--<uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />-->
+
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -16,9 +25,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 设置key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="5e4579cd1b4888414e76b997cbf7e38b" />
+        <!-- 定位需要的服务 -->
+        <service android:name="com.amap.api.location.APSService" >
+        </service>
+
         <activity
-            android:name=".ui.splash.SplashActivity"
-            android:theme="@style/PINK.Theme.Launcher">
+            android:name=".ui.splash.SplashActivity">
+            <!--android:theme="@style/PINK.Theme.Launcher"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,15 +57,6 @@
                 <action android:name="com.lxy.pink.music.ACTION.STOP_SERVICE" />
             </intent-filter>
         </service>
-
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":baiduLocation" />
-
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="c3C9Ns8UGaC1LfW4ox5DyLsmoeZN4jHm" />
     </application>
 
 </manifest>

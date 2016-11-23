@@ -7,7 +7,7 @@ import com.lxy.pink.Injection;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
-import com.lxy.pink.data.model.location.BdLocation;
+import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
@@ -15,11 +15,9 @@ import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.db.DaoMasterHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.functions.Action1;
 
 /**
  * Created by homelajiang on 2016/10/9 0009.
@@ -67,7 +65,7 @@ public class AppRepository implements AppContract {
     }
 
     @Override
-    public Observable<BaseModel> updateLocation(Auth auth, List<BdLocation> locationList) {
+    public Observable<BaseModel> updateLocation(Auth auth, List<PinkLocation> locationList) {
         return appDataSource.updateLocation(auth, locationList);
     }
 

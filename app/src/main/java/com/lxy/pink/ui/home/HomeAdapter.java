@@ -1,7 +1,6 @@
 package com.lxy.pink.ui.home;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,24 +9,18 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
-import com.lxy.pink.data.model.location.BdLocation;
-import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.PreferenceManager;
-import com.lxy.pink.ui.base.adapter.IAdapterView;
 import com.lxy.pink.ui.service.PinkServiceContract;
-import com.lxy.pink.ui.widget.ExListView;
 import com.lxy.pink.utils.Config;
-import com.orhanobut.logger.Logger;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -145,7 +138,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     @Override
     public void weatherLoaded(Weather weather) {
         if (weather.getCod() == Config.HOST_WEATHER_SUCCESS_CODE) {
-            PreferenceManager.setCityId(context, String.valueOf(weather.getId()));
+            PreferenceManager.setCityId(context,
+                    String.valueOf(weather.getCoord().getLat()+ File.separator+weather.getCoord().getLon()));
             weatherItemView.bind(weather, 0);
         } else {
             weatherLoadError(null);
@@ -180,7 +174,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     @Override
-    public void locationLoaded(BdLocation bdLocation) {
+    public void locationLoaded(PinkLocation pinkLocation) {
         if (weatherItemView != null) {
             weatherItemView.stopLocationAnimation();
         }

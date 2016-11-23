@@ -4,9 +4,9 @@ package com.lxy.pink.data.model.location;
  * Created by yuan on 2016/10/20.
  */
 
-public class BdLocation {
+public class PinkLocation {
     private int locType;
-    private String time;
+    private long time;
     private double latitude;
     private double longitude;
     private double altitude;
@@ -25,11 +25,11 @@ public class BdLocation {
         this.locType = locType;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

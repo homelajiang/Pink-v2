@@ -6,18 +6,16 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.lxy.pink.data.model.location.BdLocation;
+import com.lxy.pink.R;
+import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseService;
-import com.lxy.pink.utils.Config;
-import com.orhanobut.logger.Logger;
+
+import java.io.File;
 
 /**
  * Created by yuan on 2016/10/22.
@@ -39,7 +37,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
             public void run() {
                 presenter.getLocation();
             }
-        },10000);
+        }, 10000);
         // TODO_LIST unSubscribe
     }
 
@@ -99,15 +97,15 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         if (weatherRequestLocation && serviceCallback != null) {
             serviceCallback.locationStart();
         }
-
     }
 
     @Override
-    public void locationLoaded(BdLocation bdLocation) {
+    public void locationLoaded(PinkLocation pinkLocation) {
+        //save into db
         if (weatherRequestLocation && serviceCallback != null) {
-            serviceCallback.locationLoaded(bdLocation);
+            serviceCallback.locationLoaded(pinkLocation);
             weatherRequestLocation = false;
-            presenter.getWeatherByLocation(bdLocation.getLatitude(), bdLocation.getLongitude());
+            presenter.getWeatherByLocation(pinkLocation.getLatitude(), pinkLocation.getLongitude());
         }
     }
 
@@ -118,7 +116,14 @@ public class PinkService extends BaseService implements PinkServiceContract.View
             weatherRequestLocation = false;
             String cityId = PreferenceManager.getCityId(getContext());
             if (!TextUtils.isEmpty(cityId)) {
-                presenter.getWeatherById(cityId);
+                String[] temp = cityId.split(File.separator);
+                if (temp.length == 2) {
+                    presenter.getWeatherByLocation(Double.parseDouble(temp[0]), Double.parseDouble(temp[1]));
+                } else {
+                    Toast.makeText(getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getContext(), "fail", Toast.LENGTH_SHORT).show();
             }
         }
     }

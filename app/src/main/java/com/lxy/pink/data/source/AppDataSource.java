@@ -10,7 +10,7 @@ import com.lxy.pink.data.db.DaoSession;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
-import com.lxy.pink.data.model.location.BdLocation;
+import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.data.model.todo.Todo;
@@ -69,7 +69,7 @@ public class AppDataSource implements AppContract {
     }
 
     @Override
-    public Observable<BaseModel> updateLocation(Auth auth, List<BdLocation> locationList) {
+    public Observable<BaseModel> updateLocation(Auth auth, List<PinkLocation> locationList) {
         return null;
     }
 

@@ -1,22 +1,18 @@
 package com.lxy.pink.ui.service;
 
 import android.content.ContentResolver;
+import android.location.LocationManager;
 import android.text.TextUtils;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.lxy.pink.Injection;
-import com.lxy.pink.data.model.location.BdLocation;
-import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.AppRepository;
-import com.lxy.pink.utils.Config;
-import com.orhanobut.logger.Logger;
-
-import java.util.List;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -28,13 +24,14 @@ import rx.subscriptions.CompositeSubscription;
  * Created by yuan on 2016/10/23.
  */
 
-public class PinkServicePresenter implements PinkServiceContract.Presenter, BDLocationListener {
+public class PinkServicePresenter implements PinkServiceContract.Presenter, AMapLocationListener {
 
     private CompositeSubscription mSubscriptions;
     private AppRepository appRepository;
     private PinkServiceContract.View view;
-    private LocationClient mLocationClient;
     private Object objLock = new Object();
+    private AMapLocationClient mLocationClient;
+    private AMapLocationClientOption mOption;
 
 
     public PinkServicePresenter(PinkServiceContract.View view) {
@@ -49,21 +46,23 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, BDLo
         if (mLocationClient != null) {
             return;
         }
-        mLocationClient = new LocationClient(Injection.provideContext());
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setCoorType("bd0911");//可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
-        option.setScanSpan(Config.DEFAULT_LOCATE_DELAY);
-        option.setIsNeedAddress(false);
-        option.setOpenGps(false);
-        option.setLocationNotify(false);
-        option.setIsNeedLocationDescribe(false);
-        option.setIsNeedLocationPoiList(false);
-        option.setIgnoreKillProcess(false);
-        option.SetIgnoreCacheException(true);
-        option.setEnableSimulateGps(false);
-        mLocationClient.setLocOption(option);
-        mLocationClient.registerLocationListener(this);
+        mLocationClient = new AMapLocationClient(Injection.provideContext());
+        mLocationClient.setLocationOption(getDefaultOption());
+        mLocationClient.setLocationListener(this);
+    }
+
+    private AMapLocationClientOption getDefaultOption() {
+        mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(20000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setInterval(10000);//可选，设置定位间隔。默认为2秒
+        mOption.setNeedAddress(false);//可选，设置是否返回逆地理地址信息。默认是true
+        mOption.setOnceLocation(true);//可选，设置是否单次定位。默认是false
+        mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+        return mOption;
     }
 
     @Override
@@ -170,56 +169,48 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, BDLo
     }
 
     public void startLocation() {
-        synchronized (objLock) {
-            if (mLocationClient != null && !mLocationClient.isStarted()) {
-                mLocationClient.start();
-            }
-        }
+        view.locationStart();
+        mLocationClient.startLocation();
     }
 
     public void stopLocation() {
-        synchronized (objLock) {
-            if (mLocationClient != null && mLocationClient.isStarted()) {
-                mLocationClient.stop();
-            }
+        mLocationClient.stopLocation();
+    }
+
+    private void destroyLocation() {
+        if (null != mLocationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            mLocationClient.onDestroy();
+            mLocationClient = null;
+            mOption = null;
         }
     }
 
     @Override
-    public void onReceiveLocation(BDLocation bdLocation) {
-        stopLocation();
-        if (bdLocation == null) {
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        mLocationClient.stopLocation();
+        if (null == aMapLocation || aMapLocation.getErrorCode() != 0) {
             view.locationError();
-            Logger.d("get Location Error!");
             return;
-        } else {
-            Logger.d("get Location done!" + bdLocation.getTime());
         }
 
-        int locationType = bdLocation.getLocType();
-        if (locationType == BDLocation.TypeGpsLocation ||
-                locationType == BDLocation.TypeNetWorkLocation ||
-                locationType == BDLocation.TypeOffLineLocation) {
+        PinkLocation location = new PinkLocation();
 
-            BdLocation bdLoc = new BdLocation();
+        location.setLongitude(aMapLocation.getLongitude());
+        location.setLatitude(aMapLocation.getLatitude());
+        location.setAltitude(aMapLocation.getAltitude());
 
-            bdLoc.setTime(bdLocation.getTime());
-            bdLoc.setLatitude(bdLocation.getLatitude());
-            bdLoc.setLongitude(bdLocation.getLongitude());
-            bdLoc.setRadius(bdLocation.getRadius());
-            bdLoc.setLocType(bdLocation.getLocType());
-            if (bdLocation.getLocType() == BDLocation.TypeGpsLocation) {
-                bdLoc.setAltitude(bdLocation.getAltitude());
-                bdLoc.setSpeed(bdLocation.getSpeed());
-                bdLoc.setDirection(bdLocation.getDirection());
-            }
-            if (bdLocation.getLocType() == BDLocation.TypeNetWorkLocation) {
-                bdLoc.setOperators(bdLocation.getOperators());
-            }
-            view.locationLoaded(bdLoc);
+        if (aMapLocation.getProvider().equalsIgnoreCase(LocationManager.GPS_PROVIDER)) {
+            location.setAltitude(aMapLocation.getAltitude());
+            location.setSpeed(aMapLocation.getSpeed());
+            location.setDirection(aMapLocation.getBearing());
         } else {
-            view.locationError();
+            location.setTime(aMapLocation.getTime());
         }
 
+        view.locationLoaded(location);
     }
 }

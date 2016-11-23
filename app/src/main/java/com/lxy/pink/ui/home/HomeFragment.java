@@ -49,7 +49,6 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     private View root;
     private PinkService.PinkBinder pinkBinder;
     private HomeAdapter homeAdapter;
-    private String cityId;
     private String[] PERMISSION_ALL = {
             Manifest.permission.READ_CALENDAR,
             Manifest.permission.WRITE_CALENDAR,

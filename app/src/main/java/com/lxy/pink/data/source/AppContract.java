@@ -5,7 +5,7 @@ import android.content.ContentResolver;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
-import com.lxy.pink.data.model.location.BdLocation;
+import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
@@ -35,9 +35,9 @@ public interface AppContract {
 
     Observable<Profile> updateProfile(Auth auth, Profile profile);
 
-    /*BdLocation*/
+    /*PinkLocation*/
 
-    Observable<BaseModel> updateLocation(Auth auth, List<BdLocation> locationList);
+    Observable<BaseModel> updateLocation(Auth auth, List<PinkLocation> locationList);
 
     // weather info
 
