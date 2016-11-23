@@ -13,7 +13,6 @@ public class PinkLocation {
     private float speed;
     private float radius;
     private float direction;
-    private int operators;
     private long saveTime = System.currentTimeMillis();
 
 
@@ -79,14 +78,6 @@ public class PinkLocation {
 
     public void setDirection(float direction) {
         this.direction = direction;
-    }
-
-    public int getOperators() {
-        return operators;
-    }
-
-    public void setOperators(int operators) {
-        this.operators = operators;
     }
 
     public long getSaveTime() {

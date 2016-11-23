@@ -66,7 +66,12 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
     }
 
     @Override
-    public void getWeatherById(String cityId) {
+    public void getWeather() {
+
+    }
+
+    @Override
+    public void getWeather(String cityId) {
         if (TextUtils.isEmpty(cityId))
             return;
         Subscription subscription = appRepository.getWeatherInfo(cityId)
@@ -98,7 +103,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
     }
 
     @Override
-    public void getWeatherByLocation(double lat, double lon) {
+    public void getWeather(double lat, double lon) {
         Subscription subscription = appRepository.getWeatherInfo(lat, lon)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -202,6 +207,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
         location.setLongitude(aMapLocation.getLongitude());
         location.setLatitude(aMapLocation.getLatitude());
         location.setAltitude(aMapLocation.getAltitude());
+        location.setLocType(aMapLocation.getLocationType());
 
         if (aMapLocation.getProvider().equalsIgnoreCase(LocationManager.GPS_PROVIDER)) {
             location.setAltitude(aMapLocation.getAltitude());

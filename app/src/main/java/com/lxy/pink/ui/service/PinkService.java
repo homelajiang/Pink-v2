@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.lxy.pink.R;
 import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
@@ -82,6 +81,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     @Override
     public void weatherLoaded(Weather weather) {
+        //todo save the weather
         if (serviceCallback != null)
             serviceCallback.weatherLoaded(weather);
     }
@@ -101,11 +101,11 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     @Override
     public void locationLoaded(PinkLocation pinkLocation) {
-        //save into db
+        //todo save into db
         if (weatherRequestLocation && serviceCallback != null) {
             serviceCallback.locationLoaded(pinkLocation);
             weatherRequestLocation = false;
-            presenter.getWeatherByLocation(pinkLocation.getLatitude(), pinkLocation.getLongitude());
+            presenter.getWeather(pinkLocation.getLatitude(), pinkLocation.getLongitude());
         }
     }
 
@@ -118,7 +118,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
             if (!TextUtils.isEmpty(cityId)) {
                 String[] temp = cityId.split(File.separator);
                 if (temp.length == 2) {
-                    presenter.getWeatherByLocation(Double.parseDouble(temp[0]), Double.parseDouble(temp[1]));
+                    presenter.getWeather(Double.parseDouble(temp[0]), Double.parseDouble(temp[1]));
                 } else {
                     Toast.makeText(getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }

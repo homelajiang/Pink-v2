@@ -35,9 +35,11 @@ public interface PinkServiceContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getWeatherById(String cityId);
+        void getWeather();
 
-        void getWeatherByLocation(double lat, double lon);
+        void getWeather(String cityId);
+
+        void getWeather(double lat, double lon);
 
         void getTodoList(ContentResolver cr);
 
