@@ -137,9 +137,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public void weatherLoaded(Weather weather) {
+        if(weather == null)
+            return;
         if (weather.getCod() == Config.HOST_WEATHER_SUCCESS_CODE) {
-            PreferenceManager.setCityId(context,
-                    String.valueOf(weather.getCoord().getLat()+ File.separator+weather.getCoord().getLon()));
             weatherItemView.bind(weather, 0);
         } else {
             weatherLoadError(null);
@@ -185,6 +185,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (weatherItemView != null) {
             weatherItemView.stopLocationAnimation();
         }
+    }
+
+    @Override
+    public void weatherLocationReq() {
+        //nothing to do
     }
 
     @Override

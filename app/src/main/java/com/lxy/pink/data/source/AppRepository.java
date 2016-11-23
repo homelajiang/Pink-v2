@@ -69,6 +69,11 @@ public class AppRepository implements AppContract {
         return appDataSource.updateLocation(auth, locationList);
     }
 
+    @Override
+    public Observable<Weather> getWeatherInfo() {
+        return appDataSource.getWeatherInfo();
+    }
+
 
     @Override
     public Observable<Weather> getWeatherInfo(String cityId) {
@@ -78,6 +83,11 @@ public class AppRepository implements AppContract {
     @Override
     public Observable<Weather> getWeatherInfo(double lat, double lon) {
         return appDataSource.getWeatherInfo(lat, lon);
+    }
+
+    @Override
+    public Observable<Void> saveWeatherInfo(Weather weather) {
+        return appDataSource.saveWeatherInfo(weather);
     }
 
     @Override

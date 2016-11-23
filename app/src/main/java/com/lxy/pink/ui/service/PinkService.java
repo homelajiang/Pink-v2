@@ -5,16 +5,11 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
-import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseService;
-
-import java.io.File;
 
 /**
  * Created by yuan on 2016/10/22.
@@ -26,6 +21,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     private PinkServiceContract.View serviceCallback;
     private PinkServiceContract.Presenter presenter;
     private boolean weatherRequestLocation;
+    private Weather lastWeather;
 
     @Override
     public void onCreate() {
@@ -81,9 +77,10 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     @Override
     public void weatherLoaded(Weather weather) {
-        //todo save the weather
-        if (serviceCallback != null)
+        lastWeather = weather;
+        if (serviceCallback != null) {
             serviceCallback.weatherLoaded(weather);
+        }
     }
 
     @Override
@@ -101,7 +98,6 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     @Override
     public void locationLoaded(PinkLocation pinkLocation) {
-        //todo save into db
         if (weatherRequestLocation && serviceCallback != null) {
             serviceCallback.locationLoaded(pinkLocation);
             weatherRequestLocation = false;
@@ -114,18 +110,15 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         if (weatherRequestLocation && serviceCallback != null) {
             serviceCallback.locationError();
             weatherRequestLocation = false;
-            String cityId = PreferenceManager.getCityId(getContext());
-            if (!TextUtils.isEmpty(cityId)) {
-                String[] temp = cityId.split(File.separator);
-                if (temp.length == 2) {
-                    presenter.getWeather(Double.parseDouble(temp[0]), Double.parseDouble(temp[1]));
-                } else {
-                    Toast.makeText(getContext(), "fail", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(getContext(), "fail", Toast.LENGTH_SHORT).show();
+            if (lastWeather != null) {
+                presenter.getWeather(lastWeather.getCoord().getLat(), lastWeather.getCoord().getLon());
             }
         }
+    }
+
+    @Override
+    public void weatherLocationReq() {
+        weatherRequestLocation = true;
     }
 
     @Override
@@ -139,8 +132,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         }
 
         public void getWeather() {
-            weatherRequestLocation = true;
-            presenter.getLocation();
+            presenter.getWeather();
         }
 
         public void getTodoList() {

@@ -6,8 +6,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.google.gson.Gson;
+import com.lxy.pink.data.db.DaoMaster;
 import com.lxy.pink.data.db.DaoSession;
+import com.lxy.pink.data.db.TempModelDao;
 import com.lxy.pink.data.model.BaseModel;
+import com.lxy.pink.data.model.TempModel;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -18,7 +22,11 @@ import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.retrofit.RetrofitAPI;
+import com.lxy.pink.data.source.db.DaoMasterHelper;
 import com.lxy.pink.utils.Config;
+
+import org.greenrobot.greendao.query.DeleteQuery;
+import org.greenrobot.greendao.query.Query;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +34,8 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by homelajiang on 2016/10/9 0009.
@@ -34,10 +44,12 @@ import rx.Subscriber;
 public class AppDataSource implements AppContract {
     private Context context;
     private DaoSession daoSession;
+    private Gson gson;
 
     public AppDataSource(Context context, DaoSession daoSession) {
         this.context = context;
         this.daoSession = daoSession;
+        this.gson = new Gson();
     }
 
     @Override
@@ -74,6 +86,29 @@ public class AppDataSource implements AppContract {
     }
 
     @Override
+    public Observable<Weather> getWeatherInfo() {
+        return Observable.create(new Observable.OnSubscribe<Weather>() {
+            @Override
+            public void call(Subscriber<? super Weather> subscriber) {
+                List<TempModel> tempModelList =
+                        DaoMasterHelper.getDaoSession().getTempModelDao().queryBuilder()
+                                .where(TempModelDao.Properties.Type.eq(TempModel.TYPE_WEATHER))
+                                .orderAsc(TempModelDao.Properties.UpdateTime)
+                                .limit(1)
+                                .list();
+                if (tempModelList != null && tempModelList.size() == 1) {
+                    TempModel tempModel = tempModelList.get(0);
+                    Weather weather = gson.fromJson(tempModel.getRaw(), Weather.class);
+                    subscriber.onNext(weather);
+                } else {
+                    subscriber.onNext(null);
+                }
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    @Override
     public Observable<Weather> getWeatherInfo(String cityId) {
         return RetrofitAPI.getInstance()
                 .getWeatherService()
@@ -85,6 +120,39 @@ public class AppDataSource implements AppContract {
         return RetrofitAPI.getInstance()
                 .getWeatherService()
                 .getWeather(lat, lon, Config.WEATHER_APPID, Config.WEATHER_LANG, Config.WEATHER_UNITS);
+    }
+
+    @Override
+    public Observable<Void> saveWeatherInfo(final Weather weather) {
+        return Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(Subscriber<? super Void> subscriber) {
+                TempModel tempModel = new TempModel();
+                tempModel.setRaw(gson.toJson(weather));
+                tempModel.setType(TempModel.TYPE_WEATHER);
+
+                long updateTime = tempModel.getUpdateTime();
+
+                    long id = DaoMasterHelper.getDaoSession().getTempModelDao().insert(tempModel);
+                if (id < 0) {
+                    subscriber.onError(new Throwable("insert location error"));
+                    return;
+                }
+
+                DeleteQuery<TempModel> query =
+                        DaoMasterHelper.getDaoSession().getTempModelDao().queryBuilder()
+                                .where(TempModelDao.Properties.Type.eq(TempModel.TYPE_WEATHER)
+                                        , TempModelDao.Properties.UpdateTime.notEq(updateTime))
+                                .buildDelete();
+                if (query == null) {
+                    subscriber.onError(new Throwable("delete query TempModel Error!"));
+                } else {
+                    query.executeDeleteWithoutDetachingEntities();
+                    subscriber.onNext(null);
+                }
+                subscriber.onCompleted();
+            }
+        });
     }
 
     @Override

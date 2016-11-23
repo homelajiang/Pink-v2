@@ -54,7 +54,7 @@ public class WeatherItemView extends RelativeLayout implements IAdapterView<Weat
         this.context = context;
         this.timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
-        this.dateTimeFormat = new SimpleDateFormat("MM/dd HH:mm",Locale.getDefault());
+        this.dateTimeFormat = new SimpleDateFormat("MM/dd HH:mm", Locale.getDefault());
 
         View.inflate(context, R.layout.item_home_weather, this);
         ButterKnife.bind(this);
@@ -75,12 +75,12 @@ public class WeatherItemView extends RelativeLayout implements IAdapterView<Weat
             light.setImageURI(getWeatherResourceUri("light", weatherBean.getId()));
             sun.setImageURI(getWeatherResourceUri("sun", weatherBean.getId()));
             building.setImageURI(getWeatherResourceUri("building", weatherBean.getId()));
-            Date publishDate = new Date(weather.getDt()*1000l);
+            Date publishDate = new Date(weather.getDt() * 1000l);
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR,0);
-            calendar.set(Calendar.MINUTE,0);
-            calendar.set(Calendar.SECOND,0);
-            calendar.set(Calendar.MILLISECOND,0);
+            calendar.set(Calendar.HOUR, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
 
             //TODO 显示方式
 //            if(publishDate.getTime()>=calendar.getTimeInMillis()){
@@ -103,18 +103,19 @@ public class WeatherItemView extends RelativeLayout implements IAdapterView<Weat
         this.time.setText(timeFormat.format(date));
     }
 
-    public void startLocationAnimation(Animation animation){
+    public void startLocationAnimation(Animation animation) {
         this.mLocationIcon.startAnimation(animation);
     }
-    public void stopLocationAnimation(){
+
+    public void stopLocationAnimation() {
         this.mLocationIcon.clearAnimation();
     }
 
-    public void startLoadWeatherAnimation(Animation animation){
+    public void startLoadWeatherAnimation(Animation animation) {
         this.mRefresh.startAnimation(animation);
     }
 
-    public void stopLoadWeatherAnimation(){
+    public void stopLoadWeatherAnimation() {
         this.mRefresh.clearAnimation();
     }
 

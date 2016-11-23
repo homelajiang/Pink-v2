@@ -32,10 +32,13 @@ public interface PinkServiceContract {
 
         void locationError();
 
+        void weatherLocationReq();
     }
 
     interface Presenter extends BasePresenter {
         void getWeather();
+
+        void saveWeather(Weather weather);
 
         void getWeather(String cityId);
 

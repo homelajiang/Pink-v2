@@ -17,6 +17,7 @@ import com.lxy.pink.data.source.AppRepository;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -67,7 +68,55 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
 
     @Override
     public void getWeather() {
+        Subscription subscription = appRepository.getWeatherInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Weather>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        //request location is weather
+                        view.weatherLocationReq();
+                        getLocation();
+                    }
+
+                    @Override
+                    public void onNext(Weather weather) {
+                        if (weather != null) {
+                            view.weatherLoaded(weather);
+                        }
+                        view.weatherLocationReq();
+                        getLocation();
+                    }
+                });
+        mSubscriptions.add(subscription);
+    }
+
+    @Override
+    public void saveWeather(Weather weather) {
+        Subscription subscription = appRepository.saveWeatherInfo(weather)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Void aVoid) {
+
+                    }
+                });
+        mSubscriptions.add(subscription);
     }
 
     @Override
@@ -126,7 +175,10 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
 
                     @Override
                     public void onNext(Weather weather) {
-                        view.weatherLoaded(weather);
+                        if (weather != null) {
+                            view.weatherLoaded(weather);
+                            saveWeather(weather);
+                        }
                     }
                 });
         mSubscriptions.add(subscription);
@@ -196,7 +248,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
-        mLocationClient.stopLocation();
+        stopLocation();
         if (null == aMapLocation || aMapLocation.getErrorCode() != 0) {
             view.locationError();
             return;
@@ -218,5 +270,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
         }
 
         view.locationLoaded(location);
+
+        //todo save the location
     }
 }
