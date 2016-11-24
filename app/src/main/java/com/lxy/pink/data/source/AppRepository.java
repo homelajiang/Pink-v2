@@ -70,6 +70,11 @@ public class AppRepository implements AppContract {
     }
 
     @Override
+    public Observable<Void> saveLocation(PinkLocation location) {
+        return appDataSource.saveLocation(location);
+    }
+
+    @Override
     public Observable<Weather> getWeatherInfo() {
         return appDataSource.getWeatherInfo();
     }

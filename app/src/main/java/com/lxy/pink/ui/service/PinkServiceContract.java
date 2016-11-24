@@ -47,5 +47,7 @@ public interface PinkServiceContract {
         void getTodoList(ContentResolver cr);
 
         void getLocation();
+
+        void saveLocation(PinkLocation location);
     }
 }

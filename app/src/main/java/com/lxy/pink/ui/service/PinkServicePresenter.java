@@ -3,6 +3,7 @@ package com.lxy.pink.ui.service;
 import android.content.ContentResolver;
 import android.location.LocationManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -17,7 +18,6 @@ import com.lxy.pink.data.source.AppRepository;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -215,6 +215,29 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
     }
 
     @Override
+    public void saveLocation(PinkLocation location) {
+        appRepository.saveLocation(location)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("location", "save location error!");
+                    }
+
+                    @Override
+                    public void onNext(Void aVoid) {
+
+                    }
+                });
+    }
+
+    @Override
     public void subscribe() {
 
     }
@@ -270,7 +293,6 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
         }
 
         view.locationLoaded(location);
-
-        //todo save the location
+        saveLocation(location);
     }
 }

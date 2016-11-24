@@ -86,6 +86,19 @@ public class AppDataSource implements AppContract {
     }
 
     @Override
+    public Observable<Void> saveLocation(final PinkLocation location) {
+        return Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(Subscriber<? super Void> subscriber) {
+                DaoMasterHelper.getDaoSession().getPinkLocationDao()
+                        .insert(location);
+                subscriber.onNext(null);
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    @Override
     public Observable<Weather> getWeatherInfo() {
         return Observable.create(new Observable.OnSubscribe<Weather>() {
             @Override
@@ -133,7 +146,7 @@ public class AppDataSource implements AppContract {
 
                 long updateTime = tempModel.getUpdateTime();
 
-                    long id = DaoMasterHelper.getDaoSession().getTempModelDao().insert(tempModel);
+                long id = DaoMasterHelper.getDaoSession().getTempModelDao().insert(tempModel);
                 if (id < 0) {
                     subscriber.onError(new Throwable("insert location error"));
                     return;

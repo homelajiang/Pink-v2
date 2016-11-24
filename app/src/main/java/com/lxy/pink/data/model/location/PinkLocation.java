@@ -1,9 +1,13 @@
 package com.lxy.pink.data.model.location;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by yuan on 2016/10/20.
  */
 
+@Entity
 public class PinkLocation {
     private int locType;
     private long time;
@@ -14,6 +18,26 @@ public class PinkLocation {
     private float radius;
     private float direction;
     private long saveTime = System.currentTimeMillis();
+
+
+    @Generated(hash = 1671819452)
+    public PinkLocation(int locType, long time, double latitude, double longitude,
+            double altitude, float speed, float radius, float direction,
+            long saveTime) {
+        this.locType = locType;
+        this.time = time;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.altitude = altitude;
+        this.speed = speed;
+        this.radius = radius;
+        this.direction = direction;
+        this.saveTime = saveTime;
+    }
+
+    @Generated(hash = 838624561)
+    public PinkLocation() {
+    }
 
 
     public int getLocType() {
@@ -82,5 +106,9 @@ public class PinkLocation {
 
     public long getSaveTime() {
         return saveTime;
+    }
+
+    public void setSaveTime(long saveTime) {
+        this.saveTime = saveTime;
     }
 }

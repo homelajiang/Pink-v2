@@ -29,7 +29,9 @@ public interface AppContract {
 
     Observable<Auth> signUp(String username, String password);
 
-    /*Profile*/
+    /**
+     * Profile
+     */
 
     Observable<Profile> getProfile(String profileId);
 
@@ -38,6 +40,8 @@ public interface AppContract {
     /*PinkLocation*/
 
     Observable<BaseModel> updateLocation(Auth auth, List<PinkLocation> locationList);
+
+    Observable<Void> saveLocation(PinkLocation location);
 
     // weather info
 
@@ -52,12 +56,15 @@ public interface AppContract {
     Observable<Weather> getWeatherInfo(double lat, double lon);
 
     Observable<Void> saveWeatherInfo(Weather weather);
+
     /**
      * get forecast weather info
      */
     Observable<Forecast> getWeatherForecast(String cityId);
 
-    //todoList
+    /**
+     * todoList
+     */
 
     Observable<TodoList> getTodoList(ContentResolver cr);
 
@@ -67,6 +74,11 @@ public interface AppContract {
 
     Observable<Void> insertTodo(ContentResolver cr, Todo todo);
 
-    // playList
+    /**
+     * playList
+     *
+     * @param filters
+     * @return
+     */
     Observable<PlayList> playList(List<String> filters);
 }
