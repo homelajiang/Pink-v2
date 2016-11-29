@@ -1,10 +1,9 @@
-package com.lxy.pink.ui.player;
+package com.lxy.pink.player;
 
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -16,9 +15,7 @@ import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.main.MainActivity;
-import com.lxy.pink.utils.AlbumUtils;
 import com.lxy.pink.utils.MediaHelper;
-import com.orhanobut.logger.Logger;
 
 /**
  * Created by homelajiang on 2016/11/3 0003.

@@ -24,9 +24,7 @@ import com.lxy.pink.event.AuthCreateEvent;
 import com.lxy.pink.event.ProfileUpdateEvent;
 import com.lxy.pink.ui.auth.LoginActivity;
 import com.lxy.pink.ui.base.BaseActivity;
-import com.lxy.pink.ui.home.HomeFragment;
-import com.lxy.pink.ui.service.PinkService;
-import com.squareup.haha.perflib.Main;
+import com.lxy.pink.core.PinkService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

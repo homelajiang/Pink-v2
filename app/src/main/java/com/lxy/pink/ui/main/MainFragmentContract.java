@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.ui.base.BasePresenter;
 import com.lxy.pink.ui.base.BaseView;
-import com.lxy.pink.ui.player.PlayMode;
-import com.lxy.pink.ui.player.PlaybackService;
+import com.lxy.pink.player.PlayMode;
+import com.lxy.pink.player.PlaybackService;
 
 /**
  * Created by homelajiang on 2016/11/7 0007.

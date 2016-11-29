@@ -1,11 +1,9 @@
-package com.lxy.pink.ui.player;
+package com.lxy.pink.player;
 
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
-import com.lxy.pink.data.source.PreferenceManager;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;

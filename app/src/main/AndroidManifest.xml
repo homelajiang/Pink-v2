@@ -48,8 +48,8 @@
             android:launchMode="singleTask" />
         <activity android:name=".ui.auth.LoginActivity" />
 
-        <service android:name=".ui.service.PinkService" />
-        <service android:name=".ui.player.PlaybackService">
+        <service android:name=".core.PinkService" />
+        <service android:name=".player.PlaybackService">
             <intent-filter>
                 <action android:name="com.lxy.pink.music.ACTION.PLAY_TOGGLE" />
                 <action android:name="com.lxy.pink.music.ACTION.PLAY_LAST" />

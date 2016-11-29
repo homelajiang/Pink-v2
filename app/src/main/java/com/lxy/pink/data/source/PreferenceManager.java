@@ -6,10 +6,9 @@ import android.text.TextUtils;
 
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
-import com.lxy.pink.ui.player.PlayMode;
+import com.lxy.pink.player.PlayMode;
 import com.lxy.pink.utils.Config;
 
-import java.io.File;
 import java.util.Date;
 
 /**

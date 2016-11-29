@@ -5,27 +5,24 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.permission.FcPermissions;
 import com.lxy.pink.ui.permission.FcPermissionsCallbacks;
-import com.lxy.pink.ui.service.PinkService;
+import com.lxy.pink.core.PinkService;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.player;
+package com.lxy.pink.player;
 
 import android.support.annotation.Nullable;
 

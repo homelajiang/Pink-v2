@@ -8,8 +8,8 @@ import android.os.IBinder;
 
 import com.lxy.pink.data.source.AppRepository;
 import com.lxy.pink.data.source.PreferenceManager;
-import com.lxy.pink.ui.player.PlayMode;
-import com.lxy.pink.ui.player.PlaybackService;
+import com.lxy.pink.player.PlayMode;
+import com.lxy.pink.player.PlaybackService;
 
 import rx.subscriptions.CompositeSubscription;
 

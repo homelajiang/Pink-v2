@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,14 +36,13 @@ import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.home.HomeFragment;
 import com.lxy.pink.ui.music.musicList.SongListFragment;
 import com.lxy.pink.ui.news.NewsFragment;
-import com.lxy.pink.ui.player.IPlayback;
-import com.lxy.pink.ui.player.PlayMode;
-import com.lxy.pink.ui.player.PlaybackService;
+import com.lxy.pink.player.IPlayback;
+import com.lxy.pink.player.PlayMode;
+import com.lxy.pink.player.PlaybackService;
 import com.lxy.pink.ui.video.VideoFragment;
 import com.lxy.pink.utils.MediaHelper;
 import com.lxy.pink.utils.TimeUtils;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;

@@ -14,11 +14,9 @@ import com.lxy.pink.R;
 import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
-import com.lxy.pink.data.source.PreferenceManager;
-import com.lxy.pink.ui.service.PinkServiceContract;
+import com.lxy.pink.core.PinkServiceContract;
 import com.lxy.pink.utils.Config;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;

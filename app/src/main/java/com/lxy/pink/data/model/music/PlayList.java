@@ -1,6 +1,6 @@
 package com.lxy.pink.data.model.music;
 
-import com.lxy.pink.ui.player.PlayMode;
+import com.lxy.pink.player.PlayMode;
 
 import java.util.ArrayList;
 import java.util.Date;

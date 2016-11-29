@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.service;
+package com.lxy.pink.core;
 
 import android.content.ContentResolver;
 
@@ -22,6 +22,8 @@ public interface PinkServiceContract {
 
         void weatherLoaded(Weather weather);
 
+        void weatherLocationReq();
+
 
         void todoListLoaded(TodoList todoList);
 
@@ -31,8 +33,6 @@ public interface PinkServiceContract {
         void locationLoaded(PinkLocation pinkLocation);
 
         void locationError();
-
-        void weatherLocationReq();
     }
 
     interface Presenter extends BasePresenter {

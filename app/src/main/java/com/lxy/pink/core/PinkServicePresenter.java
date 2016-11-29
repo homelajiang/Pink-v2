@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.service;
+package com.lxy.pink.core;
 
 import android.content.ContentResolver;
 import android.location.LocationManager;
