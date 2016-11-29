@@ -104,7 +104,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     public void onServiceConnected(ComponentName name, IBinder service) {
         serviceConnected = true;
         pinkBinder = (PinkService.PinkBinder) service;
-        pinkBinder.getService().registerWeatherCallback(homeAdapter);
+        pinkBinder.getService().registerCallback(homeAdapter);
 
         burstLink();
     }
@@ -133,7 +133,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
         super.onDestroyView();
         homeAdapter.stopClock();
         if (serviceConnected) {
-            pinkBinder.getService().unRegisterWeatherCallback();
+            pinkBinder.getService().unRegisterCallback(homeAdapter);
             serviceConnected = false;
             pinkBinder = null;
             getActivity().unbindService(this);

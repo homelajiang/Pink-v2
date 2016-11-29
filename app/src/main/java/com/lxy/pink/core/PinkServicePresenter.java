@@ -30,7 +30,6 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
     private CompositeSubscription mSubscriptions;
     private AppRepository appRepository;
     private PinkServiceContract.View view;
-    private Object objLock = new Object();
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mOption;
 
@@ -114,38 +113,6 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
                     @Override
                     public void onNext(Void aVoid) {
 
-                    }
-                });
-        mSubscriptions.add(subscription);
-    }
-
-    @Override
-    public void getWeather(String cityId) {
-        if (TextUtils.isEmpty(cityId))
-            return;
-        Subscription subscription = appRepository.getWeatherInfo(cityId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Weather>() {
-
-                    @Override
-                    public void onStart() {
-                        view.weatherLoadStart();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        view.weatherLoadEnd();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        view.weatherLoadError(e);
-                    }
-
-                    @Override
-                    public void onNext(Weather weather) {
-                        view.weatherLoaded(weather);
                     }
                 });
         mSubscriptions.add(subscription);

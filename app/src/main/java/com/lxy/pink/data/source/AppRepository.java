@@ -79,12 +79,6 @@ public class AppRepository implements AppContract {
         return appDataSource.getWeatherInfo();
     }
 
-
-    @Override
-    public Observable<Weather> getWeatherInfo(String cityId) {
-        return appDataSource.getWeatherInfo(cityId);
-    }
-
     @Override
     public Observable<Weather> getWeatherInfo(double lat, double lon) {
         return appDataSource.getWeatherInfo(lat, lon);

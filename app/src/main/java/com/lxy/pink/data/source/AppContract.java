@@ -51,8 +51,6 @@ public interface AppContract {
 
     Observable<Weather> getWeatherInfo();
 
-    Observable<Weather> getWeatherInfo(String cityId);
-
     Observable<Weather> getWeatherInfo(double lat, double lon);
 
     Observable<Void> saveWeatherInfo(Weather weather);

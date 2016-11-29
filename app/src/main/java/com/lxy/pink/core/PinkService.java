@@ -11,6 +11,9 @@ import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.ui.base.BaseService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by yuan on 2016/10/22.
  */
@@ -18,22 +21,17 @@ import com.lxy.pink.ui.base.BaseService;
 public class PinkService extends BaseService implements PinkServiceContract.View {
 
 
-    private PinkServiceContract.View serviceCallback;
+    //    private PinkServiceContract.View serviceCallback;
     private PinkServiceContract.Presenter presenter;
     private boolean weatherRequestLocation;
     private Weather lastWeather;
+    private List<PinkServiceContract.View> mCallbacks = new ArrayList<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
+        registerCallback(CoreManager.getInstance());
         new PinkServicePresenter(this).subscribe();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                presenter.getLocation();
-            }
-        }, 10000);
-        // TODO_LIST unSubscribe
     }
 
 
@@ -49,57 +47,69 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     }
 
 
-    public void registerWeatherCallback(PinkServiceContract.View weatherCallback) {
-        this.serviceCallback = weatherCallback;
+    public void registerCallback(PinkServiceContract.View serviceCallback) {
+        if (!mCallbacks.contains(serviceCallback)) {
+            mCallbacks.add(serviceCallback);
+        }
     }
 
-    public void unRegisterWeatherCallback() {
-        this.serviceCallback = null;
+    public void unRegisterCallback(PinkServiceContract.View serviceCallback) {
+        mCallbacks.remove(serviceCallback);
+    }
+
+    public void clearCallback() {
+        mCallbacks.clear();
     }
 
     @Override
     public void weatherLoadStart() {
-        if (serviceCallback != null)
-            serviceCallback.weatherLoadStart();
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.weatherLoadStart();
+        }
     }
 
     @Override
     public void weatherLoadEnd() {
-        if (serviceCallback != null)
-            serviceCallback.weatherLoadEnd();
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.weatherLoadEnd();
+        }
     }
 
     @Override
     public void weatherLoadError(Throwable e) {
-        if (serviceCallback != null)
-            serviceCallback.weatherLoadError(e);
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.weatherLoadError(e);
+        }
     }
 
     @Override
     public void weatherLoaded(Weather weather) {
         lastWeather = weather;
-        if (serviceCallback != null) {
-            serviceCallback.weatherLoaded(weather);
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.weatherLoaded(weather);
         }
     }
 
     @Override
     public void todoListLoaded(TodoList todoList) {
-        if (serviceCallback != null)
-            serviceCallback.todoListLoaded(todoList);
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.todoListLoaded(todoList);
+        }
     }
 
     @Override
     public void locationStart() {
-        if (weatherRequestLocation && serviceCallback != null) {
-            serviceCallback.locationStart();
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.locationStart();
         }
     }
 
     @Override
     public void locationLoaded(PinkLocation pinkLocation) {
-        if (weatherRequestLocation && serviceCallback != null) {
-            serviceCallback.locationLoaded(pinkLocation);
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.locationLoaded(pinkLocation);
+        }
+        if (weatherRequestLocation) {
             weatherRequestLocation = false;
             presenter.getWeather(pinkLocation.getLatitude(), pinkLocation.getLongitude());
         }
@@ -107,8 +117,10 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     @Override
     public void locationError() {
-        if (weatherRequestLocation && serviceCallback != null) {
-            serviceCallback.locationError();
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.locationError();
+        }
+        if (weatherRequestLocation) {
             weatherRequestLocation = false;
             if (lastWeather != null) {
                 presenter.getWeather(lastWeather.getCoord().getLat(), lastWeather.getCoord().getLon());
@@ -124,6 +136,9 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     @Override
     public void setPresenter(PinkServiceContract.Presenter presenter) {
         this.presenter = presenter;
+        for (PinkServiceContract.View callback : mCallbacks) {
+            callback.setPresenter(presenter);
+        }
     }
 
     public class PinkBinder extends Binder {
