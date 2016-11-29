@@ -3,7 +3,11 @@ package com.lxy.pink.player;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -21,7 +25,8 @@ import com.lxy.pink.utils.MediaHelper;
  * Created by homelajiang on 2016/11/3 0003.
  */
 
-public class PlaybackService extends Service implements IPlayback, IPlayback.Callback {
+public class PlaybackService extends Service implements IPlayback, IPlayback.Callback,
+        AudioManager.OnAudioFocusChangeListener {
 
     private static final String ACTION_PLAY_TOGGLE = "com.lxy.pink.music.ACTION.PLAY_TOGGLE";
     private static final String ACTION_PLAY_LAST = "com.lxy.pink.music.ACTION.PLAY_LAST";
@@ -32,6 +37,33 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     private RemoteViews mContentViewBig, mContentViewSmall;
     private Player mPlayer;
     private final Binder mBinder = new LocalBuilder();
+    private NoisyReceiver noisyReceiver;
+    private IntentFilter noisyFilter;
+    private AudioManager audioManager;
+    private boolean hasFocus;
+
+    @Override
+    public void onAudioFocusChange(int focusChange) {
+        switch (focusChange) {
+            case AudioManager.AUDIOFOCUS_GAIN://重新获取焦点
+                hasFocus = true;
+                play();
+                mPlayer.setVolume(1.0f, 1.0f);
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS://长久的失去焦点
+                hasFocus = false;
+                pause();
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT://暂时失去焦点，暂停，重新获取是继续播放
+                hasFocus = false;
+                pause();
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK://暂时获取焦点，不必停止，降低音量即可
+                mPlayer.setVolume(.5f, .5f);
+                break;
+        }
+    }
+
 
     public class LocalBuilder extends Binder {
         public PlaybackService getService() {
@@ -44,6 +76,10 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
         super.onCreate();
         mPlayer = Player.getInstance();
         mPlayer.registerCallback(this);
+        noisyReceiver = new NoisyReceiver();
+        noisyFilter = new IntentFilter();
+        noisyFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
     }
 
     @Override
@@ -95,31 +131,43 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
 
     @Override
     public boolean play() {
+        if (!hasFocus)
+            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         return mPlayer.play();
     }
 
     @Override
     public boolean play(PlayList list) {
+        if (!hasFocus)
+            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         return mPlayer.play(list);
     }
 
     @Override
     public boolean play(PlayList list, int startIndex) {
+        if (!hasFocus)
+            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         return mPlayer.play(list, startIndex);
     }
 
     @Override
     public boolean play(Song song) {
+        if (!hasFocus)
+            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         return mPlayer.play(song);
     }
 
     @Override
     public boolean playLast() {
+        if (!hasFocus)
+            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         return mPlayer.playLast();
     }
 
     @Override
     public boolean playNext() {
+        if (!hasFocus)
+            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         return mPlayer.playNext();
     }
 
@@ -171,7 +219,6 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     @Override
     public void releasePlayer() {
         mPlayer.releasePlayer();
-        super.onDestroy();
     }
 
     @Override
@@ -192,11 +239,16 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     @Override
     public void onPlayStatusChanged(boolean isPlaying) {
         showNotification();
+        if (isPlaying) {
+            registerReceiver(noisyReceiver, noisyFilter);
+        } else {
+            unregisterReceiver(noisyReceiver);
+        }
     }
 
     private void showNotification() {
 
-        if(mPlayer.getPlayingSong()!=null){
+        if (mPlayer.getPlayingSong() != null) {
             PreferenceManager.setLastSong(this, mPlayer.getPlayingSong().getId());
         }
 
@@ -264,6 +316,15 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
 
     private PendingIntent getPendingIntent(String action) {
         return PendingIntent.getService(this, 0, new Intent(action), 0);
+    }
+
+    class NoisyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                pause();
+            }
+        }
     }
 
 

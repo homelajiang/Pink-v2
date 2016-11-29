@@ -1,5 +1,6 @@
 package com.lxy.pink.player;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import com.lxy.pink.data.model.music.PlayList;
@@ -32,7 +33,6 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
         mPlayer = new MediaPlayer();
         mPlayList = new PlayList();
         mPlayer.setOnCompletionListener(this);
-//        mPlayer.setOnPreparedListener(this);
     }
 
     public static Player getInstance() {
@@ -80,15 +80,11 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
             notifyPlayStatusChanged(true);
             return true;
         }
-        // TODO: 2016/11/2 0002  change prepare way
         if (mPlayList.prepare()) {
             Song song = mPlayList.getCurrentSong();
             try {
                 mPlayer.reset();
                 mPlayer.setDataSource(song.getPath());
-//                mPlayer.prepare();
-//                mPlayer.start();
-//                notifyPlayStatusChanged(true);
                 mPlayer.prepareAsync();
                 mPlayer.setOnPreparedListener(this);
             } catch (IOException e) {
@@ -260,5 +256,10 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
         mp.start();
         playProgress = 0;
         notifyPlayStatusChanged(true);
+    }
+
+    public void setVolume(float left, float right) {
+        if (mPlayer != null && mPlayer.isPlaying())
+            mPlayer.setVolume(left, right);
     }
 }
