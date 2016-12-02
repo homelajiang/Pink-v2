@@ -90,8 +90,10 @@ public class AppDataSource implements AppContract {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(Subscriber<? super Void> subscriber) {
-                DaoMasterHelper.getDaoSession().getPinkLocationDao()
+                long id = DaoMasterHelper.getDaoSession().getPinkLocationDao()
                         .insert(location);
+                if(id<0)
+                    subscriber.onError(new Throwable("insert location error!!!"));
                 subscriber.onNext(null);
                 subscriber.onCompleted();
             }
