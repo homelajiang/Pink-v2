@@ -27,8 +27,9 @@ public class OWLoadingView extends View {
     private Hexagon[] hexagons = new Hexagon[7];
     private boolean showingHexagon = true;
     private final float scaleCritical = 0.7f;
-    private boolean hasMeasure;
-    private int color = Color.parseColor("#ff9900");//默认橙色
+    private int color ;
+    private int DEFAULT_COLOR = Color.parseColor("#ff9900");//默认橙色
+    private boolean inited;
 
     public OWLoadingView(Context context) {
         this(context, null);
@@ -40,17 +41,13 @@ public class OWLoadingView extends View {
 
     public OWLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.OWLoadingView);
         DEFAULT_SIZE = a.getDimensionPixelSize(R.styleable.OWLoadingView_default_size, DEFAULT_SIZE);
-        color = a.getColor(R.styleable.OWLoadingView_color, color);
+        color = a.getColor(R.styleable.OWLoadingView_hexagon_color, DEFAULT_COLOR);
         a.recycle();
+        initPaint();
     }
 
-    private void init() {
-        initPaint();
-        initAnimator();
-    }
 
     private void initPaint() {
         paint = new Paint();
@@ -87,11 +84,10 @@ public class OWLoadingView extends View {
                 space = res * spaceRate;
                 hexagonRadius = (float) ((res - 2 * space) / (3 * Math.sqrt(3)));
                 initHexagonCenters();
-                stopAnim();
-                animator.start();
+                inited = true;
+                startAnim();
             }
         }
-
     }
 
     private void initHexagonCenters() {
@@ -147,6 +143,18 @@ public class OWLoadingView extends View {
         invalidate();
     }
 
+    @Override
+    protected void onVisibilityChanged(View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        if(inited){
+            if (visibility == GONE || visibility == INVISIBLE) {
+                stopAnim();
+            } else {
+                startAnim();
+            }
+        }
+    }
+
     private void resetHexagons() {
         for (int i = 0; i < hexagons.length; i++) {
             hexagons[i].setScale(0);
@@ -174,7 +182,7 @@ public class OWLoadingView extends View {
                 hexagons[0].subScale();
                 hexagons[0].subAlpha();
                 for (int i = 0; i < hexagons.length - 1; i++) {
-                    if (hexagons[i].getScale() < 1-scaleCritical) {
+                    if (hexagons[i].getScale() < 1 - scaleCritical) {
                         hexagons[i + 1].subScale();
                         hexagons[i + 1].subAlpha();
 

@@ -1,1 +1,1 @@
-include ':app', ':lodingview', ':OWLoading'
+include ':app', ':OWLoading'

@@ -13,7 +13,6 @@
 <com.lxy.owloading.OWLoadingView
     xmlns:ow = "http://schemas.android.com/apk/res-auto"
     android:id="@+id/fdsf"
-    ow:color="#002240"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
 </RelativeLayout>
