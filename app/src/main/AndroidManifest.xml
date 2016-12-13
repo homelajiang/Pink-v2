@@ -36,7 +36,7 @@
 
         <activity
             android:name=".ui.splash.SplashActivity">
-            <!--android:theme="@style/PINK.Theme.Launcher"-->
+            android:theme="@style/PINK.Theme.Launcher"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
