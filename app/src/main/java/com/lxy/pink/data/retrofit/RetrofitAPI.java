@@ -1,8 +1,14 @@
 package com.lxy.pink.data.retrofit;
 
+import com.lxy.pink.data.retrofit.api.ApiAixifanService;
+import com.lxy.pink.data.retrofit.api.ApiAppAcfunService;
+import com.lxy.pink.data.retrofit.api.DanmuAixifanService;
+import com.lxy.pink.data.retrofit.api.MobileAppAcfunService;
 import com.lxy.pink.data.retrofit.api.RemoteService;
+import com.lxy.pink.data.retrofit.api.SearchAppAcfunService;
 import com.lxy.pink.data.retrofit.api.TodoService;
 import com.lxy.pink.data.retrofit.api.WeatherService;
+import com.lxy.pink.data.retrofit.api.WebapiAppAcfunService;
 import com.lxy.pink.utils.Config;
 
 import okhttp3.OkHttpClient;
@@ -24,10 +30,18 @@ public class RetrofitAPI implements RetrofitApimpl {
 
     private static RetrofitAPI instance;
     private TodoService todoService;
+    private ApiAixifanService mApiAixifanService;
+    private ApiAppAcfunService mApiAppAcfunService;
+    private DanmuAixifanService mDanmuAixifanService;
+    private MobileAppAcfunService mMobileAppAcfunService;
+    private SearchAppAcfunService mSearchAppAcfunService;
+    private WebapiAppAcfunService mWebapiAppAcfunService;
 
     public static RetrofitAPI getInstance() {
-        if (instance == null) {
-            instance = new RetrofitAPI();
+        synchronized (RetrofitAPI.class) {
+            if (instance == null) {
+                instance = new RetrofitAPI();
+            }
         }
         return instance;
     }
@@ -57,9 +71,11 @@ public class RetrofitAPI implements RetrofitApimpl {
      * @return
      */
     @Override
-    public  RemoteService getRemoteService() {
-        if (this.remoteService == null) {
-            this.remoteService = getRxJavaService(Config.HOST, RemoteService.class);
+    public RemoteService getRemoteService() {
+        synchronized (RetrofitAPI.class) {
+            if (this.remoteService == null) {
+                this.remoteService = getRxJavaService(Config.HOST, RemoteService.class);
+            }
         }
         return remoteService;
     }
@@ -71,17 +87,82 @@ public class RetrofitAPI implements RetrofitApimpl {
      */
     @Override
     public WeatherService getWeatherService() {
-        if (this.weatherService == null) {
-            this.weatherService = getRxJavaService(Config.HOST_WEATHER, WeatherService.class);
+        synchronized (RetrofitAPI.class) {
+            if (this.weatherService == null) {
+                this.weatherService = getRxJavaService(Config.HOST_WEATHER, WeatherService.class);
+            }
         }
         return weatherService;
     }
 
     @Override
     public TodoService getTodoService() {
-        if(this.todoService == null){
-            this.todoService = new TodoService();
+        synchronized (RetrofitAPI.class) {
+            if (this.todoService == null) {
+                this.todoService = new TodoService();
+            }
         }
         return todoService;
     }
+
+    @Override
+    public ApiAixifanService getApiAixifanService() {
+        synchronized (RetrofitAPI.class) {
+            if(this.mApiAixifanService == null){
+                this.mApiAixifanService =getRxJavaService(Config.HOST_ApiAixifan,ApiAixifanService.class);
+            }
+        }
+        return mApiAixifanService;
+    }
+
+    @Override
+    public ApiAppAcfunService getApiAppAcfunService() {
+        synchronized (RetrofitAPI.class) {
+            if(this.mApiAppAcfunService == null){
+                this.mApiAppAcfunService = getRxJavaService(Config.HOST_ApiAppAcfun,ApiAppAcfunService.class);
+            }
+        }
+        return mApiAppAcfunService;
+    }
+
+    @Override
+    public DanmuAixifanService getDanmuAixifanService() {
+        synchronized (RetrofitAPI.class) {
+            if(mDanmuAixifanService == null){
+                this.mDanmuAixifanService = getRxJavaService(Config.HOST_DanmuAixifan,DanmuAixifanService.class);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public MobileAppAcfunService getMobileAppAcfunService() {
+        synchronized (RetrofitAPI.class) {
+            if(mMobileAppAcfunService == null){
+                this.mMobileAppAcfunService = getRxJavaService(Config.HOST_MobileAppAcfun,MobileAppAcfunService.class);
+            }
+        }
+        return mMobileAppAcfunService;
+    }
+
+    @Override
+    public SearchAppAcfunService getSearchAppAcfunService() {
+        synchronized (RetrofitAPI.class) {
+            if(mSearchAppAcfunService == null){
+                mSearchAppAcfunService = getRxJavaService(Config.HOST_SearchAppAcfun,SearchAppAcfunService.class);
+            }
+        }
+        return mSearchAppAcfunService;
+    }
+
+    @Override
+    public WebapiAppAcfunService getWebapiAppAcfunService() {
+        synchronized (RetrofitAPI.class) {
+            if(mWebapiAppAcfunService == null){
+                mWebapiAppAcfunService = getRxJavaService(Config.HOST_WebapiAppAcfun,WebapiAppAcfunService.class);
+            }
+        }
+        return mWebapiAppAcfunService;
+    }
+
 }
