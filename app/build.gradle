@@ -3,8 +3,8 @@ apply plugin: 'android-apt'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.lxy.pink"
         minSdkVersion 16
@@ -33,7 +33,7 @@ greendao {
     targetGenDir 'src/main/java'
 }
 
-final APPCOMPAT_VERSION = '24.2.1'
+final APPCOMPAT_VERSION = '25.1.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -60,6 +60,8 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.orhanobut:logger:1.15'
     compile 'org.greenrobot:greendao:3.2.0'
+    compile 'com.airbnb.android:epoxy:1.5.0'
+    apt 'com.airbnb.android:epoxy-processor:1.5.0'
     //    compile 'com.lovedise:permissiongen:0.0.6'
     //    compile 'com.github.hotchemi:permissionsdispatcher:2.2.0'
     //    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.2.0'
