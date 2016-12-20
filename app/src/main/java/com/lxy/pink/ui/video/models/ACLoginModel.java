@@ -5,6 +5,7 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.acfun.ACUser;
 import com.lxy.pink.ui.video.views.ACLoginView;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ACLoginModel extends EpoxyModel<ACLoginView>{
 
-    @EpoxyAttribute String userName;
+    @EpoxyAttribute ACUser acUser;
     @EpoxyAttribute View.OnClickListener clickListener;
 
     @Override
