@@ -3,6 +3,7 @@ package com.lxy.pink.data.source;
 import android.content.ContentResolver;
 
 import com.lxy.pink.data.model.BaseModel;
+import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -79,4 +80,9 @@ public interface AppContract {
      * @return
      */
     Observable<PlayList> playList(List<String> filters);
+
+    /**
+     * video
+     */
+    Observable<ACRecommend> getRecommend();
 }

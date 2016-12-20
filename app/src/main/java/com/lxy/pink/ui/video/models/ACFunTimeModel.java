@@ -5,28 +5,23 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
-import com.lxy.pink.data.model.acfun.ACRecommend;
-import com.lxy.pink.ui.video.views.ACCarouselView;
+import com.lxy.pink.ui.video.views.ACFunTimeView;
 
 /**
- * Created by yuan on 2016/12/19.
+ * Created by yuan on 2016/12/20.
  */
 
-public class ACCarouselModel extends EpoxyModel<ACCarouselView>{
-    @EpoxyAttribute
-    ACRecommend.DataBean dataBean;
-
+public class ACFunTimeModel extends EpoxyModel<ACFunTimeView> {
     @EpoxyAttribute
     View.OnClickListener clickListener;
 
     @Override
     protected int getDefaultLayout() {
-        return R.layout.ac_video_carousel_model;
+        return R.layout.ac_fun_time_model;
     }
 
     @Override
-    public void bind(ACCarouselView view) {
-        super.bind(view);
+    public void bind(ACFunTimeView view) {
     }
 
     @Override

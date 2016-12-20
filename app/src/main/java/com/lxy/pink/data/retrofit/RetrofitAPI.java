@@ -25,8 +25,12 @@ public class RetrofitAPI implements RetrofitApimpl {
     private WeatherService weatherService;
     private RemoteService remoteService;
 
-    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient normalClient = new OkHttpClient();
     //        client.interceptors().add(new HeaderInterceptor());
+    private static OkHttpClient acClient = new OkHttpClient.Builder()
+            .addNetworkInterceptor(new ACHeaderInterceptor())
+            .build();
+
 
     private static RetrofitAPI instance;
     private TodoService todoService;
@@ -49,13 +53,13 @@ public class RetrofitAPI implements RetrofitApimpl {
     public <T> T getService(String url, Class<T> serviceClass) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
-                .client(client)
+                .client(normalClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(serviceClass);
     }
 
-    public <T> T getRxJavaService(String url, Class<T> serviceClass) {
+    public <T> T getRxJavaService(OkHttpClient client, String url, Class<T> serviceClass) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .client(client)
@@ -74,7 +78,7 @@ public class RetrofitAPI implements RetrofitApimpl {
     public RemoteService getRemoteService() {
         synchronized (RetrofitAPI.class) {
             if (this.remoteService == null) {
-                this.remoteService = getRxJavaService(Config.HOST, RemoteService.class);
+                this.remoteService = getRxJavaService(normalClient, Config.HOST, RemoteService.class);
             }
         }
         return remoteService;
@@ -89,7 +93,7 @@ public class RetrofitAPI implements RetrofitApimpl {
     public WeatherService getWeatherService() {
         synchronized (RetrofitAPI.class) {
             if (this.weatherService == null) {
-                this.weatherService = getRxJavaService(Config.HOST_WEATHER, WeatherService.class);
+                this.weatherService = getRxJavaService(normalClient, Config.HOST_WEATHER, WeatherService.class);
             }
         }
         return weatherService;
@@ -108,8 +112,8 @@ public class RetrofitAPI implements RetrofitApimpl {
     @Override
     public ApiAixifanService getApiAixifanService() {
         synchronized (RetrofitAPI.class) {
-            if(this.mApiAixifanService == null){
-                this.mApiAixifanService =getRxJavaService(Config.HOST_ApiAixifan,ApiAixifanService.class);
+            if (this.mApiAixifanService == null) {
+                this.mApiAixifanService = getRxJavaService(acClient, Config.HOST_ApiAixifan, ApiAixifanService.class);
             }
         }
         return mApiAixifanService;
@@ -118,8 +122,8 @@ public class RetrofitAPI implements RetrofitApimpl {
     @Override
     public ApiAppAcfunService getApiAppAcfunService() {
         synchronized (RetrofitAPI.class) {
-            if(this.mApiAppAcfunService == null){
-                this.mApiAppAcfunService = getRxJavaService(Config.HOST_ApiAppAcfun,ApiAppAcfunService.class);
+            if (this.mApiAppAcfunService == null) {
+                this.mApiAppAcfunService = getRxJavaService(acClient, Config.HOST_ApiAppAcfun, ApiAppAcfunService.class);
             }
         }
         return mApiAppAcfunService;
@@ -128,8 +132,8 @@ public class RetrofitAPI implements RetrofitApimpl {
     @Override
     public DanmuAixifanService getDanmuAixifanService() {
         synchronized (RetrofitAPI.class) {
-            if(mDanmuAixifanService == null){
-                this.mDanmuAixifanService = getRxJavaService(Config.HOST_DanmuAixifan,DanmuAixifanService.class);
+            if (mDanmuAixifanService == null) {
+                this.mDanmuAixifanService = getRxJavaService(acClient, Config.HOST_DanmuAixifan, DanmuAixifanService.class);
             }
         }
         return null;
@@ -138,8 +142,8 @@ public class RetrofitAPI implements RetrofitApimpl {
     @Override
     public MobileAppAcfunService getMobileAppAcfunService() {
         synchronized (RetrofitAPI.class) {
-            if(mMobileAppAcfunService == null){
-                this.mMobileAppAcfunService = getRxJavaService(Config.HOST_MobileAppAcfun,MobileAppAcfunService.class);
+            if (mMobileAppAcfunService == null) {
+                this.mMobileAppAcfunService = getRxJavaService(acClient, Config.HOST_MobileAppAcfun, MobileAppAcfunService.class);
             }
         }
         return mMobileAppAcfunService;
@@ -148,8 +152,8 @@ public class RetrofitAPI implements RetrofitApimpl {
     @Override
     public SearchAppAcfunService getSearchAppAcfunService() {
         synchronized (RetrofitAPI.class) {
-            if(mSearchAppAcfunService == null){
-                mSearchAppAcfunService = getRxJavaService(Config.HOST_SearchAppAcfun,SearchAppAcfunService.class);
+            if (mSearchAppAcfunService == null) {
+                mSearchAppAcfunService = getRxJavaService(acClient, Config.HOST_SearchAppAcfun, SearchAppAcfunService.class);
             }
         }
         return mSearchAppAcfunService;
@@ -158,8 +162,8 @@ public class RetrofitAPI implements RetrofitApimpl {
     @Override
     public WebapiAppAcfunService getWebapiAppAcfunService() {
         synchronized (RetrofitAPI.class) {
-            if(mWebapiAppAcfunService == null){
-                mWebapiAppAcfunService = getRxJavaService(Config.HOST_WebapiAppAcfun,WebapiAppAcfunService.class);
+            if (mWebapiAppAcfunService == null) {
+                mWebapiAppAcfunService = getRxJavaService(acClient, Config.HOST_WebapiAppAcfun, WebapiAppAcfunService.class);
             }
         }
         return mWebapiAppAcfunService;

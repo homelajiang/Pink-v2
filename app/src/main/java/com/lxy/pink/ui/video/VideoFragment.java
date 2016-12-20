@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.ui.base.BaseFragment;
 
 import butterknife.BindView;
@@ -20,9 +21,10 @@ import butterknife.ButterKnife;
  * Created by yuan on 2016/10/18.
  */
 
-public class VideoFragment extends BaseFragment {
+public class VideoFragment extends BaseFragment implements VideoContract.View{
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    private VideoContract.Presenter presenter;
 
     @Nullable
     @Override
@@ -39,6 +41,9 @@ public class VideoFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(videoFragmentAdapter);
+
+        new VideoFragmentPresenter(getContext(),this).subscribe();
+
         return root;
     }
 
@@ -47,5 +52,20 @@ public class VideoFragment extends BaseFragment {
 //        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 //        return (int) (dpWidth / 100);
         return 6;
+    }
+
+    @Override
+    public void recommendLoad(ACRecommend acRecommend) {
+
+    }
+
+    @Override
+    public void recommendError(Throwable e) {
+
+    }
+
+    @Override
+    public void setPresenter(VideoContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 }

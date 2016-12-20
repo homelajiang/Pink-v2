@@ -12,6 +12,7 @@ import com.lxy.pink.data.db.DaoSession;
 import com.lxy.pink.data.db.TempModelDao;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.TempModel;
+import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -92,7 +93,7 @@ public class AppDataSource implements AppContract {
             public void call(Subscriber<? super Void> subscriber) {
                 long id = DaoMasterHelper.getDaoSession().getPinkLocationDao()
                         .insert(location);
-                if(id<0)
+                if (id < 0)
                     subscriber.onError(new Throwable("insert location error!!!"));
                 subscriber.onNext(null);
                 subscriber.onCompleted();
@@ -250,5 +251,12 @@ public class AppDataSource implements AppContract {
                 subscriber.onCompleted();
             }
         });
+    }
+
+    @Override
+    public Observable<ACRecommend> getRecommend() {
+        return RetrofitAPI.getInstance()
+                .getApiAixifanService()
+                .getRecommend(0, -1);
     }
 }

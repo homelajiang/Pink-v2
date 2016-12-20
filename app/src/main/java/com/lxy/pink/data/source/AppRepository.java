@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 
 import com.lxy.pink.Injection;
 import com.lxy.pink.data.model.BaseModel;
+import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -117,5 +118,10 @@ public class AppRepository implements AppContract {
     @Override
     public Observable<PlayList> playList(List<String> filters) {
         return appDataSource.playList(filters);
+    }
+
+    @Override
+    public Observable<ACRecommend> getRecommend() {
+        return appDataSource.getRecommend();
     }
 }

@@ -6,26 +6,27 @@ import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACRecommend;
-import com.lxy.pink.ui.video.views.ACCarouselView;
+import com.lxy.pink.ui.video.views.ACArticleViewH;
 
 /**
- * Created by yuan on 2016/12/19.
+ * Created by yuan on 2016/12/20.
  */
 
-public class ACCarouselModel extends EpoxyModel<ACCarouselView>{
+public class ACArticleModelH extends EpoxyModel<ACArticleViewH> {
+
     @EpoxyAttribute
-    ACRecommend.DataBean dataBean;
+    ACRecommend.DataBean.ContentsBean contentBean;
 
     @EpoxyAttribute
     View.OnClickListener clickListener;
 
     @Override
     protected int getDefaultLayout() {
-        return R.layout.ac_video_carousel_model;
+        return R.layout.ac_article_h_model;
     }
 
     @Override
-    public void bind(ACCarouselView view) {
+    public void bind(ACArticleViewH view) {
         super.bind(view);
     }
 
