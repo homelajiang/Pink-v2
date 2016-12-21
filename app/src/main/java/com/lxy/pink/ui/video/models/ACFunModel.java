@@ -15,7 +15,7 @@ import com.lxy.pink.ui.video.views.ACFunView;
 public class ACFunModel extends EpoxyModel<ACFunView> {
 
     @EpoxyAttribute
-    ACRecommend.DataBean.ContentsBean contentsBean;
+    ACRecommend.DataBean.ContentsBean contentBean;
     @EpoxyAttribute
     View.OnClickListener clickListener;
 

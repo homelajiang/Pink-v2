@@ -1,14 +1,16 @@
 package com.lxy.pink.ui.video;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACRecommend;
@@ -21,28 +23,39 @@ import butterknife.ButterKnife;
  * Created by yuan on 2016/10/18.
  */
 
-public class VideoFragment extends BaseFragment implements VideoContract.View{
+public class VideoFragment extends BaseFragment implements VideoContract.View, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private VideoContract.Presenter presenter;
+    private VideoFragmentAdapter videoFragmentAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.recyclerview, container, false);
+        View root = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
         ButterKnife.bind(this, root);
 
+        mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
+//        mSwipeRefreshLayout.setBackgroundColor(Color.YELLOW);
+//        mSwipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
+//        mSwipeRefreshLayout.setDistanceToTriggerSync(100);
+//        mSwipeRefreshLayout.setProgressViewEndTarget(false,200);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         int spanCount = getSpanCount();
-        VideoFragmentAdapter videoFragmentAdapter = new VideoFragmentAdapter();
+        videoFragmentAdapter = new VideoFragmentAdapter();
         videoFragmentAdapter.setSpanCount(spanCount);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),spanCount);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
         gridLayoutManager.setSpanSizeLookup(videoFragmentAdapter.getSpanSizeLookup());
 
+        mRecyclerView.addItemDecoration(new VerticalGridCardSpacingDecoration());
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(videoFragmentAdapter);
 
-        new VideoFragmentPresenter(getContext(),this).subscribe();
+        new VideoFragmentPresenter(getContext(), this).subscribe();
 
         return root;
     }
@@ -56,7 +69,18 @@ public class VideoFragment extends BaseFragment implements VideoContract.View{
 
     @Override
     public void recommendLoad(ACRecommend acRecommend) {
-
+        if (acRecommend == null) {
+            Toast.makeText(getContext(), R.string.pink_error_indescribable, Toast.LENGTH_SHORT).show();
+        } else if (acRecommend.getCode() == 200) {
+            videoFragmentAdapter.setData(acRecommend);
+        } else {
+            if (TextUtils.isEmpty(acRecommend.getMessage())) {
+                Toast.makeText(getContext(), R.string.pink_error_indescribable, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), acRecommend.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        stopRefresh();
     }
 
     @Override
@@ -64,8 +88,28 @@ public class VideoFragment extends BaseFragment implements VideoContract.View{
 
     }
 
+    public void startRefresh() {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }, 200);
+    }
+
+    public void stopRefresh() {
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
     @Override
     public void setPresenter(VideoContract.Presenter presenter) {
         this.presenter = presenter;
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }
