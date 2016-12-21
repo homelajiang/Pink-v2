@@ -1,4 +1,4 @@
-package com.lxy.owloading;
+package com.lxy.pink.ui.widget.OWloading;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -11,6 +11,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.lxy.pink.R;
 
 /**
  * Created by homelajiang on 2016/12/1 0001.

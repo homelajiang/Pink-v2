@@ -207,4 +207,12 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <!--name为声明的"属性集合"名，可以随便取，但是最好是设置为跟我们的View一样的名称-->
+    <declare-styleable name="OWLoadingView">
+        <attr name="default_size" format="dimension" />
+        <attr name="hexagon_color" format="color"/>
+    </declare-styleable>
 </resources>
