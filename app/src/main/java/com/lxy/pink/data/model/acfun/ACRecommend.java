@@ -10,7 +10,7 @@ public class ACRecommend {
 
     /**
      * code : 200
-     * data : [{"belong":0,"channelId":0,"children":[],"contentCount":3,"contents":[{"channelId":86,"image":"http://imgs.aixifan.com/content/2016_11_18/1482079661.png","intro":"大宋提刑官 第五回\r<br/>微服出巡宋提刑验骨\r<br/>袖里乾坤刁知县渡河\r<br/>\r<br/>\r<br/>\r<br/>\r<br/>反正没有人看简介，这次我也不说什么了。","owner":{"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201604/271436023tt5vr1z.jpg","id":4295944,"name":"怪异故事"},"regionId":183,"releaseDate":1482079972000,"status":2,"title":"26【怪异君毁经典】《大宋提刑官》 第五回","url":"3339182","visit":{"comments":474,"danmakuSize":1868,"goldBanana":14442,"score":0,"stows":653,"ups":0,"views":349485}},{"channelId":86,"image":"http://imgs.aixifan.com/content/2016_11_19/1482112351.jpg","intro":"春运将至，一票难求，四基佬一言不合就真的不合了......","owner":{"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201305/09111617of3w.jpg","id":339880,"name":"大蝈小酱"},"regionId":183,"releaseDate":1482112870000,"status":2,"title":"《名著村抢票风云》","url":"3339625","visit":{"comments":113,"danmakuSize":418,"goldBanana":7459,"score":0,"stows":389,"ups":0,"views":79872}},{"channelId":86,"image":"http://imgs.aixifan.com/content/2016_11_19/1482112812.png","intro":"|视频素材来源于网络","owner":{"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201612/09150006fra8exyu.jpg","id":8696038,"name":"视频看遍世界"},"regionId":183,"releaseDate":1482113048000,"status":2,"title":"老外竟让某些外国人滚出中国，说得太好了！","url":"3339635","visit":{"comments":336,"danmakuSize":245,"goldBanana":5614,"score":0,"stows":450,"ups":0,"views":158433}}],"deviceType":-1,"goText":"","hide":2,"id":183,"image":"http://imgs.aixifan.com/cms/2016_09_21/1474442860304.png","menuCount":0,"name":"香蕉排行榜","pid":-1,"platformId":1,"showLine":1,"showMore":0,"showName":1,"sort":101,"subTitle":"1","type":{"id":12,"name":"视频_香蕉榜","value":"videos_banana_list"},"updateAt":1474442858000,"url":"","version":"4.1.0","versionSign":2}]
+     * data : [{"belong":0,"channelId":0,"children":[],"contentCount":3,"contents":[{"actionId":2,"channelId":86,"device":0,"hide":0,"id":53418,"image":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201612/21105106k48hivfm.jpg","intro":"BGM和封面度娘下载地址：http://pan.baidu.com/s/1c2FYJFa<br/>BGM网易云音乐：http://music.163.com/#/m/playlist?id=525915031 毁歌：[ac3335566] <br/>上一期回顾：[ac3302268]　催泪篇：[ac3229080] 总合辑：[aa929]  提前祝大家圣诞节快乐！交换圣诞礼物点我[ac3344116]","latestBangumiVideo":{"bangumiId":1480038,"sort":100,"title":"第10话","updateTime":1482140235000,"videoId":4643853},"owner":{"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201611/16133520hzgcnklc.jpg","id":243400,"name":"鲁路修·VI布里塔尼亚"},"regionId":183,"releasedAt":1482119983000,"releaseDate":1482299389000,"shareTagShow":0,"status":2,"subTitle":"","subUrl":"","title":"AcFun评论才是本体【2016年12月篇】上","updateAt":1482119984000,"url":"3345231","visibleLevel":-1,"visit":{"comments":484,"danmakuSize":2628,"goldBanana":9559,"goldBananaVoters":0,"score":0,"stows":514,"ups":0,"views":154588},"webImage":"","webUrl":""}],"deviceType":-1,"goText":"","hide":2,"id":183,"image":"http://imgs.aixifan.com/cms/2016_09_21/1474442860304.png","menuCount":0,"menus":[{"actionId":6,"channelId":155,"hide":0,"id":4,"image":"","name":"更多番剧内容","regionId":7,"sort":0,"url":""}],"name":"香蕉排行榜","pid":-1,"platformId":1,"showLine":1,"showMore":0,"showName":1,"sort":101,"subTitle":"1","type":{"id":12,"name":"视频_香蕉榜","value":"videos_banana_list"},"updateAt":1474442858000,"url":"","version":"4.1.0","versionSign":2}]
      * message : OK
      */
 
@@ -48,13 +48,14 @@ public class ACRecommend {
          * channelId : 0
          * children : []
          * contentCount : 3
-         * contents : [{"channelId":86,"image":"http://imgs.aixifan.com/content/2016_11_18/1482079661.png","intro":"大宋提刑官 第五回\r<br/>微服出巡宋提刑验骨\r<br/>袖里乾坤刁知县渡河\r<br/>\r<br/>\r<br/>\r<br/>\r<br/>反正没有人看简介，这次我也不说什么了。","owner":{"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201604/271436023tt5vr1z.jpg","id":4295944,"name":"怪异故事"},"regionId":183,"releaseDate":1482079972000,"status":2,"title":"26【怪异君毁经典】《大宋提刑官》 第五回","url":"3339182","visit":{"comments":474,"danmakuSize":1868,"goldBanana":14442,"score":0,"stows":653,"ups":0,"views":349485}},{"channelId":86,"image":"http://imgs.aixifan.com/content/2016_11_19/1482112351.jpg","intro":"春运将至，一票难求，四基佬一言不合就真的不合了......","owner":{"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201305/09111617of3w.jpg","id":339880,"name":"大蝈小酱"},"regionId":183,"releaseDate":1482112870000,"status":2,"title":"《名著村抢票风云》","url":"3339625","visit":{"comments":113,"danmakuSize":418,"goldBanana":7459,"score":0,"stows":389,"ups":0,"views":79872}},{"channelId":86,"image":"http://imgs.aixifan.com/content/2016_11_19/1482112812.png","intro":"|视频素材来源于网络","owner":{"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201612/09150006fra8exyu.jpg","id":8696038,"name":"视频看遍世界"},"regionId":183,"releaseDate":1482113048000,"status":2,"title":"老外竟让某些外国人滚出中国，说得太好了！","url":"3339635","visit":{"comments":336,"danmakuSize":245,"goldBanana":5614,"score":0,"stows":450,"ups":0,"views":158433}}]
+         * contents : [{"actionId":2,"channelId":86,"device":0,"hide":0,"id":53418,"image":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201612/21105106k48hivfm.jpg","intro":"BGM和封面度娘下载地址：http://pan.baidu.com/s/1c2FYJFa<br/>BGM网易云音乐：http://music.163.com/#/m/playlist?id=525915031 毁歌：[ac3335566] <br/>上一期回顾：[ac3302268]　催泪篇：[ac3229080] 总合辑：[aa929]  提前祝大家圣诞节快乐！交换圣诞礼物点我[ac3344116]","latestBangumiVideo":{"bangumiId":1480038,"sort":100,"title":"第10话","updateTime":1482140235000,"videoId":4643853},"owner":{"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201611/16133520hzgcnklc.jpg","id":243400,"name":"鲁路修·VI布里塔尼亚"},"regionId":183,"releasedAt":1482119983000,"releaseDate":1482299389000,"shareTagShow":0,"status":2,"subTitle":"","subUrl":"","title":"AcFun评论才是本体【2016年12月篇】上","updateAt":1482119984000,"url":"3345231","visibleLevel":-1,"visit":{"comments":484,"danmakuSize":2628,"goldBanana":9559,"goldBananaVoters":0,"score":0,"stows":514,"ups":0,"views":154588},"webImage":"","webUrl":""}]
          * deviceType : -1
          * goText :
          * hide : 2
          * id : 183
          * image : http://imgs.aixifan.com/cms/2016_09_21/1474442860304.png
          * menuCount : 0
+         * menus : [{"actionId":6,"channelId":155,"hide":0,"id":4,"image":"","name":"更多番剧内容","regionId":7,"sort":0,"url":""}]
          * name : 香蕉排行榜
          * pid : -1
          * platformId : 1
@@ -94,6 +95,7 @@ public class ACRecommend {
         private int versionSign;
         private List<?> children;
         private List<ContentsBean> contents;
+        private List<MenusBean> menus;
 
         public int getBelong() {
             return belong;
@@ -287,6 +289,14 @@ public class ACRecommend {
             this.contents = contents;
         }
 
+        public List<MenusBean> getMenus() {
+            return menus;
+        }
+
+        public void setMenus(List<MenusBean> menus) {
+            this.menus = menus;
+        }
+
         public static class TypeBean {
             /**
              * id : 12
@@ -325,28 +335,62 @@ public class ACRecommend {
 
         public static class ContentsBean {
             /**
+             * actionId : 2
              * channelId : 86
-             * image : http://imgs.aixifan.com/content/2016_11_18/1482079661.png
-             * intro : 大宋提刑官 第五回<br/>微服出巡宋提刑验骨<br/>袖里乾坤刁知县渡河<br/><br/><br/><br/><br/>反正没有人看简介，这次我也不说什么了。
-             * owner : {"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201604/271436023tt5vr1z.jpg","id":4295944,"name":"怪异故事"}
+             * device : 0
+             * hide : 0
+             * id : 53418
+             * image : http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201612/21105106k48hivfm.jpg
+             * intro : BGM和封面度娘下载地址：http://pan.baidu.com/s/1c2FYJFa<br/>BGM网易云音乐：http://music.163.com/#/m/playlist?id=525915031 毁歌：[ac3335566] <br/>上一期回顾：[ac3302268]　催泪篇：[ac3229080] 总合辑：[aa929]  提前祝大家圣诞节快乐！交换圣诞礼物点我[ac3344116]
+             * latestBangumiVideo : {"bangumiId":1480038,"sort":100,"title":"第10话","updateTime":1482140235000,"videoId":4643853}
+             * owner : {"avatar":"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201611/16133520hzgcnklc.jpg","id":243400,"name":"鲁路修·VI布里塔尼亚"}
              * regionId : 183
-             * releaseDate : 1482079972000
+             * releasedAt : 1482119983000
+             * releaseDate : 1482299389000
+             * shareTagShow : 0
              * status : 2
-             * title : 26【怪异君毁经典】《大宋提刑官》 第五回
-             * url : 3339182
-             * visit : {"comments":474,"danmakuSize":1868,"goldBanana":14442,"score":0,"stows":653,"ups":0,"views":349485}
+             * subTitle :
+             * subUrl :
+             * title : AcFun评论才是本体【2016年12月篇】上
+             * updateAt : 1482119984000
+             * url : 3345231
+             * visibleLevel : -1
+             * visit : {"comments":484,"danmakuSize":2628,"goldBanana":9559,"goldBananaVoters":0,"score":0,"stows":514,"ups":0,"views":154588}
+             * webImage :
+             * webUrl :
              */
 
+            private int actionId;
             private int channelId;
+            private int device;
+            private int hide;
+            private int id;
             private String image;
             private String intro;
+            private LatestBangumiVideoBean latestBangumiVideo;
             private OwnerBean owner;
             private int regionId;
+            private long releasedAt;
             private long releaseDate;
+            private int shareTagShow;
             private int status;
+            private String subTitle;
+            private String subUrl;
             private String title;
+            private long updateAt;
             private String url;
+            private int visibleLevel;
             private VisitBean visit;
+            private String webImage;
+            private String webUrl;
+
+            public int getActionId() {
+                return actionId;
+            }
+
+            public void setActionId(int actionId) {
+                this.actionId = actionId;
+            }
 
             public int getChannelId() {
                 return channelId;
@@ -354,6 +398,30 @@ public class ACRecommend {
 
             public void setChannelId(int channelId) {
                 this.channelId = channelId;
+            }
+
+            public int getDevice() {
+                return device;
+            }
+
+            public void setDevice(int device) {
+                this.device = device;
+            }
+
+            public int getHide() {
+                return hide;
+            }
+
+            public void setHide(int hide) {
+                this.hide = hide;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
             }
 
             public String getImage() {
@@ -372,6 +440,14 @@ public class ACRecommend {
                 this.intro = intro;
             }
 
+            public LatestBangumiVideoBean getLatestBangumiVideo() {
+                return latestBangumiVideo;
+            }
+
+            public void setLatestBangumiVideo(LatestBangumiVideoBean latestBangumiVideo) {
+                this.latestBangumiVideo = latestBangumiVideo;
+            }
+
             public OwnerBean getOwner() {
                 return owner;
             }
@@ -388,12 +464,28 @@ public class ACRecommend {
                 this.regionId = regionId;
             }
 
+            public long getReleasedAt() {
+                return releasedAt;
+            }
+
+            public void setReleasedAt(long releasedAt) {
+                this.releasedAt = releasedAt;
+            }
+
             public long getReleaseDate() {
                 return releaseDate;
             }
 
             public void setReleaseDate(long releaseDate) {
                 this.releaseDate = releaseDate;
+            }
+
+            public int getShareTagShow() {
+                return shareTagShow;
+            }
+
+            public void setShareTagShow(int shareTagShow) {
+                this.shareTagShow = shareTagShow;
             }
 
             public int getStatus() {
@@ -404,12 +496,36 @@ public class ACRecommend {
                 this.status = status;
             }
 
+            public String getSubTitle() {
+                return subTitle;
+            }
+
+            public void setSubTitle(String subTitle) {
+                this.subTitle = subTitle;
+            }
+
+            public String getSubUrl() {
+                return subUrl;
+            }
+
+            public void setSubUrl(String subUrl) {
+                this.subUrl = subUrl;
+            }
+
             public String getTitle() {
                 return title;
             }
 
             public void setTitle(String title) {
                 this.title = title;
+            }
+
+            public long getUpdateAt() {
+                return updateAt;
+            }
+
+            public void setUpdateAt(long updateAt) {
+                this.updateAt = updateAt;
             }
 
             public String getUrl() {
@@ -420,6 +536,14 @@ public class ACRecommend {
                 this.url = url;
             }
 
+            public int getVisibleLevel() {
+                return visibleLevel;
+            }
+
+            public void setVisibleLevel(int visibleLevel) {
+                this.visibleLevel = visibleLevel;
+            }
+
             public VisitBean getVisit() {
                 return visit;
             }
@@ -428,11 +552,83 @@ public class ACRecommend {
                 this.visit = visit;
             }
 
+            public String getWebImage() {
+                return webImage;
+            }
+
+            public void setWebImage(String webImage) {
+                this.webImage = webImage;
+            }
+
+            public String getWebUrl() {
+                return webUrl;
+            }
+
+            public void setWebUrl(String webUrl) {
+                this.webUrl = webUrl;
+            }
+
+            public static class LatestBangumiVideoBean {
+                /**
+                 * bangumiId : 1480038
+                 * sort : 100
+                 * title : 第10话
+                 * updateTime : 1482140235000
+                 * videoId : 4643853
+                 */
+
+                private int bangumiId;
+                private int sort;
+                private String title;
+                private long updateTime;
+                private int videoId;
+
+                public int getBangumiId() {
+                    return bangumiId;
+                }
+
+                public void setBangumiId(int bangumiId) {
+                    this.bangumiId = bangumiId;
+                }
+
+                public int getSort() {
+                    return sort;
+                }
+
+                public void setSort(int sort) {
+                    this.sort = sort;
+                }
+
+                public String getTitle() {
+                    return title;
+                }
+
+                public void setTitle(String title) {
+                    this.title = title;
+                }
+
+                public long getUpdateTime() {
+                    return updateTime;
+                }
+
+                public void setUpdateTime(long updateTime) {
+                    this.updateTime = updateTime;
+                }
+
+                public int getVideoId() {
+                    return videoId;
+                }
+
+                public void setVideoId(int videoId) {
+                    this.videoId = videoId;
+                }
+            }
+
             public static class OwnerBean {
                 /**
-                 * avatar : http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201604/271436023tt5vr1z.jpg
-                 * id : 4295944
-                 * name : 怪异故事
+                 * avatar : http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201611/16133520hzgcnklc.jpg
+                 * id : 243400
+                 * name : 鲁路修·VI布里塔尼亚
                  */
 
                 private String avatar;
@@ -466,18 +662,20 @@ public class ACRecommend {
 
             public static class VisitBean {
                 /**
-                 * comments : 474
-                 * danmakuSize : 1868
-                 * goldBanana : 14442
+                 * comments : 484
+                 * danmakuSize : 2628
+                 * goldBanana : 9559
+                 * goldBananaVoters : 0
                  * score : 0
-                 * stows : 653
+                 * stows : 514
                  * ups : 0
-                 * views : 349485
+                 * views : 154588
                  */
 
                 private int comments;
                 private int danmakuSize;
                 private int goldBanana;
+                private int goldBananaVoters;
                 private int score;
                 private int stows;
                 private int ups;
@@ -505,6 +703,14 @@ public class ACRecommend {
 
                 public void setGoldBanana(int goldBanana) {
                     this.goldBanana = goldBanana;
+                }
+
+                public int getGoldBananaVoters() {
+                    return goldBananaVoters;
+                }
+
+                public void setGoldBananaVoters(int goldBananaVoters) {
+                    this.goldBananaVoters = goldBananaVoters;
                 }
 
                 public int getScore() {
@@ -538,6 +744,102 @@ public class ACRecommend {
                 public void setViews(int views) {
                     this.views = views;
                 }
+            }
+        }
+
+        public static class MenusBean {
+            /**
+             * actionId : 6
+             * channelId : 155
+             * hide : 0
+             * id : 4
+             * image :
+             * name : 更多番剧内容
+             * regionId : 7
+             * sort : 0
+             * url :
+             */
+
+            private int actionId;
+            private int channelId;
+            private int hide;
+            private int id;
+            private String image;
+            private String name;
+            private int regionId;
+            private int sort;
+            private String url;
+
+            public int getActionId() {
+                return actionId;
+            }
+
+            public void setActionId(int actionId) {
+                this.actionId = actionId;
+            }
+
+            public int getChannelId() {
+                return channelId;
+            }
+
+            public void setChannelId(int channelId) {
+                this.channelId = channelId;
+            }
+
+            public int getHide() {
+                return hide;
+            }
+
+            public void setHide(int hide) {
+                this.hide = hide;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getImage() {
+                return image;
+            }
+
+            public void setImage(String image) {
+                this.image = image;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getRegionId() {
+                return regionId;
+            }
+
+            public void setRegionId(int regionId) {
+                this.regionId = regionId;
+            }
+
+            public int getSort() {
+                return sort;
+            }
+
+            public void setSort(int sort) {
+                this.sort = sort;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
             }
         }
     }

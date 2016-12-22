@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -11,6 +12,7 @@
             android:id="@+id/video_cover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            fresco:actualImageScaleType="centerCrop"
             fresco:viewAspectRatio="1.78" />
 
         <TextView

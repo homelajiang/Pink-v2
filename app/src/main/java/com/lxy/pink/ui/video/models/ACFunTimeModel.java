@@ -22,6 +22,10 @@ public class ACFunTimeModel extends EpoxyModel<ACFunTimeView> {
 
     @Override
     public void bind(ACFunTimeView view) {
+        if (clickListener != null) {
+            view.funTimeLeft.setOnClickListener(clickListener);
+            view.funTimeRight.setOnClickListener(clickListener);
+        }
     }
 
     @Override

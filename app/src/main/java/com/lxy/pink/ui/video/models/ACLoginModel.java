@@ -14,10 +14,12 @@ import java.util.List;
  * Created by yuan on 2016/12/19.
  */
 
-public class ACLoginModel extends EpoxyModel<ACLoginView>{
+public class ACLoginModel extends EpoxyModel<ACLoginView> {
 
-    @EpoxyAttribute ACUser acUser;
-    @EpoxyAttribute View.OnClickListener clickListener;
+    @EpoxyAttribute
+    ACUser acUser;
+    @EpoxyAttribute
+    View.OnClickListener clickListener;
 
     @Override
     protected int getDefaultLayout() {
@@ -26,6 +28,26 @@ public class ACLoginModel extends EpoxyModel<ACLoginView>{
 
     @Override
     public void bind(ACLoginView view) {
+        if (acUser != null && acUser.getStatus() == 200) {
+            ACUser.DataBean.FullUserBean fullUserBean = acUser.getData().getFullUser();
+            view.setBtnLogin(R.string.check);
+            view.setLevel(fullUserBean.getLevel());
+            view.setBanana(fullUserBean.getBanana());
+            view.setUsername(fullUserBean.getUsername());
+            view.setHeadIcon(fullUserBean.getUserImg());
+        } else {
+            view.setBtnLogin(R.string.login);
+            view.setLevel(0);
+            view.setBanana(0);
+            view.setUsername("");
+            view.setHeadIcon("res:///" + R.drawable.head_icon);
+        }
+
+        if (clickListener != null) {
+            view.btnLogin.setOnClickListener(clickListener);
+            view.headIcon.setOnClickListener(clickListener);
+            view.msg.setOnClickListener(clickListener);
+        }
     }
 
     @Override

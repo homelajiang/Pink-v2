@@ -16,9 +16,9 @@ import butterknife.ButterKnife;
 
 public class ACFunTimeView extends LinearLayout {
     @BindView(R.id.fun_time_left)
-    ImageView funTimeLeft;
+    public ImageView funTimeLeft;
     @BindView(R.id.fun_time_right)
-    ImageView funTimeRight;
+    public ImageView funTimeRight;
 
     public ACFunTimeView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -30,4 +30,5 @@ public class ACFunTimeView extends LinearLayout {
         inflate(getContext(), R.layout.ac_fun_time_view, this);
         ButterKnife.bind(this);
     }
+
 }

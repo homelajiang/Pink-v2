@@ -6,8 +6,11 @@ import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
+import com.lxy.pink.utils.FrescoUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,19 +40,19 @@ public class ACVideoView extends CardView {
     }
 
     public void setVideoCover(String url) {
-        mVideoCover.setImageURI(Uri.parse(url));
+        FrescoUtils.setpImage(url, mVideoCover);
     }
 
     public void setVideoTitle(String title) {
         mVideoTitle.setText(title);
     }
 
-    public void setVideoPlayCount(String count) {
-        mVideoPlayCount.setText(count);
+    public void setVideoPlayCount(int count) {
+        mVideoPlayCount.setText(String.valueOf(count));
     }
 
-    public void setmVideoDanmuCount(String count) {
-        mVideoDanmuCount.setText(count);
+    public void setVideoDanmuCount(int count) {
+        mVideoDanmuCount.setText(String.valueOf(count));
     }
 
 }

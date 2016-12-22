@@ -45,7 +45,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         int spanCount = getSpanCount();
-        videoFragmentAdapter = new VideoFragmentAdapter();
+        videoFragmentAdapter = new VideoFragmentAdapter(getContext());
         videoFragmentAdapter.setSpanCount(spanCount);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
         gridLayoutManager.setSpanSizeLookup(videoFragmentAdapter.getSpanSizeLookup());

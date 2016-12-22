@@ -6,6 +6,7 @@ import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.ui.video.VideoFragmentAdapter;
 import com.lxy.pink.ui.video.views.ACHeaderView;
 
 /**
@@ -16,7 +17,7 @@ public class ACHeaderModel extends EpoxyModel<ACHeaderView> {
     @EpoxyAttribute
     ACRecommend.DataBean dataBean;
     @EpoxyAttribute
-    View.OnClickListener clickListener;
+    VideoFragmentAdapter.ACItemClickListener<ACRecommend.DataBean> acItemClickListener;
 
     @Override
     protected int getDefaultLayout() {
@@ -24,7 +25,18 @@ public class ACHeaderModel extends EpoxyModel<ACHeaderView> {
     }
 
     @Override
-    public void bind(ACHeaderView view) {
+    public void bind(final ACHeaderView view) {
+        view.setTitle(dataBean.getName());
+        view.setIcon(dataBean.getImage());
+
+        if (acItemClickListener != null) {
+            view.more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    acItemClickListener.onItemClicked(view, dataBean);
+                }
+            });
+        }
     }
 
     @Override

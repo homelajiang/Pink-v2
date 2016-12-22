@@ -6,6 +6,7 @@ import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.ui.video.VideoFragmentAdapter;
 import com.lxy.pink.ui.video.views.ACCarouselView;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
@@ -14,12 +15,12 @@ import cn.bingoogolapple.bgabanner.BGABanner;
  * Created by yuan on 2016/12/19.
  */
 
-public class ACCarouselModel extends EpoxyModel<ACCarouselView>{
+public class ACCarouselModel extends EpoxyModel<ACCarouselView> {
     @EpoxyAttribute
     ACRecommend.DataBean dataBean;
 
     @EpoxyAttribute
-    View.OnClickListener clickListener;
+    VideoFragmentAdapter.ACItemClickListener<ACRecommend.DataBean.ContentsBean> acItemClickListener;
 
     @Override
     protected int getDefaultLayout() {
@@ -29,11 +30,14 @@ public class ACCarouselModel extends EpoxyModel<ACCarouselView>{
     @Override
     public void bind(ACCarouselView view) {
         view.setBgaBanner(dataBean.getContents());
-        view.bgaBanner.setDelegate(new BGABanner.Delegate() {
-            @Override
-            public void onBannerItemClick(BGABanner banner, View itemView, Object model, int position) {
-            }
-        });
+        if (acItemClickListener != null) {
+            view.bgaBanner.setDelegate(new BGABanner.Delegate() {
+                @Override
+                public void onBannerItemClick(BGABanner banner, View itemView, Object model, int position) {
+                    acItemClickListener.onItemClicked(itemView, dataBean.getContents().get(position));
+                }
+            });
+        }
     }
 
     @Override

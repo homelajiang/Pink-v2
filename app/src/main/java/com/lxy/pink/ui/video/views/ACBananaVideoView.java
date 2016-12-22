@@ -5,8 +5,10 @@ import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
+import com.lxy.pink.utils.FrescoUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,5 +35,21 @@ public class ACBananaVideoView extends CardView {
     private void init() {
         inflate(getContext(), R.layout.ac_banana_video_view, this);
         ButterKnife.bind(this);
+    }
+
+    public void setVideoCover(String url) {
+        FrescoUtils.setpImage(url, videoCover);
+    }
+
+    public void setVideoTitle(String title) {
+        this.videoTitle.setText(title);
+    }
+
+    public void setUpName(String upName) {
+        this.upName.setText(upName);
+    }
+
+    public void setVideoBanana(int videoBanana) {
+        this.videoBanana.setText(String.valueOf(videoBanana));
     }
 }

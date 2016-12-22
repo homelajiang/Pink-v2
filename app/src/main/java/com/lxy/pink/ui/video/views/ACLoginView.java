@@ -22,9 +22,9 @@ public class ACLoginView extends CardView {
     @BindView(R.id.username)
     TextView username;
     @BindView(R.id.btn_login)
-    Button btnLogin;
+    public Button btnLogin;
     @BindView(R.id.msg)
-    ImageView msg;
+    public ImageView msg;
     @BindView(R.id.level)
     TextView level;
     @BindView(R.id.banana)
@@ -32,7 +32,7 @@ public class ACLoginView extends CardView {
     @BindView(R.id.temp)
     TextView temp;
     @BindView(R.id.head_icon)
-    SimpleDraweeView headIcon;
+    public SimpleDraweeView headIcon;
 
     public ACLoginView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -48,16 +48,16 @@ public class ACLoginView extends CardView {
         this.username.setText(username);
     }
 
-    public void setBtnLogin(String btnLogin) {
-        this.btnLogin.setText(btnLogin);
+    public void setBtnLogin(int btnLoginRes) {
+        this.btnLogin.setText(btnLoginRes);
     }
 
-    public void setLevel(String level) {
-        this.level.setText(level);
+    public void setLevel(int level) {
+        this.level.setText(String.valueOf(level));
     }
 
-    public void setBanana(String banana) {
-        this.banana.setText(banana);
+    public void setBanana(int banana) {
+        this.banana.setText(String.valueOf(banana));
     }
 
     public void setHeadIcon(String headIcon) {

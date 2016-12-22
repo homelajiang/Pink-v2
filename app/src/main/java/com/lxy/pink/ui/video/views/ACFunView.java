@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
+import com.lxy.pink.utils.FrescoUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +32,18 @@ public class ACFunView extends CardView {
     private void init() {
         inflate(getContext(), R.layout.ac_fun_v_view, this);
         ButterKnife.bind(this);
+    }
+
+    public void setFunCover(String url) {
+        FrescoUtils.setpImage(url, mFunCover);
+    }
+
+    public void setFunTitle(String title) {
+        this.mFunTitle.setText(title);
+    }
+
+    public void setFunInfo(String info) {
+        this.mFunInfo.setText(info);
     }
 
     // TODO: 2016/12/20 0020  set methods

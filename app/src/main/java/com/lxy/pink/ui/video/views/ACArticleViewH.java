@@ -38,4 +38,24 @@ public class ACArticleViewH extends CardView {
         inflate(getContext(), R.layout.ac_article_h_view, this);
         ButterKnife.bind(this);
     }
+
+    public void setFrom(String from) {
+        this.from.setText(from);
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount.setText(String.valueOf(commentCount));
+    }
+
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle.setText(articleTitle);
+    }
+
+    public void setArticleUp(String articleUp) {
+        this.articleUp.setText(articleUp);
+    }
+
+    public void setArticleViewCount(int articleViewCount) {
+        this.articleViewCount.setText(String.valueOf(articleViewCount));
+    }
 }

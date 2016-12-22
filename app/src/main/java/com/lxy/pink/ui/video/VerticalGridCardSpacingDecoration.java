@@ -54,8 +54,12 @@ public class VerticalGridCardSpacingDecoration extends ItemDecoration {
 //      outRect.left = innerPadding;
 //      outRect.right = innerPadding;
 //    }
-    outRect.left = innerPadding;
-    outRect.right = innerPadding;
-    outRect.bottom = innerPadding;
+    if(position ==0){
+      outRect.bottom = innerPadding;
+    }else {
+      outRect.left = innerPadding;
+      outRect.right = innerPadding;
+      outRect.bottom = innerPadding;
+    }
   }
 }
