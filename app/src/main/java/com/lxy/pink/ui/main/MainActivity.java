@@ -154,13 +154,6 @@ public class MainActivity extends BaseActivity implements
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
-        Fragment temp = getSupportFragmentManager().findFragmentByTag(MainFragment.TAG);
-        if (temp != null && ((MainFragment) temp).getBottomSheetState()
-                == BottomSheetBehavior.STATE_EXPANDED) {
-            ((MainFragment) temp).collapsedBottomSheet();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
