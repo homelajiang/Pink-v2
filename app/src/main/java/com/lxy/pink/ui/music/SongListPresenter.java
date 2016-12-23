@@ -1,8 +1,7 @@
-package com.lxy.pink.ui.music.musicList;
+package com.lxy.pink.ui.music;
 
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.source.AppRepository;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

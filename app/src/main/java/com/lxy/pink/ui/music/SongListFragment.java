@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.music.musicList;
+package com.lxy.pink.ui.music;
 
 import android.Manifest;
 import android.os.Bundle;

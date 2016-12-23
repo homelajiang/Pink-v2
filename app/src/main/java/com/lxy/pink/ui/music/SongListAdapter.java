@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.music.musicList;
+package com.lxy.pink.ui.music;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,13 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lxy.pink.R;
 import com.lxy.pink.data.model.music.PlayList;
-import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.ui.base.adapter.OnItemClickListener;
-import com.lxy.pink.ui.common.AbstractFooterAdapter;
-
-import java.util.List;
 
 /**
  * Created by homelajiang on 2016/11/3 0003.

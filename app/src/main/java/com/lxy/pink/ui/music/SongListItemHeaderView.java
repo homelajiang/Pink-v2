@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.music.musicList;
+package com.lxy.pink.ui.music;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;

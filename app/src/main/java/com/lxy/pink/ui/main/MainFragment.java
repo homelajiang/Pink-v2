@@ -34,7 +34,7 @@ import com.lxy.pink.event.PlayListLoadedEvent;
 import com.lxy.pink.event.PlayListNowEvent;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.home.HomeFragment;
-import com.lxy.pink.ui.music.musicList.SongListFragment;
+import com.lxy.pink.ui.music.SongListFragment;
 import com.lxy.pink.ui.news.NewsFragment;
 import com.lxy.pink.player.IPlayback;
 import com.lxy.pink.player.PlayMode;
@@ -84,7 +84,7 @@ public class MainFragment extends BaseFragment implements MainFragmentContract.V
     RadioButton mRadioBtnVideo;
     @BindView(R.id.radio_btn_news)
     RadioButton mRadioBtnNews;
-    @BindView(R.id.ctrl_album)
+    @BindView(R.id.music_album)
     SimpleDraweeView mCtrlAlbum;
     @BindView(R.id.ctrl_title)
     TextView mCtrlTitle;

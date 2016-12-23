@@ -20,7 +20,7 @@
             android:background="@color/white">
 
             <com.facebook.drawee.view.SimpleDraweeView xmlns:fresco="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/ctrl_album"
+                android:id="@+id/music_album"
                 android:layout_width="@dimen/pink_music_controller_album"
                 android:layout_height="@dimen/pink_music_controller_album"
                 android:layout_alignParentLeft="true"
@@ -33,9 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/ctrl_album"
+                android:layout_toEndOf="@id/music_album"
                 android:layout_toLeftOf="@+id/ctrl_play"
-                android:layout_toRightOf="@+id/ctrl_album"
+                android:layout_toRightOf="@+id/music_album"
                 android:layout_toStartOf="@id/ctrl_play"
                 android:orientation="vertical">
 

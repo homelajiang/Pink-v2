@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.music.musicList;
+package com.lxy.pink.ui.music;
 
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.ui.base.BasePresenter;

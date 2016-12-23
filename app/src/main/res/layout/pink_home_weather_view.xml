@@ -20,6 +20,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#555555"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -33,7 +34,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:visibility="visible"
+                        android:visibility="invisible"
                         fresco:actualImageScaleType="centerCrop"
                         fresco:placeholderImage="@drawable/ic_background"
                         fresco:placeholderImageScaleType="centerCrop" />
@@ -45,7 +46,7 @@
                         android:layout_marginLeft="-15dp"
                         android:layout_marginStart="-15dp"
                         android:layout_marginTop="-30dp"
-                        android:visibility="visible"
+                        android:visibility="invisible"
                         fresco:actualImageScaleType="fitCenter"
                         fresco:placeholderImage="@drawable/ic_sun" />
 
@@ -57,7 +58,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
-                        android:visibility="visible"
+                        android:visibility="invisible"
                         fresco:actualImageScaleType="fitCenter"
                         fresco:placeholderImage="@drawable/ic_light" />
 
@@ -71,8 +72,8 @@
                         android:layout_toEndOf="@+id/light"
                         android:layout_toRightOf="@+id/light"
                         android:textColor="@color/white"
-                        tools:text="32°"
-                        android:textSize="36sp" />
+                        android:textSize="36sp"
+                        tools:text="32°" />
 
                     <TextView
                         android:id="@+id/description"
@@ -83,8 +84,8 @@
                         android:layout_toEndOf="@+id/temperature"
                         android:layout_toRightOf="@+id/temperature"
                         android:textColor="@color/white"
-                        tools:text="雨夹雪"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="雨夹雪" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -101,9 +102,9 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:gravity="center_vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <android.support.v7.widget.AppCompatImageView
@@ -115,14 +116,15 @@
 
                             <TextView
                                 android:id="@+id/location"
-                                tools:text="Suzhou"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawablePadding="1dp"
-                                android:layout_marginRight="5dp"
                                 android:layout_marginEnd="5dp"
+                                android:layout_marginRight="5dp"
+                                android:drawablePadding="1dp"
                                 android:padding="1dp"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                tools:text="Suzhou" />
+
                             <android.support.v7.widget.AppCompatImageView
                                 android:id="@+id/refresh"
                                 android:layout_width="wrap_content"
@@ -137,8 +139,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="1dp"
-                            tools:text="Fri Dec 23"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="Fri Dec 23" />
                     </LinearLayout>
 
                     <TextView
@@ -150,9 +152,9 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"
                         android:layout_marginRight="20dp"
-                        tools:text="14:57"
                         android:textSize="26sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="14:57" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -164,11 +166,11 @@
         android:id="@+id/building"
         android:layout_width="180dp"
         android:layout_height="200dp"
-        android:visibility="visible"
-        fresco:actualImageScaleType="fitCenter"
-        fresco:placeholderImage="@drawable/ic_building"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_building" />
 
 </RelativeLayout>
