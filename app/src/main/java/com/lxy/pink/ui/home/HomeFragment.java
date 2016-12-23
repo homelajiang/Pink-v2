@@ -5,11 +5,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -19,10 +19,10 @@ import android.view.ViewGroup;
 
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
+import com.lxy.pink.core.PinkService;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.permission.FcPermissions;
 import com.lxy.pink.ui.permission.FcPermissionsCallbacks;
-import com.lxy.pink.core.PinkService;
 
 import java.util.List;
 
@@ -42,6 +42,8 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     RecyclerView recyclerView;
 
     public boolean serviceConnected;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private View root;
     private PinkService.PinkBinder pinkBinder;
@@ -57,7 +59,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.recyclerview, container, false);
+        root = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
         ButterKnife.bind(this, root);
         initView();
         initData();
@@ -74,15 +76,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
         StaggeredGridLayoutManager staggeredGridLayoutManager
                 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.left = 20;
-                outRect.right = 20;
-                outRect.bottom = 20;
-            }
-        });
+        recyclerView.addItemDecoration(new HomeItemDecoration());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(homeAdapter);
     }
@@ -94,7 +88,6 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
                 .doOnNext(new Action1<Object>() {
                     @Override
                     public void call(Object o) {
-
                     }
                 })
                 .subscribe(RxBus.defaultSubscriber());
@@ -108,10 +101,12 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
 
         burstLink();
     }
+
     @Override
     public void onServiceDisconnected(ComponentName name) {
 
     }
+
     /**
      * ★ burst link ★
      */
@@ -156,12 +151,12 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         if (perms.contains(Manifest.permission.READ_CALENDAR)) {
-            if(pinkBinder!=null){
+            if (pinkBinder != null) {
                 pinkBinder.getTodoList();
             }
         }
         if (perms.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            if(pinkBinder!=null){
+            if (pinkBinder != null) {
                 pinkBinder.getWeather();
             }
         }

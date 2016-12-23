@@ -1,21 +1,21 @@
-package com.lxy.pink.ui.music.model;
+package com.lxy.pink.ui.home.model;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
-import com.lxy.pink.ui.music.view.PinkMusicView;
+import com.lxy.pink.ui.home.view.PinkWeatherView;
 
 /**
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkMusicModel extends EpoxyModel<PinkMusicView> {
+public class PinkWeatherModel extends EpoxyModel<PinkWeatherView>{
     @Override
     protected int getDefaultLayout() {
-        return R.layout.pink_home_music_model;
+        return R.layout.pink_home_weather_model;
     }
 
     @Override
-    public void bind(PinkMusicView view) {
+    public void bind(PinkWeatherView view) {
     }
 
     @Override

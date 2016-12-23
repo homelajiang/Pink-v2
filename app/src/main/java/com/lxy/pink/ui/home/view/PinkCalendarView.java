@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.music.view;
+package com.lxy.pink.ui.home.view;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;

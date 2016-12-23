@@ -1,8 +1,8 @@
-package com.lxy.pink.ui.music.model;
+package com.lxy.pink.ui.home.model;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
-import com.lxy.pink.ui.music.view.PinkCalendarView;
+import com.lxy.pink.ui.home.view.PinkCalendarView;
 
 /**
  * Created by homelajiang on 2016/12/23 0023.
