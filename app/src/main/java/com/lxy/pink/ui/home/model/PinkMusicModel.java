@@ -1,7 +1,9 @@
 package com.lxy.pink.ui.home.model;
 
+import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.ui.home.view.PinkMusicView;
 
 /**
@@ -9,6 +11,10 @@ import com.lxy.pink.ui.home.view.PinkMusicView;
  */
 
 public class PinkMusicModel extends EpoxyModel<PinkMusicView> {
+
+    @EpoxyAttribute
+    Song song;
+
     @Override
     protected int getDefaultLayout() {
         return R.layout.pink_home_music_model;
@@ -16,10 +22,11 @@ public class PinkMusicModel extends EpoxyModel<PinkMusicView> {
 
     @Override
     public void bind(PinkMusicView view) {
+
     }
 
     @Override
     public int getSpanSize(int totalSpanCount, int position, int itemCount) {
-        return super.getSpanSize(totalSpanCount, position, itemCount);
+        return totalSpanCount;
     }
 }

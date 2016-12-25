@@ -6,6 +6,7 @@ import com.lxy.pink.data.model.weather.Weather;
 
 /**
  * Created by homelajiang on 2016/11/29 0029.
+ * 处理后台任务
  */
 
 public class CoreManager implements PinkServiceContract.View {

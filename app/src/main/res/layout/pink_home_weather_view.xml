@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="260dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -34,7 +32,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:visibility="invisible"
+                        android:visibility="visible"
                         fresco:actualImageScaleType="centerCrop"
                         fresco:placeholderImage="@drawable/ic_background"
                         fresco:placeholderImageScaleType="centerCrop" />
@@ -46,7 +44,7 @@
                         android:layout_marginLeft="-15dp"
                         android:layout_marginStart="-15dp"
                         android:layout_marginTop="-30dp"
-                        android:visibility="invisible"
+                        android:visibility="visible"
                         fresco:actualImageScaleType="fitCenter"
                         fresco:placeholderImage="@drawable/ic_sun" />
 
@@ -58,7 +56,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
-                        android:visibility="invisible"
+                        android:visibility="visible"
                         fresco:actualImageScaleType="fitCenter"
                         fresco:placeholderImage="@drawable/ic_light" />
 
@@ -169,8 +167,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:visibility="invisible"
+        android:visibility="visible"
         fresco:actualImageScaleType="fitCenter"
         fresco:placeholderImage="@drawable/ic_building" />
 
-</RelativeLayout>
+</merge>

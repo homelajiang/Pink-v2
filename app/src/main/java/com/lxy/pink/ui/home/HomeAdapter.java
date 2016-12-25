@@ -1,20 +1,21 @@
 package com.lxy.pink.ui.home;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.airbnb.epoxy.EpoxyAdapter;
 import com.lxy.pink.R;
+import com.lxy.pink.core.PinkServiceContract;
 import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
-import com.lxy.pink.core.PinkServiceContract;
+import com.lxy.pink.ui.home.model.PinkCalendarModel;
+import com.lxy.pink.ui.home.model.PinkCalendarModel_;
+import com.lxy.pink.ui.home.model.PinkMusicModel_;
+import com.lxy.pink.ui.home.model.PinkWeatherModel;
+import com.lxy.pink.ui.home.model.PinkWeatherModel_;
 import com.lxy.pink.utils.Config;
 
 import java.text.SimpleDateFormat;
@@ -29,116 +30,45 @@ import butterknife.ButterKnife;
  * Created by yuan on 2016/10/20.
  */
 
-public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PinkServiceContract.View {
+public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.View {
 
-    private static SimpleDateFormat timeFormat;
+    private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private final Context context;
-    private final Handler handler;
-    private final Runnable clockRunnable;
-    private final Animation flickerAnimation;
-    private final Animation unLimitedRotate;
     private List<Object> dataList = new ArrayList<>();
-    public WeatherItemView weatherItemView;
+    private PinkServiceContract.Presenter presenter;
+
+    private PinkCalendarModel_ pinkCalendarModel_;
+    private PinkWeatherModel_ pinkWeatherModel_;
+    private PinkMusicModel_ pinkMusicModel_;
 
     public HomeAdapter(Context context) {
+        enableDiffing();
         this.context = context;
-        timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        dataList.add(new Weather());
-        handler = new Handler();
-        flickerAnimation = AnimationUtils.loadAnimation(context, R.anim.flicker);
-        unLimitedRotate = AnimationUtils.loadAnimation(context, R.anim.unlimited_rotate);
-        clockRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (weatherItemView != null) {
-                    weatherItemView.bindClock();
-                }
-                handler.postDelayed(clockRunnable, 1000);
-            }
-        };
-    }
-
-    public void stopClock() {
-        handler.removeCallbacks(clockRunnable);
-    }
-
-    public void startClock() {
-        handler.post(clockRunnable);
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case NotifyType.WEATHER:
-                weatherItemView = new WeatherItemView(context);
-                return new RecyclerView.ViewHolder(weatherItemView) {
-                };
-            case NotifyType.TODO_LIST:
-                return new RecyclerView.ViewHolder(new TodoItemView(context)) {
-                };
-            default:
-                return new OtherViewHolder(
-                        LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item_home_other, parent, false));
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()) {
-            case NotifyType.WEATHER:
-                Weather weather = (Weather) getItem(position);
-                ((WeatherItemView) holder.itemView).bind(weather, position);
-                break;
-            case NotifyType.TODO_LIST:
-                TodoList todoList = (TodoList) getItem(position);
-                ((TodoItemView) holder.itemView).bind(todoList, position);
-                break;
-            default:
-        }
-    }
-
-    public Object getItem(int position) {
-        return dataList.get(position);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        Object o = dataList.get(position);
-        int type = NotifyType.OTHER;
-        if (o instanceof Weather)
-            type = NotifyType.WEATHER;
-        if (o instanceof TodoList)
-            type = NotifyType.TODO_LIST;
-        return type;
-    }
-
-    @Override
-    public int getItemCount() {
-        return dataList.size();
+        pinkWeatherModel_ = new PinkWeatherModel_();
+        addModel(pinkWeatherModel_);
+        pinkMusicModel_ = new PinkMusicModel_();
+        addModel(pinkMusicModel_);
     }
 
     @Override
     public void weatherLoadStart() {
-        weatherItemView.startLoadWeatherAnimation(unLimitedRotate);
+//        weatherItemView.startLoadWeatherAnimation(unLimitedRotate);
     }
 
     @Override
     public void weatherLoadEnd() {
-        weatherItemView.stopLoadWeatherAnimation();
     }
 
     @Override
     public void weatherLoadError(Throwable e) {
-        weatherItemView.stopLoadWeatherAnimation();
     }
 
     @Override
     public void weatherLoaded(Weather weather) {
-        if(weather == null)
-            return;
-        if (weather.getCod() == Config.HOST_WEATHER_SUCCESS_CODE) {
-            weatherItemView.bind(weather, 0);
+
+        if (weather != null && weather.getCod() == Config.HOST_WEATHER_SUCCESS_CODE) {
+            pinkWeatherModel_.weather(weather);
+            notifyModelChanged(pinkWeatherModel_);
         } else {
             weatherLoadError(null);
         }
@@ -146,43 +76,27 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public void todoListLoaded(TodoList todoList) {
-        if (todoList == null || todoList.size() <= 0)
-            return;
-        int index = 0;
-        for (int i = 1; i < dataList.size(); i++) {
-            if (getItemViewType(i) == NotifyType.TODO_LIST) {
-                index = i;
-                break;
-            }
-        }
-        if (index >= 1) {
-            dataList.set(index, todoList);
-            notifyItemChanged(index);
+
+        if (pinkCalendarModel_ == null) {
+            pinkCalendarModel_ = new PinkCalendarModel_()
+                    .todoList(todoList);
+            addModel(pinkCalendarModel_);
         } else {
-            dataList.add(todoList);
-            notifyItemInserted(dataList.size() - 1);
+            pinkCalendarModel_.todoList(todoList);
+            notifyModelChanged(pinkCalendarModel_);
         }
     }
 
     @Override
     public void locationStart() {
-        if (weatherItemView != null) {
-            weatherItemView.startLocationAnimation(flickerAnimation);
-        }
     }
 
     @Override
     public void locationLoaded(PinkLocation pinkLocation) {
-        if (weatherItemView != null) {
-            weatherItemView.stopLocationAnimation();
-        }
     }
 
     @Override
     public void locationError() {
-        if (weatherItemView != null) {
-            weatherItemView.stopLocationAnimation();
-        }
     }
 
     @Override
@@ -192,7 +106,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public void setPresenter(PinkServiceContract.Presenter presenter) {
-        //nothing to do
+        this.presenter = presenter;
     }
 
 

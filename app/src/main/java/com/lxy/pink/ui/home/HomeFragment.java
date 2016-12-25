@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
             Manifest.permission.ACCESS_FINE_LOCATION
     };
     private int PERMISSION_CODE_ALL = 3;
+    private int spanCount;
 
     @Nullable
     @Override
@@ -73,10 +75,13 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
 
     private void initView() {
         homeAdapter = new HomeAdapter(getContext());
-        StaggeredGridLayoutManager staggeredGridLayoutManager
-                = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        int spanCount = getSpanCount();
+        homeAdapter.setSpanCount(spanCount);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
+        gridLayoutManager.setSpanSizeLookup(homeAdapter.getSpanSizeLookup());
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addItemDecoration(new HomeItemDecoration());
+        recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(homeAdapter);
     }
@@ -126,7 +131,6 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        homeAdapter.stopClock();
         if (serviceConnected) {
             pinkBinder.getService().unRegisterCallback(homeAdapter);
             serviceConnected = false;
@@ -139,13 +143,11 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     @Override
     public void onResume() {
         super.onResume();
-        homeAdapter.startClock();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        homeAdapter.stopClock();
     }
 
     @Override
@@ -172,5 +174,9 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
             FcPermissions.checkDeniedPermissionsNeverAskAgain(this, "需要获取地理位置的权限"
                     , R.string.pink_setting, R.string.pink_cancel, null, perms);
         }
+    }
+
+    public int getSpanCount() {
+        return 6;
     }
 }

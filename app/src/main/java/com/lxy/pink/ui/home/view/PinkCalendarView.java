@@ -3,10 +3,20 @@ package com.lxy.pink.ui.home.view;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.ui.home.TodoAdapter;
 import com.lxy.pink.ui.widget.ExListView;
+import com.lxy.pink.utils.TimeUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,9 +27,12 @@ import butterknife.ButterKnife;
 
 public class PinkCalendarView extends CardView {
     @BindView(R.id.exListView)
-    ExListView mExListView;
+    public ExListView mExListView;
     @BindView(R.id.empty_list_view)
-    TextView mEmptyListView;
+    public TextView mEmptyListView;
+    private TodoAdapter adapter;
+    private View header;
+    private TextView todoCount;
 
     public PinkCalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -29,5 +42,87 @@ public class PinkCalendarView extends CardView {
     private void init() {
         inflate(getContext(), R.layout.pink_home_calendar_view, this);
         ButterKnife.bind(this);
+        header = View.inflate(getContext(), R.layout.item_home_todo_header, null);
+        todoCount = (TextView) header.findViewById(R.id.todo_count);
+
+        mExListView.addHeaderView(header);
+        mExListView.setEmptyView(mEmptyListView);
+        adapter = new TodoAdapter(getContext());
+        mExListView.setAdapter(adapter);
     }
+
+    public void setData(List<Todo> todoList) {
+        if (todoList == null)
+            return;
+
+        todoCount.setText(String.format(getContext().getString(R.string.pink_todo_count), todoList.size()));
+        adapter.setList(todoList);
+    }
+
+    public class TodoAdapter extends BaseAdapter {
+
+        private final Context context;
+        List<Todo> todos = new ArrayList<>();
+
+        public TodoAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return todos.size();
+        }
+
+        @Override
+        public Todo getItem(int position) {
+            return todos.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Todo todo = todos.get(position);
+            ViewHolder viewHolder = null;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_todo_item, parent, false);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            long start = Long.parseLong(todo.getDtstart());
+            long end = Long.parseLong(todo.getDtend());
+
+            if (end - start == 86400000) {
+                viewHolder.time.setText(context.getString(R.string.pink_todo_all_day));
+            } else {
+                viewHolder.time.setText(TimeUtils.formatToTime(Long.parseLong(todo.getDtstart())));
+            }
+            viewHolder.content.setText(todo.getTitle());
+            return convertView;
+        }
+
+        public void setList(List<Todo> todos) {
+            this.todos = todos;
+            notifyDataSetChanged();
+        }
+
+        class ViewHolder {
+            public View itemView;
+            public TextView time;
+            public TextView content;
+
+            ViewHolder(View itemView) {
+                this.itemView = itemView;
+                this.time = (TextView) itemView.findViewById(R.id.time);
+                this.content = (TextView) itemView.findViewById(R.id.content);
+            }
+        }
+    }
+
 }

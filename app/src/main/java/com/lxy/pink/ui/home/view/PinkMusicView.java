@@ -32,8 +32,6 @@ public class PinkMusicView extends RelativeLayout {
     RelativeLayout mRightArea;
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
-    @BindView(R.id.music_layout)
-    RelativeLayout mMusicLayout;
 
     public PinkMusicView(Context context, AttributeSet attrs) {
         super(context, attrs);

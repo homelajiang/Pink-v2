@@ -21,7 +21,6 @@ import java.util.List;
 public class PinkService extends BaseService implements PinkServiceContract.View {
 
 
-    //    private PinkServiceContract.View serviceCallback;
     private PinkServiceContract.Presenter presenter;
     private boolean weatherRequestLocation;
     private Weather lastWeather;
@@ -142,8 +141,13 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     }
 
     public class PinkBinder extends Binder {
+        // TODO: 2016/12/25 合成为一个接口
         public PinkService getService() {
             return PinkService.this;
+        }
+
+        public void refreshNotifition() {
+
         }
 
         public void getWeather() {

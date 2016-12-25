@@ -27,6 +27,8 @@ public class TodoList {
     }
 
     public int size() {
+        if(todoList == null)
+            return 0;
         return this.todoList.size();
     }
 }
