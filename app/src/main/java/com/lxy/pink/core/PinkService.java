@@ -29,8 +29,8 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     @Override
     public void onCreate() {
         super.onCreate();
-        registerCallback(CoreManager.getInstance());
         new PinkServicePresenter(this).subscribe();
+        registerCallback(CoreManager.getInstance());//添加后台计划任务
     }
 
 
@@ -48,6 +48,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     public void registerCallback(PinkServiceContract.View serviceCallback) {
         if (!mCallbacks.contains(serviceCallback)) {
+            serviceCallback.setPresenter(presenter);
             mCallbacks.add(serviceCallback);
         }
     }
@@ -135,9 +136,6 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     @Override
     public void setPresenter(PinkServiceContract.Presenter presenter) {
         this.presenter = presenter;
-        for (PinkServiceContract.View callback : mCallbacks) {
-            callback.setPresenter(presenter);
-        }
     }
 
     public class PinkBinder extends Binder {

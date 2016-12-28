@@ -65,7 +65,7 @@ public class PinkWeatherView extends RelativeLayout {
 
     public void setWeather(Weather weather) {
         mLocation.setText(String.valueOf(weather.getName()));
-        mTemperature.setText(String.valueOf(weather.getMain().getTemp() + "°"));
+        mTemperature.setText(String.valueOf((int)weather.getMain().getTemp() + "°"));
         if (weather.getWeather() != null && weather.getWeather().size() > 0) {
             Weather.WeatherBean weatherBean = weather.getWeather().get(0);
 
