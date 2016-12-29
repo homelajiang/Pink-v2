@@ -79,6 +79,7 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
                 default:
             }
         }
+
     }
 
     private void addVideoModel(ACRecommend.DataBean dataBean) {
@@ -147,7 +148,7 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
     }
 
     private void addLoginModel() {
-        ACLoginModel loginModel = new ACLoginModel_()
+        ACLoginModel_ loginModel = new ACLoginModel_()
                 .clickListener(clickListener);
         addModel(loginModel);
     }

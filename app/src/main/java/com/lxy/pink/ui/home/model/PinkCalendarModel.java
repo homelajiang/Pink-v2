@@ -5,17 +5,22 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
+import com.lxy.pink.core.PinkServiceContract;
 import com.lxy.pink.data.model.todo.TodoList;
+import com.lxy.pink.ui.home.impl.PinkCalendarCallback;
 import com.lxy.pink.ui.home.view.PinkCalendarView;
 
 /**
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> {
+public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements PinkCalendarCallback{
 
     @EpoxyAttribute
     TodoList todoList;
+    @EpoxyAttribute
+    PinkServiceContract.Presenter presenter;
+    private PinkCalendarView calendarView;
 
     @Override
     protected int getDefaultLayout() {
@@ -24,11 +29,26 @@ public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> {
 
     @Override
     public void bind(PinkCalendarView view) {
-        view.setData(todoList.getTodoList());
+        this.calendarView = view;
+        todoListLoaded(this.todoList);
+    }
+
+    @Override
+    public void unbind(PinkCalendarView view) {
+        super.unbind(view);
     }
 
     @Override
     public int getSpanSize(int totalSpanCount, int position, int itemCount) {
         return totalSpanCount;
+    }
+
+    @Override
+    public void todoListLoaded(TodoList todoList) {
+        this.todoList = todoList;
+        if(todoList==null || calendarView ==null){
+            return;
+        }
+        calendarView.setData(this.todoList.getTodoList());
     }
 }

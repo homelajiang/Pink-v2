@@ -2,6 +2,7 @@ package com.lxy.pink.ui.home.view;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
@@ -50,6 +51,15 @@ public class PinkWeatherView extends RelativeLayout {
     private SimpleDateFormat timeFormat;
     private SimpleDateFormat dateTimeFormat;
 
+    private Handler handler = new Handler();
+    private Runnable timeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            handler.postDelayed(timeRunnable,100);
+            setTime(String.valueOf(System.currentTimeMillis()));
+        }
+    };
+
     public PinkWeatherView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -64,6 +74,8 @@ public class PinkWeatherView extends RelativeLayout {
     }
 
     public void setWeather(Weather weather) {
+//        handler.post(timeRunnable);
+
         mLocation.setText(String.valueOf(weather.getName()));
         mTemperature.setText(String.valueOf((int)weather.getMain().getTemp() + "°"));
         if (weather.getWeather() != null && weather.getWeather().size() > 0) {
@@ -84,6 +96,10 @@ public class PinkWeatherView extends RelativeLayout {
         } else {
             mDescription.setText(null);
         }
+    }
+
+    public void setTime(String time){
+        mTime.setText(time);
     }
 
     private Uri getWeatherResourceUri(String partName, int weatherId) {

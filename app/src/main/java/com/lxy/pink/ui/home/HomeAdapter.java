@@ -1,27 +1,25 @@
 package com.lxy.pink.ui.home;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.lxy.pink.R;
+import com.lxy.pink.core.PinkService;
 import com.lxy.pink.core.PinkServiceContract;
 import com.lxy.pink.data.model.location.PinkLocation;
+import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
-import com.lxy.pink.ui.home.model.PinkCalendarModel;
+import com.lxy.pink.player.IPlayback;
+import com.lxy.pink.player.PlaybackService;
 import com.lxy.pink.ui.home.model.PinkCalendarModel_;
 import com.lxy.pink.ui.home.model.PinkMusicModel_;
-import com.lxy.pink.ui.home.model.PinkWeatherModel;
 import com.lxy.pink.ui.home.model.PinkWeatherModel_;
 import com.lxy.pink.utils.Config;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,12 +28,12 @@ import butterknife.ButterKnife;
  * Created by yuan on 2016/10/20.
  */
 
-public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.View {
+public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.View, IPlayback.Callback {
 
-    private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private final Context context;
-    private List<Object> dataList = new ArrayList<>();
     private PinkServiceContract.Presenter presenter;
+
+    private PlaybackService mPlayer;
 
     private PinkCalendarModel_ pinkCalendarModel_;
     private PinkWeatherModel_ pinkWeatherModel_;
@@ -44,33 +42,50 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
     public HomeAdapter(Context context) {
         enableDiffing();
         this.context = context;
-        pinkWeatherModel_ = new PinkWeatherModel_();
-        addModel(pinkWeatherModel_);
+    }
+
+
+    @Override
+    public void setPresenter(PinkServiceContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    public void setMusicService(PlaybackService mPlayer) {
+        this.mPlayer = mPlayer;
         pinkMusicModel_ = new PinkMusicModel_();
         addModel(pinkMusicModel_);
     }
 
     @Override
     public void weatherLoadStart() {
-//        weatherItemView.startLoadWeatherAnimation(unLimitedRotate);
+        if (pinkWeatherModel_ != null) {
+            pinkWeatherModel_.weatherLoadStart();
+        }
     }
 
     @Override
     public void weatherLoadEnd() {
+        if (pinkWeatherModel_ != null)
+            pinkWeatherModel_.weatherLoadEnd();
     }
 
     @Override
     public void weatherLoadError(Throwable e) {
+        if (pinkWeatherModel_ != null)
+            pinkWeatherModel_.weatherLoadError(e);
     }
 
     @Override
     public void weatherLoaded(Weather weather) {
 
-        if (weather != null && weather.getCod() == Config.HOST_WEATHER_SUCCESS_CODE) {
-            pinkWeatherModel_.weather(weather);
-            notifyModelChanged(pinkWeatherModel_);
+        if (pinkWeatherModel_ != null) {
+            pinkWeatherModel_.weatherLoaded(weather);
         } else {
-            weatherLoadError(null);
+            pinkWeatherModel_ = new PinkWeatherModel_();
+            pinkWeatherModel_
+                    .presenter(presenter)
+                    .weather(weather);
+            addModel(pinkWeatherModel_);
         }
     }
 
@@ -78,12 +93,13 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
     public void todoListLoaded(TodoList todoList) {
 
         if (pinkCalendarModel_ == null) {
-            pinkCalendarModel_ = new PinkCalendarModel_()
+            pinkCalendarModel_ = new PinkCalendarModel_();
+            pinkCalendarModel_
+                    .presenter(presenter)
                     .todoList(todoList);
             addModel(pinkCalendarModel_);
         } else {
-            pinkCalendarModel_.todoList(todoList);
-            notifyModelChanged(pinkCalendarModel_);
+            pinkCalendarModel_.todoListLoaded(todoList);
         }
     }
 
@@ -104,9 +120,25 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
         //nothing to do
     }
 
+
     @Override
-    public void setPresenter(PinkServiceContract.Presenter presenter) {
-        this.presenter = presenter;
+    public void onSwitchLast(@Nullable Song last) {
+
+    }
+
+    @Override
+    public void onSwitchNext(@Nullable Song next) {
+
+    }
+
+    @Override
+    public void onComplete(@Nullable Song next) {
+
+    }
+
+    @Override
+    public void onPlayStatusChanged(boolean isPlaying) {
+
     }
 
 

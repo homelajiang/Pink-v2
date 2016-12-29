@@ -1,5 +1,6 @@
 package com.lxy.pink.ui.video.models;
 
+import android.util.Log;
 import android.view.View;
 
 import com.airbnb.epoxy.EpoxyAttribute;
@@ -8,6 +9,7 @@ import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.ui.video.VideoFragmentAdapter;
 import com.lxy.pink.ui.video.views.ACCarouselView;
+import com.orhanobut.logger.Logger;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 
@@ -29,6 +31,7 @@ public class ACCarouselModel extends EpoxyModel<ACCarouselView> {
 
     @Override
     public void bind(ACCarouselView view) {
+        Log.e("bind_test","bindView");
         view.setBgaBanner(dataBean.getContents());
         if (acItemClickListener != null) {
             view.bgaBanner.setDelegate(new BGABanner.Delegate() {
@@ -43,5 +46,11 @@ public class ACCarouselModel extends EpoxyModel<ACCarouselView> {
     @Override
     public int getSpanSize(int totalSpanCount, int position, int itemCount) {
         return totalSpanCount;
+    }
+
+    @Override
+    public void unbind(ACCarouselView view) {
+        super.unbind(view);
+        Log.e("bind_test","unBindView");
     }
 }

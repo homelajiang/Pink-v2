@@ -13,7 +13,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import android.view.ViewGroup;
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.core.PinkService;
+import com.lxy.pink.player.PlaybackService;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.permission.FcPermissions;
 import com.lxy.pink.ui.permission.FcPermissionsCallbacks;
@@ -36,17 +36,14 @@ import rx.functions.Action1;
 /**
  * Created by yuan on 2016/10/18.
  */
-public class HomeFragment extends BaseFragment implements ServiceConnection, FcPermissionsCallbacks {
+public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks {
 
     public static final String TAG = "HomeFragment";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-
-    public boolean serviceConnected;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private View root;
     private PinkService.PinkBinder pinkBinder;
     private HomeAdapter homeAdapter;
     private String[] PERMISSION_ALL = {
@@ -56,12 +53,47 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
             Manifest.permission.ACCESS_FINE_LOCATION
     };
     private int PERMISSION_CODE_ALL = 3;
-    private int spanCount;
+    private boolean pinkServiceConnected;
+    private PlaybackService mPlayer;
+    private boolean musicServiceConnected;
+
+    private ServiceConnection pinkServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            pinkServiceConnected = true;
+            pinkBinder = (PinkService.PinkBinder) service;
+            pinkBinder.getService().registerCallback(homeAdapter);
+            burstLink();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicServiceConnected = false;
+            pinkBinder = null;
+        }
+    };
+
+    private ServiceConnection musicServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            musicServiceConnected = true;
+            mPlayer = ((PlaybackService.LocalBuilder) service).getService();
+            mPlayer.registerCallback(homeAdapter);
+            homeAdapter.setMusicService(mPlayer);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicServiceConnected = false;
+            mPlayer = null;
+        }
+    };
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
+        View root = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
         ButterKnife.bind(this, root);
         initView();
         initData();
@@ -70,7 +102,9 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
 
     private void initData() {
         Intent intent = new Intent(getContext(), PinkService.class);
-        getActivity().bindService(intent, this, Context.BIND_AUTO_CREATE);
+        getActivity().bindService(intent, pinkServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent musicIntent = new Intent(getContext(), PlaybackService.class);
+        getContext().bindService(musicIntent, musicServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void initView() {
@@ -98,19 +132,6 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
                 .subscribe(RxBus.defaultSubscriber());
     }
 
-    @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
-        serviceConnected = true;
-        pinkBinder = (PinkService.PinkBinder) service;
-        pinkBinder.getService().registerCallback(homeAdapter);
-
-        burstLink();
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-
-    }
 
     /**
      * ★ burst link ★
@@ -123,7 +144,6 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         FcPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
@@ -131,11 +151,18 @@ public class HomeFragment extends BaseFragment implements ServiceConnection, FcP
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (serviceConnected) {
+        if (pinkServiceConnected) {
             pinkBinder.getService().unRegisterCallback(homeAdapter);
-            serviceConnected = false;
+            pinkServiceConnected = false;
             pinkBinder = null;
-            getActivity().unbindService(this);
+            getContext().unbindService(pinkServiceConnection);
+        }
+
+        if (musicServiceConnected) {
+            mPlayer.unregisterCallback(homeAdapter);
+            musicServiceConnected = false;
+            mPlayer = null;
+            getContext().unbindService(musicServiceConnection);
         }
     }
 

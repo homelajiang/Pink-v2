@@ -1,5 +1,6 @@
 package com.lxy.pink.ui.video.models;
 
+import android.os.Handler;
 import android.view.View;
 
 import com.airbnb.epoxy.EpoxyAttribute;
@@ -48,6 +49,11 @@ public class ACLoginModel extends EpoxyModel<ACLoginView> {
             view.headIcon.setOnClickListener(clickListener);
             view.msg.setOnClickListener(clickListener);
         }
+    }
+
+    @Override
+    public boolean shouldSaveViewState() {
+        return false;
     }
 
     @Override
