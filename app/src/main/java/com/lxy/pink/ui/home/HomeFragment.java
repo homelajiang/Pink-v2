@@ -20,6 +20,10 @@ import android.view.ViewGroup;
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.core.PinkService;
+import com.lxy.pink.data.model.music.PlayList;
+import com.lxy.pink.data.source.PreferenceManager;
+import com.lxy.pink.event.PlayListLoadedEvent;
+import com.lxy.pink.event.PlayListNowEvent;
 import com.lxy.pink.player.PlaybackService;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.permission.FcPermissions;
@@ -120,19 +124,6 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
         recyclerView.setAdapter(homeAdapter);
     }
 
-    @Override
-    protected Subscription subscribeEvents() {
-        return RxBus.getInstance().toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Action1<Object>() {
-                    @Override
-                    public void call(Object o) {
-                    }
-                })
-                .subscribe(RxBus.defaultSubscriber());
-    }
-
-
     /**
      * ★ burst link ★
      */
@@ -205,5 +196,58 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
 
     public int getSpanCount() {
         return 6;
+    }
+
+    @Override
+    protected Subscription subscribeEvents() {
+        return RxBus.getInstance().toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        if (o instanceof PlayListNowEvent) {
+                            onPlayListNowEvent((PlayListNowEvent) o);
+                        } else if (o instanceof PlayListLoadedEvent) {
+                            onPlayListEvent((PlayListLoadedEvent) o);
+                        }
+                    }
+                })
+                .subscribe(RxBus.defaultSubscriber());
+    }
+
+    private void onPlayListEvent(PlayListLoadedEvent o) {
+        PlayList playList = o.playList;
+
+        if (playList == null)
+            return;
+
+        long songId = PreferenceManager.getLastSong(getContext());
+
+        if (songId == 0)
+            return;
+
+        int playIndex = -1;
+
+        for (int i = 0; i < playList.getNumOfSongs(); i++) {
+            if (songId == playList.getSong(i).getId()) {
+                playIndex = i;
+                break;
+            }
+        }
+
+        if (playIndex == -1)
+            return;
+
+        playList.setPlayingIndex(playIndex);
+        mPlayer.setPlayList(playList);
+
+//        onSongUpdated(playList.getCurrentSong());
+
+    }
+
+    private void onPlayListNowEvent(PlayListNowEvent o) {
+        PlayList playList = o.playList;
+        int playIndex = o.playIndex;
+//        playSong(playList, playIndex);
     }
 }
