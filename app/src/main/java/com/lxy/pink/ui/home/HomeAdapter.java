@@ -125,6 +125,7 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
     public void onSwitchLast(@Nullable Song last) {
         if (pinkMusicModel_ == null) {
             pinkMusicModel_ = new PinkMusicModel_();
+            pinkMusicModel_.mPlayer(mPlayer);
             addModel(pinkMusicModel_);
         } else {
             pinkMusicModel_.onSwitchLast(last);
@@ -135,6 +136,7 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
     public void onSwitchNext(@Nullable Song next) {
         if (pinkMusicModel_ == null) {
             pinkMusicModel_ = new PinkMusicModel_();
+            pinkMusicModel_.mPlayer(mPlayer);
             addModel(pinkMusicModel_);
         } else {
             pinkMusicModel_.onSwitchNext(next);
@@ -145,6 +147,7 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
     public void onComplete(@Nullable Song next) {
         if (pinkMusicModel_ == null) {
             pinkMusicModel_ = new PinkMusicModel_();
+            pinkMusicModel_.mPlayer(mPlayer);
             addModel(pinkMusicModel_);
         } else {
             pinkMusicModel_.onComplete(next);
@@ -155,6 +158,7 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
     public void onPlayStatusChanged(boolean isPlaying) {
         if (pinkMusicModel_ == null) {
             pinkMusicModel_ = new PinkMusicModel_();
+            pinkMusicModel_.mPlayer(mPlayer);
             addModel(pinkMusicModel_);
         } else {
             pinkMusicModel_.onPlayStatusChanged(isPlaying);

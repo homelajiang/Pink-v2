@@ -248,6 +248,6 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
     private void onPlayListNowEvent(PlayListNowEvent o) {
         PlayList playList = o.playList;
         int playIndex = o.playIndex;
-//        playSong(playList, playIndex);
+        homeAdapter.play(playList, playIndex);
     }
 }
