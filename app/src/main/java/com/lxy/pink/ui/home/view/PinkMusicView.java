@@ -54,7 +54,6 @@ public class PinkMusicView extends RelativeLayout {
                     } else {
                         mProgressBar.setProgress(progress);
                     }
-                    mProgressBar.setProgress(progress);
                     postDelayed(this, UPDATE_PROGRESS_INTERVAL);
                 }
             }
@@ -63,14 +62,12 @@ public class PinkMusicView extends RelativeLayout {
 
     public void ABind(PlaybackService mPlayer) {
         this.mPlayer = mPlayer;
-        updateUI();
+
+        Song song = mPlayer.getPlayingSong();
+        updateUI(song);
     }
 
-    private void updateUI() {
-        if (mPlayer == null)
-            return;
-        Song song = mPlayer.getPlayingSong();
-
+    public void updateUI(Song song) {
         mMusicMusic.setText(song.getTitle());
         mMusicSubTitle.setText(song.getArtist());
         mMusicTime.setText(TimeUtils.formatDuration((int) song.getDuration()));
@@ -79,19 +76,34 @@ public class PinkMusicView extends RelativeLayout {
             post(progressCallback);
             mMusicPlay.setImageResource(R.drawable.ic_pause_circle_outline_black_36dp);
             mMusicPlay.setImageResource(R.drawable.ic_pause_circle_outline_black_36dp);
+        } else {
+            mMusicPlay.setImageResource(R.drawable.ic_play_circle_outline_black_36dp);
+            mMusicPlay.setImageResource(R.drawable.ic_play_circle_outline_black_36dp);
         }
         Uri albumUri = MediaHelper.getCoverUri(song.getAlbumId(), song.getId());
         mMusicAlbum.setImageURI(albumUri);
     }
 
-    public void unABind() {
-
+    public void updatePlayToggle(boolean play) {
+        if (play) {
+            removeCallbacks(progressCallback);
+            post(progressCallback);
+        } else {
+            removeCallbacks(progressCallback);
+        }
+        mMusicPlay.setImageResource(play ? R.drawable.ic_pause_circle_outline_black_36dp
+                : R.drawable.ic_play_circle_outline_black_36dp);
     }
 
-    private PinkMusicView(Context context, AttributeSet attrs) {
+    public void unABind() {
+        removeCallbacks(progressCallback);
+    }
+
+    public PinkMusicView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
+
     private void init() {
         inflate(getContext(), R.layout.pink_home_music_view, this);
         ButterKnife.bind(this);

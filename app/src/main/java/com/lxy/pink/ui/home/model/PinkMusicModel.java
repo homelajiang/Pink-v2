@@ -22,9 +22,6 @@ public class PinkMusicModel extends EpoxyModel<PinkMusicView> implements IPlayba
 
     private PinkMusicView musicView;
 
-    private final int UPDATE_PROGRESS_INTERVAL = 1000;
-
-
     @Override
     protected int getDefaultLayout() {
         return R.layout.pink_home_music_model;
@@ -33,7 +30,13 @@ public class PinkMusicModel extends EpoxyModel<PinkMusicView> implements IPlayba
     @Override
     public void bind(PinkMusicView view) {
         this.musicView = view;
-//        musicView.bind(mPlayer);
+        musicView.ABind(mPlayer);
+    }
+
+    @Override
+    public void unbind(PinkMusicView view) {
+        super.unbind(view);
+        musicView.unABind();
     }
 
     @Override
@@ -43,21 +46,21 @@ public class PinkMusicModel extends EpoxyModel<PinkMusicView> implements IPlayba
 
     @Override
     public void onSwitchLast(@Nullable Song last) {
-
+        musicView.updateUI(last);
     }
 
     @Override
     public void onSwitchNext(@Nullable Song next) {
-
+        musicView.updateUI(next);
     }
 
     @Override
     public void onComplete(@Nullable Song next) {
-
+        musicView.updateUI(next);
     }
 
     @Override
     public void onPlayStatusChanged(boolean isPlaying) {
-
+        musicView.updatePlayToggle(isPlaying);
     }
 }
