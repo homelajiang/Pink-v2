@@ -64,11 +64,14 @@ public class PinkMusicView extends RelativeLayout {
         }
     };
 
-    public void ABind(PlaybackService mPlayer) {
+    public void bind(PlaybackService mPlayer) {
         this.mPlayer = mPlayer;
-
         Song song = mPlayer.getPlayingSong();
         updateUI(song);
+    }
+
+    public void unBind() {
+        removeCallbacks(progressRunnable);
     }
 
     @OnClick(R.id.music_play)
@@ -97,9 +100,7 @@ public class PinkMusicView extends RelativeLayout {
         if (mPlayer.isPlaying()) {
             post(progressRunnable);
             mMusicPlay.setImageResource(R.drawable.ic_pause_circle_outline_black_36dp);
-            mMusicPlay.setImageResource(R.drawable.ic_pause_circle_outline_black_36dp);
         } else {
-            mMusicPlay.setImageResource(R.drawable.ic_play_circle_outline_black_36dp);
             mMusicPlay.setImageResource(R.drawable.ic_play_circle_outline_black_36dp);
         }
         Uri albumUri = MediaHelper.getCoverUri(song.getAlbumId(), song.getId());
@@ -125,13 +126,9 @@ public class PinkMusicView extends RelativeLayout {
             mMusicPlay.setImageResource(play ? R.drawable.ic_pause_circle_outline_black_36dp
                     : R.drawable.ic_play_circle_outline_black_36dp);
         } else {
-            //更新界面颗控制器
+            //更新界面和控制器
             updateUI(playingSong);
         }
-    }
-
-    public void unABind() {
-        removeCallbacks(progressRunnable);
     }
 
     public PinkMusicView(Context context, AttributeSet attrs) {

@@ -1,6 +1,5 @@
 package com.lxy.pink.ui.home.model;
 
-import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.airbnb.epoxy.EpoxyAttribute;
@@ -10,6 +9,7 @@ import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.player.IPlayback;
 import com.lxy.pink.player.PlaybackService;
 import com.lxy.pink.ui.home.view.PinkMusicView;
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by homelajiang on 2016/12/23 0023.
@@ -21,6 +21,7 @@ public class PinkMusicModel extends EpoxyModel<PinkMusicView> implements IPlayba
     PlaybackService mPlayer;
 
     private PinkMusicView musicView;
+    private boolean isBind;
 
     @Override
     protected int getDefaultLayout() {
@@ -30,13 +31,15 @@ public class PinkMusicModel extends EpoxyModel<PinkMusicView> implements IPlayba
     @Override
     public void bind(PinkMusicView view) {
         this.musicView = view;
-        musicView.ABind(mPlayer);
+        musicView.bind(mPlayer);
+        this.isBind = true;
     }
 
     @Override
     public void unbind(PinkMusicView view) {
         super.unbind(view);
-        musicView.unABind();
+        musicView.unBind();
+        this.isBind = false;
     }
 
     @Override
@@ -46,21 +49,25 @@ public class PinkMusicModel extends EpoxyModel<PinkMusicView> implements IPlayba
 
     @Override
     public void onSwitchLast(@Nullable Song last) {
-        musicView.updateUI(last);
+        if (isBind)
+            musicView.updateUI(last);
     }
 
     @Override
     public void onSwitchNext(@Nullable Song next) {
-        musicView.updateUI(next);
+        if (isBind)
+            musicView.updateUI(next);
     }
 
     @Override
     public void onComplete(@Nullable Song next) {
-        musicView.updateUI(next);
+        if (isBind)
+            musicView.updateUI(next);
     }
 
     @Override
     public void onPlayStatusChanged(boolean isPlaying) {
-        musicView.updatePlayToggle(isPlaying);
+        if (isBind)
+            musicView.updatePlayToggle(isPlaying);
     }
 }

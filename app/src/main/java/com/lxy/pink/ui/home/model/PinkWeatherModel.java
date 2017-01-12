@@ -20,11 +20,11 @@ import com.lxy.pink.ui.home.view.PinkWeatherView;
 
 public class PinkWeatherModel extends EpoxyModel<PinkWeatherView> implements PinkWeatherCallback {
 
-    @EpoxyAttribute
     Weather weather;
     @EpoxyAttribute
     PinkServiceContract.Presenter presenter;
     private PinkWeatherView weatherView;
+    private boolean isBind;
 
     //    private final Animation flickerAnimation = AnimationUtils.loadAnimation(context, R.anim.flicker);
 //    private final Animation unLimitedRotate = AnimationUtils.loadAnimation(context, R.anim.unlimited_rotate);
@@ -37,13 +37,15 @@ public class PinkWeatherModel extends EpoxyModel<PinkWeatherView> implements Pin
     @Override
     public void bind(final PinkWeatherView view) {
         this.weatherView = view;
-        weatherLoaded(weather);
+        weatherView.bind();
+        this.isBind = true;
     }
 
 
     @Override
     public void unbind(PinkWeatherView view) {
-        super.unbind(view);// TODO: 2016/12/29 0029 处理view被回收的情况
+        super.unbind(view);
+        this.isBind = false;
     }
 
     @Override
@@ -53,7 +55,8 @@ public class PinkWeatherModel extends EpoxyModel<PinkWeatherView> implements Pin
 
     @Override
     public void weatherLoadStart() {
-
+//        if(isBind)
+//            weatherView.
     }
 
     @Override

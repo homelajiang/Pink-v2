@@ -44,63 +44,61 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
     public HomeAdapter(Context context) {
         enableDiffing();
         this.context = context;
-    }
+        this.pinkCalendarModel_ = new PinkCalendarModel_();
+        this.pinkWeatherModel_ = new PinkWeatherModel_();
+        this.pinkMusicModel_ = new PinkMusicModel_();
 
+        addModels(
+                this.pinkWeatherModel_,
+                this.pinkMusicModel_,
+                this.pinkCalendarModel_
+        );
+
+        showModels(false, this.pinkCalendarModel_,
+                this.pinkMusicModel_,
+                this.pinkWeatherModel_);
+    }
 
     @Override
     public void setPresenter(PinkServiceContract.Presenter presenter) {
         this.presenter = presenter;
+        pinkWeatherModel_.presenter(this.presenter);
+        pinkCalendarModel_.presenter(this.presenter);
     }
 
     public void setMusicService(PlaybackService mPlayer) {
         this.mPlayer = mPlayer;
+        pinkMusicModel_.mPlayer(this.mPlayer);
     }
 
     @Override
     public void weatherLoadStart() {
-        if (pinkWeatherModel_ != null) {
-            pinkWeatherModel_.weatherLoadStart();
-        }
+        showModel(pinkWeatherModel_);
+        pinkWeatherModel_.weatherLoadStart();
     }
 
     @Override
     public void weatherLoadEnd() {
-        if (pinkWeatherModel_ != null)
-            pinkWeatherModel_.weatherLoadEnd();
+        showModel(pinkWeatherModel_);
+        pinkWeatherModel_.weatherLoadEnd();
     }
 
     @Override
     public void weatherLoadError(Throwable e) {
-        if (pinkWeatherModel_ != null)
-            pinkWeatherModel_.weatherLoadError(e);
+        showModel(pinkWeatherModel_);
+        pinkWeatherModel_.weatherLoadError(e);
     }
 
     @Override
     public void weatherLoaded(Weather weather) {
-
-        if (pinkWeatherModel_ != null) {
-            pinkWeatherModel_.weatherLoaded(weather);
-        } else {
-            pinkWeatherModel_ = new PinkWeatherModel_();
-            pinkWeatherModel_
-                    .presenter(presenter)
-                    .weather(weather);
-            addModel(pinkWeatherModel_);
-        }
+        showModel(pinkWeatherModel_);
+        pinkWeatherModel_.weatherLoaded(weather);
     }
 
     @Override
     public void todoListLoaded(TodoList todoList) {
-
-        if (pinkCalendarModel_ == null) {
-            pinkCalendarModel_ = new PinkCalendarModel_();
-            pinkCalendarModel_
-                    .presenter(presenter)
-                    .todoList(todoList);
-            addModel(pinkCalendarModel_);
-        } else {
-            pinkCalendarModel_.todoListLoaded(todoList);
-        }
+        showModel(pinkCalendarModel_);
+        pinkCalendarModel_.todoListLoaded(todoList);
     }
 
     @Override
@@ -123,46 +121,26 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
 
     @Override
     public void onSwitchLast(@Nullable Song last) {
-        if (pinkMusicModel_ == null) {
-            pinkMusicModel_ = new PinkMusicModel_();
-            pinkMusicModel_.mPlayer(mPlayer);
-            addModel(pinkMusicModel_);
-        } else {
-            pinkMusicModel_.onSwitchLast(last);
-        }
+        showModel(pinkMusicModel_);
+        pinkMusicModel_.onSwitchLast(last);
     }
 
     @Override
     public void onSwitchNext(@Nullable Song next) {
-        if (pinkMusicModel_ == null) {
-            pinkMusicModel_ = new PinkMusicModel_();
-            pinkMusicModel_.mPlayer(mPlayer);
-            addModel(pinkMusicModel_);
-        } else {
-            pinkMusicModel_.onSwitchNext(next);
-        }
+        showModel(pinkMusicModel_);
+        pinkMusicModel_.onSwitchNext(next);
     }
 
     @Override
     public void onComplete(@Nullable Song next) {
-        if (pinkMusicModel_ == null) {
-            pinkMusicModel_ = new PinkMusicModel_();
-            pinkMusicModel_.mPlayer(mPlayer);
-            addModel(pinkMusicModel_);
-        } else {
-            pinkMusicModel_.onComplete(next);
-        }
+        showModel(pinkMusicModel_);
+        pinkMusicModel_.onComplete(next);
     }
 
     @Override
     public void onPlayStatusChanged(boolean isPlaying) {
-        if (pinkMusicModel_ == null) {
-            pinkMusicModel_ = new PinkMusicModel_();
-            pinkMusicModel_.mPlayer(mPlayer);
-            addModel(pinkMusicModel_);
-        } else {
-            pinkMusicModel_.onPlayStatusChanged(isPlaying);
-        }
+        showModel(pinkMusicModel_);
+        pinkMusicModel_.onPlayStatusChanged(isPlaying);
     }
 
     @Override
@@ -272,16 +250,5 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
     @Override
     public void releasePlayer() {
 //nothing to do
-    }
-
-
-    static class OtherViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.test)
-        TextView test;
-
-        OtherViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
     }
 }

@@ -1,7 +1,5 @@
 package com.lxy.pink.ui.home.model;
 
-import android.view.View;
-
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
@@ -14,9 +12,8 @@ import com.lxy.pink.ui.home.view.PinkCalendarView;
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements PinkCalendarCallback{
+public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements PinkCalendarCallback {
 
-    @EpoxyAttribute
     TodoList todoList;
     @EpoxyAttribute
     PinkServiceContract.Presenter presenter;
@@ -29,6 +26,8 @@ public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements P
 
     @Override
     public void bind(PinkCalendarView view) {
+        if (this.todoList == null)
+            return;
         this.calendarView = view;
         todoListLoaded(this.todoList);
     }
@@ -46,7 +45,7 @@ public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements P
     @Override
     public void todoListLoaded(TodoList todoList) {
         this.todoList = todoList;
-        if(todoList==null || calendarView ==null){
+        if (todoList == null || calendarView == null) {
             return;
         }
         calendarView.setData(this.todoList.getTodoList());

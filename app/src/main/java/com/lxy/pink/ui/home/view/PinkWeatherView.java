@@ -65,6 +65,10 @@ public class PinkWeatherView extends RelativeLayout {
         init();
     }
 
+    public void bind(){
+
+    }
+
     private void init() {
         inflate(getContext(), R.layout.pink_home_weather_view, this);
         ButterKnife.bind(this);
