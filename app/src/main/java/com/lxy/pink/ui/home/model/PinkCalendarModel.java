@@ -18,6 +18,7 @@ public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements P
     @EpoxyAttribute
     PinkServiceContract.Presenter presenter;
     private PinkCalendarView calendarView;
+    private boolean isBind;
 
     @Override
     protected int getDefaultLayout() {
@@ -26,15 +27,15 @@ public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements P
 
     @Override
     public void bind(PinkCalendarView view) {
-        if (this.todoList == null)
-            return;
         this.calendarView = view;
-        todoListLoaded(this.todoList);
+        calendarView.setData(todoList.getTodoList());
+        this.isBind = true;
     }
 
     @Override
     public void unbind(PinkCalendarView view) {
         super.unbind(view);
+        this.isBind = false;
     }
 
     @Override
@@ -45,9 +46,7 @@ public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements P
     @Override
     public void todoListLoaded(TodoList todoList) {
         this.todoList = todoList;
-        if (todoList == null || calendarView == null) {
-            return;
-        }
+        if(isBind)
         calendarView.setData(this.todoList.getTodoList());
     }
 }

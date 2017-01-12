@@ -54,7 +54,6 @@ public class PinkCalendarView extends CardView {
     public void setData(List<Todo> todoList) {
         if (todoList == null)
             return;
-
         todoCount.setText(String.format(getContext().getString(R.string.pink_todo_count), todoList.size()));
         adapter.setList(todoList);
     }

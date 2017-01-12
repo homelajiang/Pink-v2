@@ -10,7 +10,9 @@ import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
 import com.lxy.pink.core.PinkService;
 import com.lxy.pink.core.PinkServiceContract;
+import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.weather.Weather;
+import com.lxy.pink.ui.home.impl.PinkLocationCallback;
 import com.lxy.pink.ui.home.impl.PinkWeatherCallback;
 import com.lxy.pink.ui.home.view.PinkWeatherView;
 
@@ -18,16 +20,17 @@ import com.lxy.pink.ui.home.view.PinkWeatherView;
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkWeatherModel extends EpoxyModel<PinkWeatherView> implements PinkWeatherCallback {
+public class PinkWeatherModel extends EpoxyModel<PinkWeatherView> implements PinkWeatherCallback, PinkLocationCallback {
 
-    Weather weather;
     @EpoxyAttribute
     PinkServiceContract.Presenter presenter;
     private PinkWeatherView weatherView;
     private boolean isBind;
 
-    //    private final Animation flickerAnimation = AnimationUtils.loadAnimation(context, R.anim.flicker);
-//    private final Animation unLimitedRotate = AnimationUtils.loadAnimation(context, R.anim.unlimited_rotate);
+    private Weather weather;
+    private boolean locationRun;
+    private boolean refreshRun;
+
 
     @Override
     protected int getDefaultLayout() {
@@ -37,7 +40,7 @@ public class PinkWeatherModel extends EpoxyModel<PinkWeatherView> implements Pin
     @Override
     public void bind(final PinkWeatherView view) {
         this.weatherView = view;
-        weatherView.bind();
+        weatherView.bind(weather, locationRun, refreshRun);
         this.isBind = true;
     }
 
@@ -55,13 +58,16 @@ public class PinkWeatherModel extends EpoxyModel<PinkWeatherView> implements Pin
 
     @Override
     public void weatherLoadStart() {
-//        if(isBind)
-//            weatherView.
+        refreshRun = true;
+        if (isBind)
+            weatherView.setRefreshAnim(true);
     }
 
     @Override
     public void weatherLoadEnd() {
-
+        refreshRun = false;
+        if (isBind)
+            weatherView.setRefreshAnim(false);
     }
 
     @Override
@@ -72,8 +78,21 @@ public class PinkWeatherModel extends EpoxyModel<PinkWeatherView> implements Pin
     @Override
     public void weatherLoaded(Weather weather) {
         this.weather = weather;
-        if (weather == null || weatherView == null)
-            return;
-        weatherView.setWeather(weather);
+        if (isBind)
+            weatherView.setWeather(weather);
+    }
+
+    @Override
+    public void locationStart() {
+        this.locationRun = true;
+        if (isBind)
+            weatherView.setLocationAnim(true);
+    }
+
+    @Override
+    public void locationLoaded(PinkLocation pinkLocation) {
+        this.locationRun = false;
+        if (isBind)
+            weatherView.setLocationAnim(false);
     }
 }

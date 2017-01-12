@@ -97,16 +97,24 @@ public class HomeAdapter extends EpoxyAdapter implements PinkServiceContract.Vie
 
     @Override
     public void todoListLoaded(TodoList todoList) {
+        if (todoList.size() <= 0)
+            return;
         showModel(pinkCalendarModel_);
         pinkCalendarModel_.todoListLoaded(todoList);
     }
 
     @Override
     public void locationStart() {
+        if (pinkWeatherModel_.isShown()) {
+            pinkWeatherModel_.locationStart();
+        }
     }
 
     @Override
     public void locationLoaded(PinkLocation pinkLocation) {
+        if (pinkWeatherModel_.isShown()) {
+            pinkWeatherModel_.locationLoaded(pinkLocation);
+        }
     }
 
     @Override

@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,22 +53,15 @@ public class PinkWeatherView extends RelativeLayout {
     private SimpleDateFormat timeFormat;
     private SimpleDateFormat dateTimeFormat;
 
-    private Handler handler = new Handler();
-    private Runnable timeRunnable = new Runnable() {
-        @Override
-        public void run() {
-            handler.postDelayed(timeRunnable,100);
-            setTime(String.valueOf(System.currentTimeMillis()));
-        }
-    };
+    private final Animation flickerAnimation
+            = AnimationUtils.loadAnimation(getContext(), R.anim.flicker);
+    private final Animation unLimitedRotate
+            = AnimationUtils.loadAnimation(getContext(), R.anim.unlimited_rotate);
+
 
     public PinkWeatherView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
-    }
-
-    public void bind(){
-
     }
 
     private void init() {
@@ -77,11 +72,28 @@ public class PinkWeatherView extends RelativeLayout {
 
     }
 
-    public void setWeather(Weather weather) {
-//        handler.post(timeRunnable);
+    public void bind(Weather weather, boolean locationRun, boolean refreshRun) {
+        if (weather != null)
+            setWeather(weather);
+        setLocationAnim(locationRun);
+        setRefreshAnim(refreshRun);
+    }
 
+    public void setLocationAnim(boolean running) {
+        mLocationIcon.clearAnimation();
+        if (running)
+            mLocationIcon.setAnimation(flickerAnimation);
+    }
+
+    public void setRefreshAnim(boolean running) {
+        mRefresh.clearAnimation();
+        if (running)
+            mRefresh.setAnimation(unLimitedRotate);
+    }
+
+    public void setWeather(Weather weather) {
         mLocation.setText(String.valueOf(weather.getName()));
-        mTemperature.setText(String.valueOf((int)weather.getMain().getTemp() + "°"));
+        mTemperature.setText(String.valueOf((int) weather.getMain().getTemp() + "°"));
         if (weather.getWeather() != null && weather.getWeather().size() > 0) {
             Weather.WeatherBean weatherBean = weather.getWeather().get(0);
 
@@ -102,7 +114,7 @@ public class PinkWeatherView extends RelativeLayout {
         }
     }
 
-    public void setTime(String time){
+    public void setTime(String time) {
         mTime.setText(time);
     }
 
