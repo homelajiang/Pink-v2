@@ -3,22 +3,20 @@ package com.lxy.pink.ui.home.model;
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
-import com.lxy.pink.core.PinkServiceContract;
+import com.lxy.pink.core.PinkService;
 import com.lxy.pink.data.model.todo.TodoList;
-import com.lxy.pink.ui.home.impl.PinkCalendarCallback;
 import com.lxy.pink.ui.home.view.PinkCalendarView;
 
 /**
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements PinkCalendarCallback {
+public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> {
 
-    TodoList todoList;
     @EpoxyAttribute
-    PinkServiceContract.Presenter presenter;
-    private PinkCalendarView calendarView;
-    private boolean isBind;
+    PinkService pinkService;
+    @EpoxyAttribute
+    TodoList todoList;
 
     @Override
     protected int getDefaultLayout() {
@@ -27,26 +25,18 @@ public class PinkCalendarModel extends EpoxyModel<PinkCalendarView> implements P
 
     @Override
     public void bind(PinkCalendarView view) {
-        this.calendarView = view;
-        calendarView.setData(todoList.getTodoList());
-        this.isBind = true;
+        super.bind(view);
+        view.bind(pinkService,todoList);
     }
 
     @Override
     public void unbind(PinkCalendarView view) {
         super.unbind(view);
-        this.isBind = false;
+        view.unBind();
     }
 
     @Override
     public int getSpanSize(int totalSpanCount, int position, int itemCount) {
         return totalSpanCount;
-    }
-
-    @Override
-    public void todoListLoaded(TodoList todoList) {
-        this.todoList = todoList;
-        if(isBind)
-        calendarView.setData(this.todoList.getTodoList());
     }
 }

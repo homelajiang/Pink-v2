@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
+import com.lxy.pink.core.PinkService;
+import com.lxy.pink.core.PinkServiceContract;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.utils.Config;
 
@@ -27,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkWeatherView extends RelativeLayout {
+public class PinkWeatherView extends RelativeLayout implements PinkServiceContract.WeatherCallback{
     @BindView(R.id.background)
     SimpleDraweeView mBackground;
     @BindView(R.id.sun)
@@ -57,6 +59,8 @@ public class PinkWeatherView extends RelativeLayout {
             = AnimationUtils.loadAnimation(getContext(), R.anim.flicker);
     private final Animation unLimitedRotate
             = AnimationUtils.loadAnimation(getContext(), R.anim.unlimited_rotate);
+    private PinkServiceContract.Presenter presenter;
+    private PinkService pinkService;
 
 
     public PinkWeatherView(Context context, AttributeSet attrs) {
@@ -121,5 +125,45 @@ public class PinkWeatherView extends RelativeLayout {
     private Uri getWeatherResourceUri(String partName, int weatherId) {
         String url = Config.HOST_WEATHER_IMG + partName + "/" + weatherId + "/" + System.currentTimeMillis();
         return Uri.parse(url);
+    }
+
+    @Override
+    public void weatherLoadStart() {
+
+    }
+
+    @Override
+    public void weatherLoadEnd() {
+
+    }
+
+    @Override
+    public void weatherLoadError(Throwable e) {
+
+    }
+
+    @Override
+    public void weatherLoaded(Weather weather) {
+
+    }
+
+    @Override
+    public void weatherLocationReq() {
+
+    }
+
+    @Override
+    public void setPresenter(PinkServiceContract.Presenter presenter) {
+    this.presenter = presenter;
+    }
+
+    public void bind (PinkService pinkService,Weather weather){
+        this.pinkService = pinkService;
+        this.pinkService.bindWeatherCallback(this);
+        setWeather(weather);
+    }
+
+    public void unBind(){
+        this.pinkService.unBindWeatherCallback(this);
     }
 }

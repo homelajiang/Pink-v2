@@ -13,7 +13,8 @@ import com.lxy.pink.ui.base.BaseView;
  */
 
 public interface PinkServiceContract {
-    interface View extends BaseView<Presenter> {
+
+    interface WeatherCallback extends BaseView<Presenter> {
         void weatherLoadStart();
 
         void weatherLoadEnd();
@@ -23,17 +24,20 @@ public interface PinkServiceContract {
         void weatherLoaded(Weather weather);
 
         void weatherLocationReq();
+    }
 
-
+    interface TodoCallback extends BaseView<Presenter> {
         void todoListLoaded(TodoList todoList);
+    }
 
-
+    interface LocationCallback extends BaseView<Presenter> {
         void locationStart();
 
         void locationLoaded(PinkLocation pinkLocation);
 
         void locationError();
     }
+
 
     interface Presenter extends BasePresenter {
         void getWeather();

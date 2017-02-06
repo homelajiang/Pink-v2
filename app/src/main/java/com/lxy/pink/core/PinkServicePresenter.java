@@ -14,6 +14,7 @@ import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.AppRepository;
+import com.lxy.pink.ui.base.BaseView;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -29,17 +30,26 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
 
     private CompositeSubscription mSubscriptions;
     private AppRepository appRepository;
-    private PinkServiceContract.View view;
+    private PinkServiceContract.WeatherCallback weatherView;
+    private PinkServiceContract.TodoCallback todoView;
+    private PinkServiceContract.LocationCallback locationView;
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mOption;
 
 
-    public PinkServicePresenter(PinkServiceContract.View view) {
-        this.view = view;
+    public PinkServicePresenter(BaseView baseView) {
+
+        weatherView = (PinkServiceContract.WeatherCallback) baseView;
+        todoView = (PinkServiceContract.TodoCallback) baseView;
+        locationView = (PinkServiceContract.LocationCallback) baseView;
+
         appRepository = AppRepository.getInstance();
         mSubscriptions = new CompositeSubscription();
         initLocation();
-        view.setPresenter(this);
+        //只用设置一次presenter就行了
+        weatherView.setPresenter(this);
+//        todoView.setPresenter(this);
+//        locationView.setPresenter(this);
     }
 
     private void initLocation() {
@@ -78,16 +88,16 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
                     @Override
                     public void onError(Throwable e) {
                         //request location is weather
-                        view.weatherLocationReq();
+                        weatherView.weatherLocationReq();
                         getLocation();
                     }
 
                     @Override
                     public void onNext(Weather weather) {
                         if (weather != null) {
-                            view.weatherLoaded(weather);
+                            weatherView.weatherLoaded(weather);
                         }
-                        view.weatherLocationReq();
+                        weatherView.weatherLocationReq();
                         getLocation();
                     }
                 });
@@ -127,23 +137,23 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
 
                     @Override
                     public void onStart() {
-                        view.weatherLoadStart();
+                        weatherView.weatherLoadStart();
                     }
 
                     @Override
                     public void onCompleted() {
-                        view.weatherLoadEnd();
+                        weatherView.weatherLoadEnd();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        view.weatherLoadError(e);
+                        weatherView.weatherLoadError(e);
                     }
 
                     @Override
                     public void onNext(Weather weather) {
                         if (weather != null) {
-                            view.weatherLoaded(weather);
+                            weatherView.weatherLoaded(weather);
                             saveWeather(weather);
                         }
                     }
@@ -170,7 +180,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
 
                     @Override
                     public void onNext(TodoList todoList) {
-                        view.todoListLoaded(todoList);
+                        todoView.todoListLoaded(todoList);
                     }
                 });
         mSubscriptions.add(subscription);
@@ -211,12 +221,14 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
 
     @Override
     public void unSubscribe() {
-        this.view = null;
+        this.weatherView = null;
+        this.todoView = null;
+        this.locationView = null;
         mSubscriptions.clear();
     }
 
     public void startLocation() {
-        view.locationStart();
+        locationView.locationStart();
         mLocationClient.startLocation();
     }
 
@@ -240,7 +252,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
     public void onLocationChanged(AMapLocation aMapLocation) {
         stopLocation();
         if (null == aMapLocation || aMapLocation.getErrorCode() != 0) {
-            view.locationError();
+            locationView.locationError();
             return;
         }
 
@@ -259,7 +271,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
             location.setTime(aMapLocation.getTime());
         }
 
-        view.locationLoaded(location);
+        locationView.locationLoaded(location);
         saveLocation(location);
     }
 }

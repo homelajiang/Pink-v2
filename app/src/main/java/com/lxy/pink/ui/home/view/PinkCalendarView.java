@@ -10,7 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.lxy.pink.R;
+import com.lxy.pink.core.PinkService;
+import com.lxy.pink.core.PinkServiceContract;
 import com.lxy.pink.data.model.todo.Todo;
+import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.ui.home.TodoAdapter;
 import com.lxy.pink.ui.widget.ExListView;
 import com.lxy.pink.utils.TimeUtils;
@@ -25,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkCalendarView extends CardView {
+public class PinkCalendarView extends CardView implements PinkServiceContract.TodoCallback {
     @BindView(R.id.exListView)
     public ExListView mExListView;
     @BindView(R.id.empty_list_view)
@@ -33,6 +36,9 @@ public class PinkCalendarView extends CardView {
     private TodoAdapter adapter;
     private View header;
     private TextView todoCount;
+
+    private PinkServiceContract.Presenter presenter;
+    private PinkService pinkService;
 
     public PinkCalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -51,11 +57,27 @@ public class PinkCalendarView extends CardView {
         mExListView.setAdapter(adapter);
     }
 
-    public void setData(List<Todo> todoList) {
+    @Override
+    public void todoListLoaded(TodoList todoList) {
         if (todoList == null)
             return;
-        todoCount.setText(String.format(getContext().getString(R.string.pink_todo_count), todoList.size()));
-        adapter.setList(todoList);
+        todoCount.setText(String.format(getContext().getString(R.string.pink_todo_count), todoList.getTodoList().size()));
+        adapter.setList(todoList.getTodoList());
+    }
+
+    @Override
+    public void setPresenter(PinkServiceContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    public void bind(PinkService pinkService, TodoList todoList) {
+        this.pinkService = pinkService;
+        this.pinkService.bindTodoCallback(this);
+        todoListLoaded(todoList);
+    }
+
+    public void unBind() {
+        this.pinkService.unBindTodoCallback(this);
     }
 
     public class TodoAdapter extends BaseAdapter {

@@ -18,19 +18,25 @@ import java.util.List;
  * Created by yuan on 2016/10/22.
  */
 
-public class PinkService extends BaseService implements PinkServiceContract.View {
+public class PinkService extends BaseService implements PinkServiceContract.WeatherCallback,
+        PinkServiceContract.TodoCallback,
+        PinkServiceContract.LocationCallback {
 
 
     private PinkServiceContract.Presenter presenter;
     private boolean weatherRequestLocation;
     private Weather lastWeather;
-    private List<PinkServiceContract.View> mCallbacks = new ArrayList<>();
+
+    private List<PinkServiceContract.WeatherCallback> weatherCallbacks = new ArrayList<>();
+    private List<PinkServiceContract.TodoCallback> todoCallbacks = new ArrayList<>();
+    private List<PinkServiceContract.LocationCallback> locationCallbacks = new ArrayList<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
         new PinkServicePresenter(this).subscribe();
-        registerCallback(CoreManager.getInstance());//添加后台计划任务
+        // TODO: 2017/2/6 0006 后台任务
+//        registerCallback(CoreManager.getInstance());//添加后台计划任务
     }
 
 
@@ -45,39 +51,56 @@ public class PinkService extends BaseService implements PinkServiceContract.View
         return new PinkBinder();
     }
 
-
-    public void registerCallback(PinkServiceContract.View serviceCallback) {
-        if (!mCallbacks.contains(serviceCallback)) {
-            serviceCallback.setPresenter(presenter);
-            mCallbacks.add(serviceCallback);
-        }
+    public void bindWeatherCallback(PinkServiceContract.WeatherCallback weatherCallback) {
+        if (!weatherCallbacks.contains(weatherCallback))
+            weatherCallbacks.add(weatherCallback);
     }
 
-    public void unRegisterCallback(PinkServiceContract.View serviceCallback) {
-        mCallbacks.remove(serviceCallback);
+    public void unBindWeatherCallback(PinkServiceContract.WeatherCallback weatherCallback) {
+        weatherCallbacks.remove(weatherCallback);
+    }
+
+    public void bindTodoCallback(PinkServiceContract.TodoCallback todoCallback) {
+        if (!todoCallbacks.contains(todoCallback))
+            todoCallbacks.add(todoCallback);
+    }
+
+    public void unBindTodoCallback(PinkServiceContract.TodoCallback todoCallback) {
+        todoCallbacks.remove(todoCallback);
+    }
+
+    public void bindLocationCallback(PinkServiceContract.LocationCallback locationCallback) {
+        if (!locationCallbacks.contains(locationCallback))
+            locationCallbacks.add(locationCallback);
+    }
+
+    public void unBindLocationCallback(PinkServiceContract.LocationCallback locationCallback) {
+        locationCallbacks.remove(locationCallback);
     }
 
     public void clearCallback() {
-        mCallbacks.clear();
+        locationCallbacks.clear();
+        todoCallbacks.clear();
+        weatherCallbacks.clear();
     }
 
     @Override
     public void weatherLoadStart() {
-        for (PinkServiceContract.View callback : mCallbacks) {
+        for (PinkServiceContract.WeatherCallback callback : weatherCallbacks) {
             callback.weatherLoadStart();
         }
     }
 
     @Override
     public void weatherLoadEnd() {
-        for (PinkServiceContract.View callback : mCallbacks) {
+        for (PinkServiceContract.WeatherCallback callback : weatherCallbacks) {
             callback.weatherLoadEnd();
         }
     }
 
     @Override
     public void weatherLoadError(Throwable e) {
-        for (PinkServiceContract.View callback : mCallbacks) {
+        for (PinkServiceContract.WeatherCallback callback : weatherCallbacks) {
             callback.weatherLoadError(e);
         }
     }
@@ -85,28 +108,28 @@ public class PinkService extends BaseService implements PinkServiceContract.View
     @Override
     public void weatherLoaded(Weather weather) {
         lastWeather = weather;
-        for (PinkServiceContract.View callback : mCallbacks) {
+        for (PinkServiceContract.WeatherCallback callback : weatherCallbacks) {
             callback.weatherLoaded(weather);
         }
     }
 
     @Override
     public void todoListLoaded(TodoList todoList) {
-        for (PinkServiceContract.View callback : mCallbacks) {
+        for (PinkServiceContract.TodoCallback callback : todoCallbacks) {
             callback.todoListLoaded(todoList);
         }
     }
 
     @Override
     public void locationStart() {
-        for (PinkServiceContract.View callback : mCallbacks) {
+        for (PinkServiceContract.LocationCallback callback : locationCallbacks) {
             callback.locationStart();
         }
     }
 
     @Override
     public void locationLoaded(PinkLocation pinkLocation) {
-        for (PinkServiceContract.View callback : mCallbacks) {
+        for (PinkServiceContract.LocationCallback callback : locationCallbacks) {
             callback.locationLoaded(pinkLocation);
         }
         if (weatherRequestLocation) {
@@ -117,7 +140,7 @@ public class PinkService extends BaseService implements PinkServiceContract.View
 
     @Override
     public void locationError() {
-        for (PinkServiceContract.View callback : mCallbacks) {
+        for (PinkServiceContract.LocationCallback callback : locationCallbacks) {
             callback.locationError();
         }
         if (weatherRequestLocation) {

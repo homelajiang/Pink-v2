@@ -66,7 +66,7 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
         public void onServiceConnected(ComponentName name, IBinder service) {
             pinkServiceConnected = true;
             pinkBinder = (PinkService.PinkBinder) service;
-            pinkBinder.getService().registerCallback(homeAdapter);
+            homeAdapter.serviceBind(pinkBinder.getService());
             burstLink();
         }
 
@@ -82,8 +82,8 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
         public void onServiceConnected(ComponentName name, IBinder service) {
             musicServiceConnected = true;
             mPlayer = ((PlaybackService.LocalBuilder) service).getService();
-            mPlayer.registerCallback(homeAdapter);
-            homeAdapter.setMusicService(mPlayer);
+//            mPlayer.registerCallback(homeAdapter);
+//            homeAdapter.setMusicService(mPlayer);
         }
 
         @Override
@@ -143,14 +143,12 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
     public void onDestroyView() {
         super.onDestroyView();
         if (pinkServiceConnected) {
-            pinkBinder.getService().unRegisterCallback(homeAdapter);
             pinkServiceConnected = false;
             pinkBinder = null;
             getContext().unbindService(pinkServiceConnection);
         }
 
         if (musicServiceConnected) {
-            mPlayer.unregisterCallback(homeAdapter);
             musicServiceConnected = false;
             mPlayer = null;
             getContext().unbindService(musicServiceConnection);
