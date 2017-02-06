@@ -216,38 +216,29 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
     }
 
     private void onPlayListEvent(PlayListLoadedEvent o) {
+        if (mPlayer == null)
+            return;
         PlayList playList = o.playList;
-
         if (playList == null)
             return;
-
         long songId = PreferenceManager.getLastSong(getContext());
-
         if (songId == 0)
             return;
-
         int playIndex = -1;
-
         for (int i = 0; i < playList.getNumOfSongs(); i++) {
             if (songId == playList.getSong(i).getId()) {
                 playIndex = i;
                 break;
             }
         }
-
         if (playIndex == -1)
             return;
-
         playList.setPlayingIndex(playIndex);
         mPlayer.setPlayList(playList);
-
-//        onSongUpdated(playList.getCurrentSong());
-
     }
 
     private void onPlayListNowEvent(PlayListNowEvent o) {
-        PlayList playList = o.playList;
-        int playIndex = o.playIndex;
-        homeAdapter.play(playList, playIndex);
+        if (mPlayer != null)
+            mPlayer.play(o.playList, o.playIndex);
     }
 }
