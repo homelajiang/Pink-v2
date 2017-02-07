@@ -82,6 +82,7 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
         public void onServiceConnected(ComponentName name, IBinder service) {
             musicServiceConnected = true;
             mPlayer = ((PlaybackService.LocalBuilder) service).getService();
+            homeAdapter.playServiceBind(mPlayer);
 //            mPlayer.registerCallback(homeAdapter);
 //            homeAdapter.setMusicService(mPlayer);
         }

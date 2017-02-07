@@ -89,6 +89,10 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
+                    android:drawableLeft="@drawable/ic_time_black_14dp"
+                    android:drawableStart="@drawable/ic_time_black_14dp"
+                    android:drawablePadding="3dp"
+                    android:drawableTint="@color/mp.theme.dark_blue.colorPrimary"
                     tools:text="03:56" />
             </RelativeLayout>
 

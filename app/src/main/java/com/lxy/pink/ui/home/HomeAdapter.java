@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
  * Created by yuan on 2016/10/20.
  */
 
-public class HomeAdapter extends EpoxyAdapter{
+public class HomeAdapter extends EpoxyAdapter {
 
     private final Context context;
     private PinkServiceContract.Presenter presenter;
@@ -72,15 +72,18 @@ public class HomeAdapter extends EpoxyAdapter{
         this.pinkService.bindWeatherCallback(new SimpleWeatherCallback() {
             @Override
             public void weatherLoaded(Weather weather) {
+                if (pinkWeatherModel_.isShown())
+                    return;
                 pinkWeatherModel_.pinkService(pinkService);
                 pinkWeatherModel_.weather(weather);
                 showModel(pinkWeatherModel_);
-                pinkService.unBindWeatherCallback(this);
             }
         });
         this.pinkService.bindTodoCallback(new SimpleTodoCallback() {
             @Override
             public void todoListLoaded(TodoList todoList) {
+                if (pinkCalendarModel_.isShown())
+                    return;
                 pinkCalendarModel_.pinkService(pinkService);
                 pinkCalendarModel_.todoList(todoList);
                 showModel(pinkCalendarModel_);
@@ -89,9 +92,30 @@ public class HomeAdapter extends EpoxyAdapter{
         });
     }
 
-    public void playServiceBind(PlaybackService playbackService) {
+    public void playServiceBind(final PlaybackService playbackService) {
         this.playbackService = playbackService;
         this.playServiceBind = true;
+        this.playbackService.registerCallback(new IPlayback.Callback() {
+            @Override
+            public void onSwitchLast(@Nullable Song last) {
+                playServiceChanged(playbackService, this);
+            }
+
+            @Override
+            public void onSwitchNext(@Nullable Song next) {
+                playServiceChanged(playbackService, this);
+            }
+
+            @Override
+            public void onComplete(@Nullable Song next) {
+                playServiceChanged(playbackService, this);
+            }
+
+            @Override
+            public void onPlayStatusChanged(boolean isPlaying) {
+                playServiceChanged(playbackService, this);
+            }
+        });
     }
 
     public void serviceUnBind() {
@@ -100,6 +124,14 @@ public class HomeAdapter extends EpoxyAdapter{
 
     public void playServiceUnBind() {
 
+    }
+
+    public void playServiceChanged(PlaybackService playbackService, IPlayback.Callback callback) {
+        if (pinkMusicModel_.isShown())
+            return;
+        pinkMusicModel_.mPlayer(playbackService);
+        showModel(pinkMusicModel_);
+        playbackService.registerCallback(callback);
     }
 
 }

@@ -78,6 +78,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
         if (isPaused) {
             mPlayer.start();
             notifyPlayStatusChanged(true);
+            isPaused = false;
             return true;
         }
         if (mPlayList.prepare()) {
@@ -256,6 +257,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
         mp.start();
         playProgress = 0;
         notifyPlayStatusChanged(true);
+        isPaused = false;
     }
 
     public void setVolume(float left, float right) {
