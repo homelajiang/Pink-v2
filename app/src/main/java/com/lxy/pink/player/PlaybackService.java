@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Binder;
 import android.os.IBinder;
@@ -75,6 +76,7 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     public void onCreate() {
         super.onCreate();
         mPlayer = Player.getInstance();
+        mPlayer.setPlayMode(PreferenceManager.getPlayMode(this));
         mPlayer.registerCallback(this);
         noisyReceiver = new NoisyReceiver();
         noisyFilter = new IntentFilter();
@@ -199,6 +201,17 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     @Override
     public void setPlayMode(PlayMode playMode) {
         mPlayer.setPlayMode(playMode);
+    }
+
+    @Override
+    public PlayMode getPlayMode() {
+        return mPlayer.getPlayMode();
+    }
+
+    @Override
+    public void switchPlayMode() {
+        mPlayer.switchPlayMode();
+        PreferenceManager.setPlayMode(this,mPlayer.getPlayMode());
     }
 
     @Override

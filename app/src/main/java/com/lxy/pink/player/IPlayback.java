@@ -37,6 +37,10 @@ public interface IPlayback {
 
     void setPlayMode(PlayMode playMode);
 
+    PlayMode getPlayMode();
+
+    void switchPlayMode();
+
     void registerCallback(Callback callback);
 
     void unregisterCallback(Callback callback);

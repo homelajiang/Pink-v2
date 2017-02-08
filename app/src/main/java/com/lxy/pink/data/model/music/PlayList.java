@@ -108,7 +108,6 @@ public class PlayList {
 
     public Song next(PlayMode playMode) {
         switch (playMode) {
-            case LOOP:
             case LIST:
             case SINGLE:
                 int newIndex = playingIndex + 1;
@@ -148,7 +147,6 @@ public class PlayList {
 
     public Song last(PlayMode playMode) {
         switch (playMode) {
-            case LOOP:
             case LIST:
             case SINGLE:
                 int newIndex = playingIndex - 1;

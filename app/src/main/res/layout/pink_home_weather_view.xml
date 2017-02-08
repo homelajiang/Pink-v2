@@ -48,42 +48,6 @@
                         fresco:actualImageScaleType="fitCenter"
                         fresco:placeholderImage="@drawable/ic_sun" />
 
-                    <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/light"
-                        android:layout_width="28dp"
-                        android:layout_height="60dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
-                        android:visibility="visible"
-                        fresco:actualImageScaleType="fitCenter"
-                        fresco:placeholderImage="@drawable/ic_light" />
-
-                    <TextView
-                        android:id="@+id/temperature"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@+id/light"
-                        android:layout_toRightOf="@+id/light"
-                        android:textColor="@color/white"
-                        android:textSize="36sp"
-                        tools:text="32°" />
-
-                    <TextView
-                        android:id="@+id/description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/temperature"
-                        android:layout_alignBottom="@+id/temperature"
-                        android:layout_toEndOf="@+id/temperature"
-                        android:layout_toRightOf="@+id/temperature"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        tools:text="雨夹雪" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -170,5 +134,50 @@
         android:visibility="visible"
         fresco:actualImageScaleType="fitCenter"
         fresco:placeholderImage="@drawable/ic_building" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/light"
+            android:layout_width="28dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            fresco:actualImageScaleType="fitCenter"
+            fresco:placeholderImage="@drawable/ic_light" />
+
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_toEndOf="@+id/light"
+            android:layout_toRightOf="@+id/light"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            tools:text="14°" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_alignBaseline="@+id/temperature"
+            android:layout_alignBottom="@+id/temperature"
+            android:layout_toEndOf="@+id/temperature"
+            android:layout_toRightOf="@+id/temperature"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="雨夹雪" />
+    </RelativeLayout>
 
 </merge>

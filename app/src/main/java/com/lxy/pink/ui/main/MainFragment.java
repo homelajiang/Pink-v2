@@ -62,7 +62,6 @@ public class MainFragment extends BaseFragment {
     RadioButton mRadioBtnNews;
 
     private String[] titles;
-    private PlaybackService mPlayer;
 
     @Nullable
     @Override

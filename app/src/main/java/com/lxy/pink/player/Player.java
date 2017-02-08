@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     private MediaPlayer mPlayer;
     private PlayList mPlayList;
-    private PlayMode mPlayMode;
+    private PlayMode mPlayMode = PlayMode.LIST;
 
     private List<Callback> mCallbacks = new ArrayList<>(2);
 
@@ -29,7 +30,6 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
     private int playProgress;
 
     private Player() {
-        mPlayMode = PlayMode.LIST;// TODO: 2016/11/2 0002 need get from sp
         mPlayer = new MediaPlayer();
         mPlayList = new PlayList();
         mPlayer.setOnCompletionListener(this);
@@ -200,6 +200,16 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
     @Override
     public void setPlayMode(PlayMode playMode) {
         this.mPlayMode = playMode;
+    }
+
+    @Override
+    public PlayMode getPlayMode() {
+        return mPlayMode;
+    }
+
+    @Override
+    public void switchPlayMode() {
+        mPlayMode = PlayMode.switchNextMode(mPlayMode);
     }
 
     @Override

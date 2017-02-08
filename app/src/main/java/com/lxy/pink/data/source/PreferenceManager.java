@@ -138,7 +138,7 @@ public class PreferenceManager {
         return profile;
     }
 
-    public static PlayMode lastPlayMode(Context context) {
+    public static PlayMode getPlayMode(Context context) {
         String playModeName = preferences(context).getString(KEY_PLAY_MUSIC_MODE, null);
         if (playModeName != null) {
             return PlayMode.valueOf(playModeName);

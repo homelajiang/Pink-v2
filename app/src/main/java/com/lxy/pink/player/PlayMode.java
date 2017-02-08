@@ -6,7 +6,7 @@ package com.lxy.pink.player;
 
 public enum PlayMode {
     SINGLE,
-    LOOP,
+//    LOOP,
     LIST,
     SHUFFLE;
 
@@ -19,14 +19,14 @@ public enum PlayMode {
             return getDefault();
 
         switch (currentMode) {
-            case LOOP:
-                return LIST;
+//            case LOOP:
+//                return LIST;
             case LIST:
                 return SHUFFLE;
             case SHUFFLE:
                 return SINGLE;
             case SINGLE:
-                return LOOP;
+                return LIST;
         }
         return getDefault();
     }
