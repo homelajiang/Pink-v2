@@ -1,24 +1,16 @@
 package com.lxy.pink.ui.base;
 
 import android.content.Context;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
-import android.view.Window;
-
-import com.lxy.pink.R;
-import com.lxy.pink.utils.GradientUtils;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by homelajiang on 2016/10/8 0008.
@@ -27,10 +19,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public abstract class BaseActivity extends AppCompatActivity {
     private CompositeSubscription mSubscriptions;
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
     @Override
     public void onAttachedToWindow() {

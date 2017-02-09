@@ -11,10 +11,8 @@
             android:id="@+id/exListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="#ccc"
-            android:dividerHeight="@dimen/mp.divider.line"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            android:divider="@drawable/list_divider_line"
+            android:dividerHeight="@dimen/mp.divider.line" />
 
         <TextView
             android:id="@+id/empty_list_view"

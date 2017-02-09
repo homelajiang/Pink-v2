@@ -35,8 +35,8 @@ public class ViewUtils {
 
         return new CharacterDrawable.Builder()
                 .setCharacter(albumName.length() == 0 ? ' ' : albumName.charAt(0))
-                .setBackgroundColor(ContextCompat.getColor(context, R.color.mp_characterView_background))
-                .setCharacterTextColor(ContextCompat.getColor(context, R.color.mp_characterView_textColor))
+//                .setBackgroundColor(ContextCompat.getColor(context, R.color.mp_characterView_background))
+//                .setCharacterTextColor(ContextCompat.getColor(context, R.color.mp_characterView_textColor))
                 .setCharacterPadding(context.getResources().getDimensionPixelSize(R.dimen.mp_characterView_padding))
                 .build();
     }

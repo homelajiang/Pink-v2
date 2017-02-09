@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="253dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -53,7 +55,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:background="@color/white">
+                    android:background="@color/background_light_1">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -84,8 +86,7 @@
                                 android:layout_marginRight="5dp"
                                 android:drawablePadding="1dp"
                                 android:padding="1dp"
-                                android:textSize="14sp"
-                                tools:text="Suzhou" />
+                                tools:text="King’s Row" />
 
                             <android.support.v7.widget.AppCompatImageView
                                 android:id="@+id/refresh"
@@ -100,9 +101,11 @@
                             android:id="@+id/date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="1dp"
                             android:textSize="14sp"
-                            tools:text="Fri Dec 23" />
+                            android:layout_marginTop="2dp"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginStart="3dp"
+                            tools:text="Tue. May 24" />
                     </LinearLayout>
 
                     <TextView
@@ -124,17 +127,6 @@
 
     </FrameLayout>
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/building"
-        android:layout_width="180dp"
-        android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:visibility="visible"
-        fresco:actualImageScaleType="fitCenter"
-        fresco:placeholderImage="@drawable/ic_building" />
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -145,8 +137,8 @@
             android:layout_width="28dp"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="5dp"
             android:visibility="visible"
             fresco:actualImageScaleType="fitCenter"
@@ -157,13 +149,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="2dp"
-            android:layout_marginStart="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/light"
             android:layout_toRightOf="@+id/light"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            tools:text="14°" />
+            android:textSize="38sp"
+            tools:text="12°" />
 
         <TextView
             android:id="@+id/description"
@@ -177,7 +169,18 @@
             android:layout_toRightOf="@+id/temperature"
             android:textColor="@color/white"
             android:textSize="16sp"
-            tools:text="雨夹雪" />
+            tools:text="Clear" />
     </RelativeLayout>
 
-</merge>
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/building"
+        android:layout_width="166dp"
+        android:layout_height="200dp"
+        fresco:placeholderImage="@drawable/ic_building"
+        android:visibility="visible"
+        fresco:actualImageScaleType="fitCenter"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

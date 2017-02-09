@@ -16,13 +16,14 @@ import android.view.View;
 public class DefaultListItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int DIVIDER_HEIGHT = 1; // 1 pixel
-    private static final int BACKGROUND_COLOR = 0x1FDDF9FF;
+    private static final int BACKGROUND_COLOR = 0xFFBDBDBD;
 
     Paint mPaint;
 
     public DefaultListItemDecoration() {
         mPaint = new Paint();
         mPaint.setColor(BACKGROUND_COLOR);
+        mPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class DefaultListItemDecoration extends RecyclerView.ItemDecoration {
             bounds.top = itemView.getTop();
             bounds.left = itemView.getLeft();
             bounds.right = itemView.getRight();
-            bounds.bottom = itemView.getBottom();
+            bounds.bottom = itemView.getBottom()+DIVIDER_HEIGHT;
 
             c.drawRect(bounds, mPaint);
         }

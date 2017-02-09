@@ -1,6 +1,8 @@
 package com.lxy.pink.ui.music;
 
 import android.Manifest;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +20,7 @@ import com.lxy.pink.event.PlayListNowEvent;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.base.adapter.OnItemClickListener;
 import com.lxy.pink.ui.common.DefaultDividerDecoration;
+import com.lxy.pink.ui.common.DefaultListItemDecoration;
 import com.lxy.pink.ui.permission.FcPermissions;
 import com.lxy.pink.ui.permission.FcPermissionsCallbacks;
 import com.orhanobut.logger.Logger;
@@ -78,7 +81,7 @@ public class SongListFragment extends BaseFragment implements
         });
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.addItemDecoration(new DefaultDividerDecoration());
+//        recyclerView.addItemDecoration(new DefaultListItemDecoration());
 
         new SongListPresenter(this);
 

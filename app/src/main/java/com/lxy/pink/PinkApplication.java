@@ -10,7 +10,6 @@ import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
 import okhttp3.OkHttpClient;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by homelajiang on 2016/10/8 0008.
@@ -29,12 +28,12 @@ public class PinkApplication extends Application {
 
         instance = this;
 
-        CalligraphyConfig.initDefault(
-                new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Roboto-Monospace-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+//        CalligraphyConfig.initDefault(
+//                new CalligraphyConfig.Builder()
+//                        .setDefaultFontPath("fonts/Roboto-Monospace-Regular.ttf")
+//                        .setFontAttrId(R.attr.fontPath)
+//                        .build()
+//        );
 
 
         if (!LeakCanary.isInAnalyzerProcess(this))
