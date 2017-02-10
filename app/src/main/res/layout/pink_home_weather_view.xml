@@ -105,7 +105,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_marginLeft="3dp"
                             android:layout_marginStart="3dp"
-                            tools:text="Tue. May 24" />
+                            tools:text="6小时前 发布" />
                     </LinearLayout>
 
                     <TextView

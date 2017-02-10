@@ -177,7 +177,9 @@ public class PinkMusicView extends RelativeLayout implements IPlayback.Callback 
     private Runnable progressRunnable = new Runnable() {
         @Override
         public void run() {
-            if (mPlayer == null || !mPlayer.isPlaying())
+            if (mPlayer == null)
+                return;
+            if( !mPlayer.isPlaying())
                 return;
             int progress = (int) (mProgressBar.getMax()
                     * ((float) mPlayer.getProgress() / (float) getCurrentSongDuration()));

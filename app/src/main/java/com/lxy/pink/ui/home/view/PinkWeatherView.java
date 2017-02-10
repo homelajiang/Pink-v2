@@ -2,7 +2,6 @@ package com.lxy.pink.ui.home.view;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
@@ -16,6 +15,7 @@ import com.lxy.pink.core.PinkService;
 import com.lxy.pink.core.PinkServiceContract;
 import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.utils.Config;
+import com.lxy.pink.utils.FuzzyDateFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkWeatherView extends RelativeLayout implements PinkServiceContract.WeatherCallback{
+public class PinkWeatherView extends RelativeLayout implements PinkServiceContract.WeatherCallback {
     @BindView(R.id.background)
     SimpleDraweeView mBackground;
     @BindView(R.id.sun)
@@ -101,18 +101,19 @@ public class PinkWeatherView extends RelativeLayout implements PinkServiceContra
         if (weather.getWeather() != null && weather.getWeather().size() > 0) {
             Weather.WeatherBean weatherBean = weather.getWeather().get(0);
 
-            mDescription.setText(String.valueOf(weatherBean.getDescription()));
+            mDescription.setText(String.valueOf(weatherBean.getMain()));
             mBackground.setImageURI(getWeatherResourceUri("background", weatherBean.getId()));
             mLight.setImageURI(getWeatherResourceUri("light", weatherBean.getId()));
             mSun.setImageURI(getWeatherResourceUri("sun", weatherBean.getId()));
             mBuilding.setImageURI(getWeatherResourceUri("building", weatherBean.getId()));
-            Date publishDate = new Date(weather.getDt() * 1000l);
+            Date publishDate = new Date(weather.getDt() * 1000L);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR, 0);
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
-            this.mDate.setText(new Date().toString().substring(0, 10));
+            this.mDate.setText(String.format(getResources().getString(R.string.weather_publish_time),
+                    FuzzyDateFormatter.getTimeAgo(getContext(), publishDate)));
         } else {
             mDescription.setText(null);
         }
@@ -154,16 +155,16 @@ public class PinkWeatherView extends RelativeLayout implements PinkServiceContra
 
     @Override
     public void setPresenter(PinkServiceContract.Presenter presenter) {
-    this.presenter = presenter;
+        this.presenter = presenter;
     }
 
-    public void bind (PinkService pinkService,Weather weather){
+    public void bind(PinkService pinkService, Weather weather) {
         this.pinkService = pinkService;
         this.pinkService.bindWeatherCallback(this);
         setWeather(weather);
     }
 
-    public void unBind(){
+    public void unBind() {
         this.pinkService.unBindWeatherCallback(this);
     }
 }

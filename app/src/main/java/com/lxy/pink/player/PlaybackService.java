@@ -46,14 +46,18 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     @Override
     public void onAudioFocusChange(int focusChange) {
         switch (focusChange) {
-            case AudioManager.AUDIOFOCUS_GAIN://重新获取焦点
+            case AudioManager.AUDIOFOCUS_GAIN://获取焦点长期占有
                 hasFocus = true;
-                play();
-                mPlayer.setVolume(1.0f, 1.0f);
+                if (mPlayer == null) {
+                    initMediaPlay();
+                } else {
+                    mPlayer.play();
+                }
+//                play();
+//                mPlayer.setVolume(1.0f, 1.0f);
                 break;
             case AudioManager.AUDIOFOCUS_LOSS://长久的失去焦点
-                hasFocus = false;
-                pause();
+                releasePlayer();
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT://暂时失去焦点，暂停，重新获取是继续播放
                 hasFocus = false;
@@ -75,13 +79,17 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     @Override
     public void onCreate() {
         super.onCreate();
-        mPlayer = Player.getInstance();
-        mPlayer.setPlayMode(PreferenceManager.getPlayMode(this));
-        mPlayer.registerCallback(this);
         noisyReceiver = new NoisyReceiver();
         noisyFilter = new IntentFilter();
         noisyFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        initMediaPlay();
+    }
+
+    private void initMediaPlay() {
+        mPlayer = Player.getInstance();
+        mPlayer.setPlayMode(PreferenceManager.getPlayMode(this));
+        mPlayer.registerCallback(this);
     }
 
     @Override
@@ -134,47 +142,55 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     @Override
     public boolean play() {
         if (!hasFocus)
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+            requestAudioFocus();
         return mPlayer.play();
     }
 
     @Override
     public boolean play(PlayList list) {
-        if (!hasFocus)
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        requestAudioFocus();
         return mPlayer.play(list);
     }
 
     @Override
     public boolean play(PlayList list, int startIndex) {
-        if (!hasFocus)
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        requestAudioFocus();
         return mPlayer.play(list, startIndex);
     }
 
     @Override
     public boolean play(Song song) {
-        if (!hasFocus)
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        requestAudioFocus();
         return mPlayer.play(song);
     }
 
     @Override
     public boolean playLast() {
-        if (!hasFocus)
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        requestAudioFocus();
         return mPlayer.playLast();
     }
 
     @Override
     public boolean playNext() {
+        requestAudioFocus();
+        return mPlayer.playNext();
+    }
+
+    private void requestAudioFocus() {
+        /**
+         * AUDIOFOCUS_GAIN 申请焦点不知道持续多长时间，可能会长时间占有
+         * AUDIOFOCUS_GAIN_TRANSIENT 申请短时间占用
+         * AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK 临时申请，只用降低音量即可
+         */
         if (!hasFocus)
             audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        return mPlayer.playNext();
     }
 
     @Override
     public boolean pause() {
+        //暂停时放弃音频焦点
+        audioManager.abandonAudioFocus(this);
+        hasFocus = false;
         return mPlayer.pause();
     }
 
@@ -211,7 +227,7 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
     @Override
     public void switchPlayMode() {
         mPlayer.switchPlayMode();
-        PreferenceManager.setPlayMode(this,mPlayer.getPlayMode());
+        PreferenceManager.setPlayMode(this, mPlayer.getPlayMode());
     }
 
     @Override
@@ -231,7 +247,12 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
 
     @Override
     public void releasePlayer() {
+
+        audioManager.abandonAudioFocus(this);//放弃音频焦点
+        hasFocus = false;
+
         mPlayer.releasePlayer();
+        mPlayer = null;
     }
 
     @Override

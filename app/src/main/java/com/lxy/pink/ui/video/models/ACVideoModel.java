@@ -30,8 +30,13 @@ public class ACVideoModel extends EpoxyModel<ACVideoView> {
     public void bind(ACVideoView view) {
         view.setVideoCover(contentBean.getImage());
         view.setVideoTitle(contentBean.getTitle());
-        view.setVideoDanmuCount(contentBean.getVisit().getDanmakuSize());
-        view.setVideoPlayCount(contentBean.getVisit().getViews());
+        if(contentBean.getVisit()!=null){
+            view.setVideoDanmuCount(contentBean.getVisit().getDanmakuSize());
+            view.setVideoPlayCount(contentBean.getVisit().getViews());
+        }else {
+            view.setVideoDanmuCount(0);
+            view.setVideoPlayCount(0);
+        }
         if (acItemClickListener != null) {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

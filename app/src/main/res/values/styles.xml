@@ -16,10 +16,51 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--Item icon-->
+    
+    <style name="PinkWidget">
+    </style>
+
+    <style name="PinkWidget.Icon">
+        <item name="android:layout_width">@dimen/pink_widget_icon</item>
+        <item name="android:layout_height">@dimen/pink_widget_icon</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:tint">@color/pink</item>
+    </style>
+
+    <style name="PinkWidget.Content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="PinkWidget.Content.Title">
+        <item name="android:textSize">@dimen/pink_widget_title</item>
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
+    <!--Music item-->
+    <style name="PinkMusicItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="PinkMusicItem.Title">
+        <item name="android:textSize">@dimen/pink_music_item_title</item>
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
+    <style name="PinkMusicItem.Info">
+        <item name="android:textSize">@dimen/pink_music_item_info</item>
+        <item name="android:textColor">@color/hint_text</item>
+    </style>
+
+
     <!--name为声明的"属性集合"名，可以随便取，但是最好是设置为跟我们的View一样的名称-->
     <declare-styleable name="OWLoadingView">
         <attr name="default_size" format="dimension" />
-        <attr name="hexagon_color" format="color"/>
+        <attr name="hexagon_color" format="color" />
     </declare-styleable>
 
     <style name="BannerDefaultStyle">
@@ -48,4 +89,9 @@
         <!-- 提示文案的文字颜色 -->
         <item name="banner_tipTextColor">@android:color/white</item>
     </style>
+
+    <dimen name="pink_music_item_title">16sp</dimen>
+    <dimen name="pink_music_item_info">12sp</dimen>
+    <dimen name="pink_widget_title">18sp</dimen>
+    <dimen name="pink_widget_icon">20dp</dimen>
 </resources>

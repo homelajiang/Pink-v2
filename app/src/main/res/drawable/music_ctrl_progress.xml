@@ -12,8 +12,6 @@
             <shape>
                 <!--<corners android:radius="15dp" />-->
                 <solid android:color="@color/pink" />
-                //这个颜色是progressbar的进度颜色
-
             </shape>
         </clip>
     </item>

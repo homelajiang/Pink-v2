@@ -16,7 +16,7 @@
         android:layout_width="60dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@color/third_text"
+        android:textColor="@color/hint_text"
         tools:text="100" />
 
     <LinearLayout
@@ -31,21 +31,13 @@
 
         <TextView
             android:id="@+id/text_view_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:textSize="@dimen/text_16"
-            android:textColor="@color/primary_text"
+            style="@style/PinkMusicItem.Title"
             tools:text="Pain(feat.Future)" />
 
         <TextView
             android:id="@+id/text_view_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/PinkMusicItem.Info"
             android:layout_marginTop="@dimen/mp.margin.small"
-            android:textColor="@color/third_text"
-            android:lines="1"
-            android:textSize="@dimen/text_12"
             tools:text="04:52 | Pusha T" />
     </LinearLayout>
 

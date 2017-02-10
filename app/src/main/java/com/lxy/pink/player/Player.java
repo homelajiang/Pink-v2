@@ -229,8 +229,11 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public void releasePlayer() {
+        //首先暂停播放并通知状态
+        pause();
+        removeCallbacks();
         mPlayList = null;
-        mPlayer.reset();
+        mPlayer.stop();
         mPlayer.release();
         mPlayer = null;
     }
