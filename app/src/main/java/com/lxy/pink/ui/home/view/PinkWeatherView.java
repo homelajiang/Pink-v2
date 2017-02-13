@@ -87,6 +87,7 @@ public class PinkWeatherView extends RelativeLayout implements PinkServiceContra
         mLocationIcon.clearAnimation();
         if (running)
             mLocationIcon.setAnimation(flickerAnimation);
+
     }
 
     public void setRefreshAnim(boolean running) {
@@ -96,24 +97,25 @@ public class PinkWeatherView extends RelativeLayout implements PinkServiceContra
     }
 
     public void setWeather(Weather weather) {
-        mLocation.setText(String.valueOf(weather.getName()));
-        mTemperature.setText(String.valueOf((int) weather.getMain().getTemp() + "°"));
-        if (weather.getWeather() != null && weather.getWeather().size() > 0) {
-            Weather.WeatherBean weatherBean = weather.getWeather().get(0);
 
-            mDescription.setText(String.valueOf(weatherBean.getMain()));
-            mBackground.setImageURI(getWeatherResourceUri("background", weatherBean.getId()));
-            mLight.setImageURI(getWeatherResourceUri("light", weatherBean.getId()));
-            mSun.setImageURI(getWeatherResourceUri("sun", weatherBean.getId()));
-            mBuilding.setImageURI(getWeatherResourceUri("building", weatherBean.getId()));
-            Date publishDate = new Date(weather.getDt() * 1000L);
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            this.mDate.setText(String.format(getResources().getString(R.string.weather_publish_time),
-                    FuzzyDateFormatter.getTimeAgo(getContext(), publishDate)));
+        if (weather != null && weather.getResults() != null && weather.getResults().size() > 0) {
+            Weather.ResultsEntity result = weather.getResults().get(0);
+            mLocation.setText(result.getLocation().getName());
+            mTemperature.setText(String.valueOf(result.getNow().getTemperature() + "°"));
+            mDescription.setText(result.getNow().getText());
+            mBackground.setImageURI(getWeatherResourceUri("background", result.getNow().getCode()));
+            mLight.setImageURI(getWeatherResourceUri("light", result.getNow().getCode()));
+            mSun.setImageURI(getWeatherResourceUri("sun", result.getNow().getCode()));
+            mBuilding.setImageURI(getWeatherResourceUri("building", result.getNow().getCode()));
+
+//            Date publishDate = new Date(weather.getDt() * 1000L);
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.set(Calendar.HOUR, 0);
+//            calendar.set(Calendar.MINUTE, 0);
+//            calendar.set(Calendar.SECOND, 0);
+//            calendar.set(Calendar.MILLISECOND, 0);
+//            this.mDate.setText(String.format(getResources().getString(R.string.weather_publish_time),
+//                    FuzzyDateFormatter.getTimeAgo(getContext(), publishDate)));
         } else {
             mDescription.setText(null);
         }
@@ -123,7 +125,7 @@ public class PinkWeatherView extends RelativeLayout implements PinkServiceContra
         mTime.setText(time);
     }
 
-    private Uri getWeatherResourceUri(String partName, int weatherId) {
+    private Uri getWeatherResourceUri(String partName, String weatherId) {
         String url = Config.HOST_WEATHER_IMG + partName + "/" + weatherId + "/" + System.currentTimeMillis();
         return Uri.parse(url);
     }

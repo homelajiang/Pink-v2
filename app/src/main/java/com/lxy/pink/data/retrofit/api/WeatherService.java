@@ -2,6 +2,8 @@ package com.lxy.pink.data.retrofit.api;
 
 import com.lxy.pink.data.model.weather.Weather;
 
+import java.util.List;
+
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -11,21 +13,26 @@ import rx.Observable;
  */
 
 public interface WeatherService {
-    @GET("data/2.5/weather")
-    Observable<Weather> getWeather(
-            @Query("id") String cityId,
-            @Query("APPID") String appId,
-            @Query("lang") String lang,
-            @Query("units") String units
-    );
+//    @GET("data/2.5/weather")
+//    Observable<Weather> getWeather(
+//            @Query("id") String cityId,
+//            @Query("APPID") String appId,
+//            @Query("lang") String lang,
+//            @Query("units") String units
+//    );
+//
+//    @GET("data/2.5/weather")
+//    Observable<Weather> getWeather(
+//      @Query("lat") double lat,
+//      @Query("lon") double lon,
+//      @Query("APPID") String appId,
+//      @Query("lang") String lang,
+//      @Query("units") String units
+//    );
 
-    @GET("data/2.5/weather")
+    @GET("v3/weather/now.json")
     Observable<Weather> getWeather(
-      @Query("lat") double lat,
-      @Query("lon") double lon,
-      @Query("APPID") String appId,
-      @Query("lang") String lang,
-      @Query("units") String units
+            @Query("location") String location
     );
 
 }

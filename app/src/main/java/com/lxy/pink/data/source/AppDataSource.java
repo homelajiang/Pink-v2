@@ -125,10 +125,10 @@ public class AppDataSource implements AppContract {
     }
 
     @Override
-    public Observable<Weather> getWeatherInfo(double lat, double lon) {
+    public Observable<Weather> getWeatherInfo(String location) {
         return RetrofitAPI.getInstance()
                 .getWeatherService()
-                .getWeather(lat, lon, Config.WEATHER_APPID, Config.WEATHER_LANG, Config.WEATHER_UNITS);
+                .getWeather(location);
     }
 
     @Override

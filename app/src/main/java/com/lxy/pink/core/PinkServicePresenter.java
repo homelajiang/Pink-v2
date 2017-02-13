@@ -129,8 +129,8 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
     }
 
     @Override
-    public void getWeather(double lat, double lon) {
-        Subscription subscription = appRepository.getWeatherInfo(lat, lon)
+    public void getWeather(String location) {
+        Subscription subscription = appRepository.getWeatherInfo(location)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Weather>() {

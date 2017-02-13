@@ -134,7 +134,7 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
         }
         if (weatherRequestLocation) {
             weatherRequestLocation = false;
-            presenter.getWeather(pinkLocation.getLatitude(), pinkLocation.getLongitude());
+            presenter.getWeather(pinkLocation.getLatitude()+":"+pinkLocation.getLongitude());
         }
     }
 
@@ -145,8 +145,8 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
         }
         if (weatherRequestLocation) {
             weatherRequestLocation = false;
-            if (lastWeather != null) {
-                presenter.getWeather(lastWeather.getCoord().getLat(), lastWeather.getCoord().getLon());
+            if (lastWeather != null && lastWeather.getResults()!=null && lastWeather.getResults().size()>0) {
+                presenter.getWeather( lastWeather.getResults().get(0).getLocation().getId());
             }
         }
     }

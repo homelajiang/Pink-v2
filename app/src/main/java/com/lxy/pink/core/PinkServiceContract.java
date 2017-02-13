@@ -44,7 +44,7 @@ public interface PinkServiceContract {
 
         void saveWeather(Weather weather);
 
-        void getWeather(double lat, double lon);
+        void getWeather(String location);
 
         void getTodoList(ContentResolver cr);
 

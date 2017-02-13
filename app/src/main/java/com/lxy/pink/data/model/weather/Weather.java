@@ -8,353 +8,151 @@ import java.util.List;
 
 public class Weather {
 
-    /**
-     * lon : 98.52
-     * lat : 39.74
-     */
+    private List<ResultsEntity> results;
 
-    private CoordBean coord;
-    /**
-     * coord : {"lon":98.52,"lat":39.74}
-     * weather : [{"id":800,"main":"Clear","description":"clear sky","icon":"01n"}]
-     * base : stations
-     * main : {"temp":271.236,"pressure":792.45,"humidity":67,"temp_min":271.236,"temp_max":271.236,"sea_level":1033.59,"grnd_level":792.45}
-     * wind : {"speed":1.52,"deg":200.503}
-     * clouds : {"all":0}
-     * dt : 1476020264
-     * sys : {"message":0.0055,"country":"CN","sunrise":1475969435,"sunset":1476010486}
-     * id : 1279945
-     * name : Suzhou
-     * cod : 200
-     */
-
-    private String base;
-    /**
-     * temp : 271.236
-     * pressure : 792.45
-     * humidity : 67
-     * temp_min : 271.236
-     * temp_max : 271.236
-     * sea_level : 1033.59
-     * grnd_level : 792.45
-     */
-
-    private MainBean main;
-    /**
-     * speed : 1.52
-     * deg : 200.503
-     */
-
-    private WindBean wind;
-    /**
-     * all : 0
-     */
-
-    private CloudsBean clouds;
-    private int dt;
-    /**
-     * message : 0.0055
-     * country : CN
-     * sunrise : 1475969435
-     * sunset : 1476010486
-     */
-
-    private SysBean sys;
-    private int id;
-    private String name;
-    private int cod;
-    /**
-     * id : 800
-     * main : Clear
-     * description : clear sky
-     * icon : 01n
-     */
-
-    private List<WeatherBean> weather;
-
-    public CoordBean getCoord() {
-        return coord;
+    public List<ResultsEntity> getResults() {
+        return results;
     }
 
-    public void setCoord(CoordBean coord) {
-        this.coord = coord;
+    public void setResults(List<ResultsEntity> results) {
+        this.results = results;
     }
 
-    public String getBase() {
-        return base;
-    }
+    public static class ResultsEntity {
+        /**
+         * location : {"id":"WX4FBXXFKE4F","name":"北京","country":"CN","path":"北京,北京,中国","timezone":"Asia/Shanghai","timezone_offset":"+08:00"}
+         * now : {"text":"晴","code":"0","temperature":"12"}
+         * last_update : 2017-02-13T15:05:00+08:00
+         */
 
-    public void setBase(String base) {
-        this.base = base;
-    }
+        private LocationEntity location;
+        private NowEntity now;
+        private String last_update;
 
-    public MainBean getMain() {
-        return main;
-    }
-
-    public void setMain(MainBean main) {
-        this.main = main;
-    }
-
-    public WindBean getWind() {
-        return wind;
-    }
-
-    public void setWind(WindBean wind) {
-        this.wind = wind;
-    }
-
-    public CloudsBean getClouds() {
-        return clouds;
-    }
-
-    public void setClouds(CloudsBean clouds) {
-        this.clouds = clouds;
-    }
-
-    public int getDt() {
-        return dt;
-    }
-
-    public void setDt(int dt) {
-        this.dt = dt;
-    }
-
-    public SysBean getSys() {
-        return sys;
-    }
-
-    public void setSys(SysBean sys) {
-        this.sys = sys;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCod() {
-        return cod;
-    }
-
-    public void setCod(int cod) {
-        this.cod = cod;
-    }
-
-    public List<WeatherBean> getWeather() {
-        return weather;
-    }
-
-    public void setWeather(List<WeatherBean> weather) {
-        this.weather = weather;
-    }
-
-    public static class CoordBean {
-        private double lon;
-        private double lat;
-
-        public double getLon() {
-            return lon;
+        public LocationEntity getLocation() {
+            return location;
         }
 
-        public void setLon(double lon) {
-            this.lon = lon;
+        public void setLocation(LocationEntity location) {
+            this.location = location;
         }
 
-        public double getLat() {
-            return lat;
+        public NowEntity getNow() {
+            return now;
         }
 
-        public void setLat(double lat) {
-            this.lat = lat;
-        }
-    }
-
-    public static class MainBean {
-        private double temp;
-        private double pressure;
-        private int humidity;
-        private double temp_min;
-        private double temp_max;
-        private double sea_level;
-        private double grnd_level;
-
-        public double getTemp() {
-            return temp;
+        public void setNow(NowEntity now) {
+            this.now = now;
         }
 
-        public void setTemp(double temp) {
-            this.temp = temp;
+        public String getLast_update() {
+            return last_update;
         }
 
-        public double getPressure() {
-            return pressure;
+        public void setLast_update(String last_update) {
+            this.last_update = last_update;
         }
 
-        public void setPressure(double pressure) {
-            this.pressure = pressure;
+        public static class LocationEntity {
+            /**
+             * id : WX4FBXXFKE4F
+             * name : 北京
+             * country : CN
+             * path : 北京,北京,中国
+             * timezone : Asia/Shanghai
+             * timezone_offset : +08:00
+             */
+
+            private String id;
+            private String name;
+            private String country;
+            private String path;
+            private String timezone;
+            private String timezone_offset;
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getCountry() {
+                return country;
+            }
+
+            public void setCountry(String country) {
+                this.country = country;
+            }
+
+            public String getPath() {
+                return path;
+            }
+
+            public void setPath(String path) {
+                this.path = path;
+            }
+
+            public String getTimezone() {
+                return timezone;
+            }
+
+            public void setTimezone(String timezone) {
+                this.timezone = timezone;
+            }
+
+            public String getTimezone_offset() {
+                return timezone_offset;
+            }
+
+            public void setTimezone_offset(String timezone_offset) {
+                this.timezone_offset = timezone_offset;
+            }
         }
 
-        public int getHumidity() {
-            return humidity;
-        }
+        public static class NowEntity {
+            /**
+             * text : 晴
+             * code : 0
+             * temperature : 12
+             */
 
-        public void setHumidity(int humidity) {
-            this.humidity = humidity;
-        }
+            private String text;
+            private String code;
+            private String temperature;
 
-        public double getTemp_min() {
-            return temp_min;
-        }
+            public String getText() {
+                return text;
+            }
 
-        public void setTemp_min(double temp_min) {
-            this.temp_min = temp_min;
-        }
+            public void setText(String text) {
+                this.text = text;
+            }
 
-        public double getTemp_max() {
-            return temp_max;
-        }
+            public String getCode() {
+                return code;
+            }
 
-        public void setTemp_max(double temp_max) {
-            this.temp_max = temp_max;
-        }
+            public void setCode(String code) {
+                this.code = code;
+            }
 
-        public double getSea_level() {
-            return sea_level;
-        }
+            public String getTemperature() {
+                return temperature;
+            }
 
-        public void setSea_level(double sea_level) {
-            this.sea_level = sea_level;
-        }
-
-        public double getGrnd_level() {
-            return grnd_level;
-        }
-
-        public void setGrnd_level(double grnd_level) {
-            this.grnd_level = grnd_level;
-        }
-    }
-
-    public static class WindBean {
-        private double speed;
-        private double deg;
-
-        public double getSpeed() {
-            return speed;
-        }
-
-        public void setSpeed(double speed) {
-            this.speed = speed;
-        }
-
-        public double getDeg() {
-            return deg;
-        }
-
-        public void setDeg(double deg) {
-            this.deg = deg;
-        }
-    }
-
-    public static class CloudsBean {
-        private int all;
-
-        public int getAll() {
-            return all;
-        }
-
-        public void setAll(int all) {
-            this.all = all;
-        }
-    }
-
-    public static class SysBean {
-        private double message;
-        private String country;
-        private int sunrise;
-        private int sunset;
-
-        public double getMessage() {
-            return message;
-        }
-
-        public void setMessage(double message) {
-            this.message = message;
-        }
-
-        public String getCountry() {
-            return country;
-        }
-
-        public void setCountry(String country) {
-            this.country = country;
-        }
-
-        public int getSunrise() {
-            return sunrise;
-        }
-
-        public void setSunrise(int sunrise) {
-            this.sunrise = sunrise;
-        }
-
-        public int getSunset() {
-            return sunset;
-        }
-
-        public void setSunset(int sunset) {
-            this.sunset = sunset;
-        }
-    }
-
-    public static class WeatherBean {
-        private int id;
-        private String main;
-        private String description;
-        private String icon;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getMain() {
-            return main;
-        }
-
-        public void setMain(String main) {
-            this.main = main;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getIcon() {
-            return icon;
-        }
-
-        public void setIcon(String icon) {
-            this.icon = icon;
+            public void setTemperature(String temperature) {
+                this.temperature = temperature;
+            }
         }
     }
 }

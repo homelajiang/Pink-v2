@@ -52,7 +52,7 @@ public interface AppContract {
 
     Observable<Weather> getWeatherInfo();
 
-    Observable<Weather> getWeatherInfo(double lat, double lon);
+    Observable<Weather> getWeatherInfo(String location);
 
     Observable<Void> saveWeatherInfo(Weather weather);
 
