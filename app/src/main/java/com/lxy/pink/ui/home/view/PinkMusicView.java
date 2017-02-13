@@ -114,7 +114,7 @@ public class PinkMusicView extends RelativeLayout implements IPlayback.Callback 
 //        mMusicMusic.setTag(song.getId());
         mMusicMusic.setText(song.getTitle());
         mMusicSubTitle.setText(song.getArtist());
-        mMusicTime.setText(TimeUtils.formatDuration((int) song.getDuration()));
+//        mMusicTime.setText(TimeUtils.formatDuration((int) song.getDuration()));
         removeCallbacks(progressRunnable);
         if (mPlayer.isPlaying()) {
             post(progressRunnable);

@@ -1,11 +1,9 @@
 package com.lxy.pink.player;
 
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
-import com.lxy.pink.data.source.PreferenceManager;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -21,7 +19,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
     private static volatile Player sInstance;
 
     private MediaPlayer mPlayer;
-    private PlayList mPlayList;
+    private PlayList mPlayList = new PlayList();
     private PlayMode mPlayMode = PlayMode.LIST;
 
     private List<Callback> mCallbacks = new ArrayList<>(2);
@@ -31,7 +29,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     private Player() {
         mPlayer = new MediaPlayer();
-        mPlayList = new PlayList();
+        mPlayer.setOnPreparedListener(this);
         mPlayer.setOnCompletionListener(this);
     }
 
@@ -75,19 +73,24 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public boolean play() {
-        if (isPaused) {
+        if (isPaused && mPlayer != null) {
             mPlayer.start();
             notifyPlayStatusChanged(true);
             isPaused = false;
             return true;
         }
+        if (mPlayer == null) {
+            mPlayer = new MediaPlayer();
+            mPlayer.setOnPreparedListener(this);
+            mPlayer.setOnCompletionListener(this);
+        }
+
         if (mPlayList.prepare()) {
             Song song = mPlayList.getCurrentSong();
             try {
                 mPlayer.reset();
                 mPlayer.setDataSource(song.getPath());
                 mPlayer.prepareAsync();
-                mPlayer.setOnPreparedListener(this);
             } catch (IOException e) {
                 Logger.d(e);
                 notifyPlayStatusChanged(false);
@@ -100,6 +103,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public boolean play(PlayList list) {
+        playProgress = 0;
         if (list == null)
             return false;
         isPaused = false;
@@ -109,6 +113,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public boolean play(PlayList list, int startIndex) {
+        playProgress = 0;
         if (list == null || startIndex < 0 || startIndex >= list.getNumOfSongs())
             return false;
 
@@ -120,6 +125,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public boolean play(Song song) {
+        playProgress = 0;
         if (song == null)
             return false;
 
@@ -131,6 +137,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public boolean playLast() {
+        playProgress = 0;
         isPaused = false;
         boolean hasLast = mPlayList.hasLast();
         if (hasLast) {
@@ -144,6 +151,7 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public boolean playNext() {
+        playProgress = 0;
         isPaused = false;
         boolean hasNext = mPlayList.hasNext(false, mPlayMode);
         if (hasNext) {
@@ -168,7 +176,9 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public boolean isPlaying() {
-        return mPlayer.isPlaying();
+        if (mPlayer == null || !mPlayer.isPlaying())
+            return false;
+        return true;
     }
 
     @Override
@@ -229,34 +239,43 @@ public class Player implements MediaPlayer.OnCompletionListener, IPlayback, Medi
 
     @Override
     public void releasePlayer() {
+        if(mPlayer==null)//MediaPlayer 已经释放
+            return;
         //首先暂停播放并通知状态
         pause();
-        removeCallbacks();
-        mPlayList = null;
+        playProgress = getProgress();
         mPlayer.stop();
         mPlayer.release();
         mPlayer = null;
     }
 
     private void notifyPlayStatusChanged(boolean isPlaying) {
+        if (mPlayer == null)
+            return;
         for (Callback callback : mCallbacks) {
             callback.onPlayStatusChanged(isPlaying);
         }
     }
 
     private void notifyPlayLast(Song song) {
+        if (mPlayer == null)
+            return;
         for (Callback callback : mCallbacks) {
             callback.onSwitchLast(song);
         }
     }
 
     private void notifyPlayNext(Song song) {
+        if (mPlayer == null)
+            return;
         for (Callback callback : mCallbacks) {
             callback.onSwitchNext(song);
         }
     }
 
     private void notifyComplete(Song song) {
+        if (mPlayer == null)
+            return;
         for (Callback callback : mCallbacks) {
             callback.onComplete(song);
         }

@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Binder;
 import android.os.IBinder;
@@ -48,13 +47,9 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_GAIN://获取焦点长期占有
                 hasFocus = true;
-                if (mPlayer == null) {
-                    initMediaPlay();
-                } else {
-                    mPlayer.play();
-                }
-//                play();
-//                mPlayer.setVolume(1.0f, 1.0f);
+                    play();
+                    mPlayer.setVolume(1.0f, 1.0f);
+//                }
                 break;
             case AudioManager.AUDIOFOCUS_LOSS://长久的失去焦点
                 releasePlayer();
@@ -83,13 +78,9 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
         noisyFilter = new IntentFilter();
         noisyFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        initMediaPlay();
-    }
-
-    private void initMediaPlay() {
         mPlayer = Player.getInstance();
-        mPlayer.setPlayMode(PreferenceManager.getPlayMode(this));
         mPlayer.registerCallback(this);
+        mPlayer.setPlayMode(PreferenceManager.getPlayMode(this));
     }
 
     @Override
@@ -106,11 +97,8 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
         } else if (ACTION_PLAY_LAST.equals(action)) {
             playLast();
         } else if (ACTION_STOP_SERVICE.equals(action)) {
-            if (isPlaying()) {
-                pause();
-            }
+            releasePlayer();
             stopForeground(true);
-            unregisterCallback(this);
         }
         return START_STICKY;
     }
@@ -252,7 +240,6 @@ public class PlaybackService extends Service implements IPlayback, IPlayback.Cal
         hasFocus = false;
 
         mPlayer.releasePlayer();
-        mPlayer = null;
     }
 
     @Override

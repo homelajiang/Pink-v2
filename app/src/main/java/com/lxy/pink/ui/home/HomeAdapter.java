@@ -86,8 +86,7 @@ public class HomeAdapter extends EpoxyAdapter {
                     return;
                 pinkCalendarModel_.pinkService(pinkService);
                 pinkCalendarModel_.todoList(todoList);
-                showModel(pinkCalendarModel_);
-                pinkService.unBindTodoCallback(this);
+                showModel(pinkCalendarModel_,todoList.size()>0);
             }
         });
     }
