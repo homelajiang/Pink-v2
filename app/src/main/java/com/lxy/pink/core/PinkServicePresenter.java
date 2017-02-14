@@ -109,7 +109,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
         Subscription subscription = appRepository.saveWeatherInfo(weather)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Void>() {
+                .subscribe(new Subscriber<Weather>() {
                     @Override
                     public void onCompleted() {
 
@@ -121,7 +121,7 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
                     }
 
                     @Override
-                    public void onNext(Void aVoid) {
+                    public void onNext(Weather weather) {
 
                     }
                 });

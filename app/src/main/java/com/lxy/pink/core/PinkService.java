@@ -5,6 +5,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.lxy.pink.data.model.location.PinkLocation;
 import com.lxy.pink.data.model.todo.TodoList;
@@ -134,7 +135,7 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
         }
         if (weatherRequestLocation) {
             weatherRequestLocation = false;
-            presenter.getWeather(pinkLocation.getLatitude()+":"+pinkLocation.getLongitude());
+            presenter.getWeather(pinkLocation.getLatitude() + ":" + pinkLocation.getLongitude());
         }
     }
 
@@ -145,8 +146,8 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
         }
         if (weatherRequestLocation) {
             weatherRequestLocation = false;
-            if (lastWeather != null && lastWeather.getResults()!=null && lastWeather.getResults().size()>0) {
-                presenter.getWeather( lastWeather.getResults().get(0).getLocation().getId());
+            if (lastWeather != null && !TextUtils.isEmpty(lastWeather.getId())) {
+                presenter.getWeather(lastWeather.getId());
             }
         }
     }

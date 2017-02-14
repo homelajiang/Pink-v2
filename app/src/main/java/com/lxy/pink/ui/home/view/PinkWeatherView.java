@@ -98,15 +98,14 @@ public class PinkWeatherView extends RelativeLayout implements PinkServiceContra
 
     public void setWeather(Weather weather) {
 
-        if (weather != null && weather.getResults() != null && weather.getResults().size() > 0) {
-            Weather.ResultsEntity result = weather.getResults().get(0);
-            mLocation.setText(result.getLocation().getName());
-            mTemperature.setText(String.valueOf(result.getNow().getTemperature() + "°"));
-            mDescription.setText(result.getNow().getText());
-            mBackground.setImageURI(getWeatherResourceUri("background", result.getNow().getCode()));
-            mLight.setImageURI(getWeatherResourceUri("light", result.getNow().getCode()));
-            mSun.setImageURI(getWeatherResourceUri("sun", result.getNow().getCode()));
-            mBuilding.setImageURI(getWeatherResourceUri("building", result.getNow().getCode()));
+        if (weather != null) {
+            mLocation.setText(weather.getName());
+            mTemperature.setText(String.valueOf(weather.getTemperature()+ "°"));
+            mDescription.setText(weather.getText());
+            mBackground.setImageURI(getWeatherResourceUri("background", weather.getCode()));
+            mLight.setImageURI(getWeatherResourceUri("light",  weather.getCode()));
+            mSun.setImageURI(getWeatherResourceUri("sun",  weather.getCode()));
+            mBuilding.setImageURI(getWeatherResourceUri("building",  weather.getCode()));
 
 //            Date publishDate = new Date(weather.getDt() * 1000L);
 //            Calendar calendar = Calendar.getInstance();
@@ -114,8 +113,8 @@ public class PinkWeatherView extends RelativeLayout implements PinkServiceContra
 //            calendar.set(Calendar.MINUTE, 0);
 //            calendar.set(Calendar.SECOND, 0);
 //            calendar.set(Calendar.MILLISECOND, 0);
-//            this.mDate.setText(String.format(getResources().getString(R.string.weather_publish_time),
-//                    FuzzyDateFormatter.getTimeAgo(getContext(), publishDate)));
+            this.mDate.setText(String.format(getResources().getString(R.string.weather_publish_time),
+                    FuzzyDateFormatter.getTimeAgo(getContext(), weather.getLastUpdate())));
         } else {
             mDescription.setText(null);
         }
@@ -147,7 +146,7 @@ public class PinkWeatherView extends RelativeLayout implements PinkServiceContra
 
     @Override
     public void weatherLoaded(Weather weather) {
-
+        setWeather(weather);
     }
 
     @Override

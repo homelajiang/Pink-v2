@@ -28,6 +28,8 @@ public class FuzzyDateFormatter {
      * @return Formatted string
      */
     public static String getTimeAgo(Context context, Date date) {
+        if(date==null)
+            return "";
         int beforeSeconds = (int) (date.getTime() / 1000);
         int nowSeconds = (int) (Calendar.getInstance().getTimeInMillis() / 1000);
         int timeDifference = nowSeconds - beforeSeconds;

@@ -86,7 +86,7 @@ public class AppRepository implements AppContract {
     }
 
     @Override
-    public Observable<Void> saveWeatherInfo(Weather weather) {
+    public Observable<Weather> saveWeatherInfo(Weather weather) {
         return appDataSource.saveWeatherInfo(weather);
     }
 

@@ -60,6 +60,8 @@ public class HomeAdapter extends EpoxyAdapter {
                 this.pinkCalendarModel_
         );
 
+//        showModel(this.pinkWeatherModel_);
+
         showModels(false,
                 this.pinkCalendarModel_,
                 this.pinkMusicModel_,

@@ -1,158 +1,135 @@
 package com.lxy.pink.data.model.weather;
 
-import java.util.List;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+
+import java.util.Date;
 
 /**
  * Created by yuan on 2016/10/9.
  */
 
+@Entity
 public class Weather {
+    @Id
+    private long _id = 0;
+    private String id;
+    private String name;
+    private String country;
+    private String path;
+    private String timezone;
+    private String timzoneOffset;
+    private String temperature;
+    private String code;
+    private String text;
+    private Date lastUpdate = new Date();
 
-    private List<ResultsEntity> results;
-
-    public List<ResultsEntity> getResults() {
-        return results;
+    @Generated(hash = 1822033055)
+    public Weather(long _id, String id, String name, String country, String path, String timezone, String timzoneOffset, String temperature, String code, String text,
+            Date lastUpdate) {
+        this._id = _id;
+        this.id = id;
+        this.name = name;
+        this.country = country;
+        this.path = path;
+        this.timezone = timezone;
+        this.timzoneOffset = timzoneOffset;
+        this.temperature = temperature;
+        this.code = code;
+        this.text = text;
+        this.lastUpdate = lastUpdate;
     }
 
-    public void setResults(List<ResultsEntity> results) {
-        this.results = results;
+    @Generated(hash = 556711069)
+    public Weather() {
     }
 
-    public static class ResultsEntity {
-        /**
-         * location : {"id":"WX4FBXXFKE4F","name":"北京","country":"CN","path":"北京,北京,中国","timezone":"Asia/Shanghai","timezone_offset":"+08:00"}
-         * now : {"text":"晴","code":"0","temperature":"12"}
-         * last_update : 2017-02-13T15:05:00+08:00
-         */
+    public String getId() {
+        return id;
+    }
 
-        private LocationEntity location;
-        private NowEntity now;
-        private String last_update;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public LocationEntity getLocation() {
-            return location;
-        }
+    public String getName() {
+        return name;
+    }
 
-        public void setLocation(LocationEntity location) {
-            this.location = location;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public NowEntity getNow() {
-            return now;
-        }
+    public String getCountry() {
+        return country;
+    }
 
-        public void setNow(NowEntity now) {
-            this.now = now;
-        }
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-        public String getLast_update() {
-            return last_update;
-        }
+    public String getPath() {
+        return path;
+    }
 
-        public void setLast_update(String last_update) {
-            this.last_update = last_update;
-        }
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-        public static class LocationEntity {
-            /**
-             * id : WX4FBXXFKE4F
-             * name : 北京
-             * country : CN
-             * path : 北京,北京,中国
-             * timezone : Asia/Shanghai
-             * timezone_offset : +08:00
-             */
+    public String getTimezone() {
+        return timezone;
+    }
 
-            private String id;
-            private String name;
-            private String country;
-            private String path;
-            private String timezone;
-            private String timezone_offset;
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
 
-            public String getId() {
-                return id;
-            }
+    public String getTimzoneOffset() {
+        return timzoneOffset;
+    }
 
-            public void setId(String id) {
-                this.id = id;
-            }
+    public void setTimzoneOffset(String timzoneOffset) {
+        this.timzoneOffset = timzoneOffset;
+    }
 
-            public String getName() {
-                return name;
-            }
+    public String getTemperature() {
+        return temperature;
+    }
 
-            public void setName(String name) {
-                this.name = name;
-            }
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
 
-            public String getCountry() {
-                return country;
-            }
+    public String getCode() {
+        return code;
+    }
 
-            public void setCountry(String country) {
-                this.country = country;
-            }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-            public String getPath() {
-                return path;
-            }
+    public String getText() {
+        return text;
+    }
 
-            public void setPath(String path) {
-                this.path = path;
-            }
+    public void setText(String text) {
+        this.text = text;
+    }
 
-            public String getTimezone() {
-                return timezone;
-            }
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
 
-            public void setTimezone(String timezone) {
-                this.timezone = timezone;
-            }
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
-            public String getTimezone_offset() {
-                return timezone_offset;
-            }
+    public long get_id() {
+        return this._id;
+    }
 
-            public void setTimezone_offset(String timezone_offset) {
-                this.timezone_offset = timezone_offset;
-            }
-        }
-
-        public static class NowEntity {
-            /**
-             * text : 晴
-             * code : 0
-             * temperature : 12
-             */
-
-            private String text;
-            private String code;
-            private String temperature;
-
-            public String getText() {
-                return text;
-            }
-
-            public void setText(String text) {
-                this.text = text;
-            }
-
-            public String getCode() {
-                return code;
-            }
-
-            public void setCode(String code) {
-                this.code = code;
-            }
-
-            public String getTemperature() {
-                return temperature;
-            }
-
-            public void setTemperature(String temperature) {
-                this.temperature = temperature;
-            }
-        }
+    public void set_id(long _id) {
+        this._id = _id;
     }
 }

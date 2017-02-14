@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.lxy.pink.data.db.DaoMaster;
 import com.lxy.pink.data.db.DaoSession;
 import com.lxy.pink.data.db.TempModelDao;
+import com.lxy.pink.data.db.WeatherDao;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.TempModel;
 import com.lxy.pink.data.model.acfun.ACRecommend;
@@ -22,12 +23,12 @@ import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
 import com.lxy.pink.data.model.weather.Forecast;
 import com.lxy.pink.data.model.weather.Weather;
+import com.lxy.pink.data.model.weather.XZWeather;
 import com.lxy.pink.data.retrofit.RetrofitAPI;
 import com.lxy.pink.data.source.db.DaoMasterHelper;
 import com.lxy.pink.utils.Config;
 
 import org.greenrobot.greendao.query.DeleteQuery;
-import org.greenrobot.greendao.query.Query;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +36,8 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by homelajiang on 2016/10/9 0009.
@@ -103,65 +104,60 @@ public class AppDataSource implements AppContract {
 
     @Override
     public Observable<Weather> getWeatherInfo() {
-        return Observable.create(new Observable.OnSubscribe<Weather>() {
-            @Override
-            public void call(Subscriber<? super Weather> subscriber) {
-                List<TempModel> tempModelList =
-                        DaoMasterHelper.getDaoSession().getTempModelDao().queryBuilder()
-                                .where(TempModelDao.Properties.Type.eq(TempModel.TYPE_WEATHER))
-                                .orderAsc(TempModelDao.Properties.UpdateTime)
-                                .limit(1)
-                                .list();
-                if (tempModelList != null && tempModelList.size() == 1) {
-                    TempModel tempModel = tempModelList.get(0);
-                    Weather weather = gson.fromJson(tempModel.getRaw(), Weather.class);
-                    subscriber.onNext(weather);
-                } else {
-                    subscriber.onNext(null);
-                }
-                subscriber.onCompleted();
-            }
-        });
+
+        return DaoMasterHelper.getDaoSession().getWeatherDao().queryBuilder()
+                .orderAsc(WeatherDao.Properties.LastUpdate)
+                .limit(1)
+                .rx()
+                .unique();
     }
 
     @Override
     public Observable<Weather> getWeatherInfo(String location) {
         return RetrofitAPI.getInstance()
                 .getWeatherService()
-                .getWeather(location);
+                .getWeather(location,
+                        Config.XINZHI_WEATHER_KEY,
+                        Config.XINZHI_LANGUAGE,
+                        Config.XINZHI_UNIT)
+                .map(new Func1<XZWeather, Weather>() {
+                    @Override
+                    public Weather call(XZWeather xzWeather) {
+                        return xzWeather.toWeather();
+                    }
+                });
     }
 
     @Override
-    public Observable<Void> saveWeatherInfo(final Weather weather) {
-        return Observable.create(new Observable.OnSubscribe<Void>() {
-            @Override
-            public void call(Subscriber<? super Void> subscriber) {
-                TempModel tempModel = new TempModel();
-                tempModel.setRaw(gson.toJson(weather));
-                tempModel.setType(TempModel.TYPE_WEATHER);
+    public Observable<Weather> saveWeatherInfo(final Weather weather) {
 
-                long updateTime = tempModel.getUpdateTime();
+//        return DaoMasterHelper.getDaoSession().getWeatherDao()
+//                .rx()
+//                .deleteAll()
+//                .flatMap(new Func1<Void, Observable<Weather>>() {
+//                    @Override
+//                    public Observable<Weather> call(Void aVoid) {
+//                        return DaoMasterHelper.getDaoSession().getWeatherDao()
+//                                .rx()
+//                                .insert(weather);
+//                    }
+//                });
 
-                long id = DaoMasterHelper.getDaoSession().getTempModelDao().insert(tempModel);
-                if (id < 0) {
-                    subscriber.onError(new Throwable("insert location error"));
-                    return;
-                }
+        return DaoMasterHelper.getDaoSession().getWeatherDao()
+                .rx()
+                .insertOrReplace(weather);
 
-                DeleteQuery<TempModel> query =
-                        DaoMasterHelper.getDaoSession().getTempModelDao().queryBuilder()
-                                .where(TempModelDao.Properties.Type.eq(TempModel.TYPE_WEATHER)
-                                        , TempModelDao.Properties.UpdateTime.notEq(updateTime))
-                                .buildDelete();
-                if (query == null) {
-                    subscriber.onError(new Throwable("delete query TempModel Error!"));
-                } else {
-                    query.executeDeleteWithoutDetachingEntities();
-                    subscriber.onNext(null);
-                }
-                subscriber.onCompleted();
-            }
-        });
+//        DaoMasterHelper.getDaoSession().getWeatherDao()
+//                .rx()
+//                .insert(weather)
+//                .flatMap(new Func1<Weather, Observable<Weather>>() {
+//                    @Override
+//                    public Observable<Weather> call(Weather weather) {
+//                        return DaoMasterHelper.getDaoSession().getWeatherDao()
+//                                .rx()
+//                                .delete;
+//                    }
+//                })
     }
 
     @Override

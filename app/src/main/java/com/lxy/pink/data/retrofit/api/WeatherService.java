@@ -1,6 +1,7 @@
 package com.lxy.pink.data.retrofit.api;
 
 import com.lxy.pink.data.model.weather.Weather;
+import com.lxy.pink.data.model.weather.XZWeather;
 
 import java.util.List;
 
@@ -31,8 +32,11 @@ public interface WeatherService {
 //    );
 
     @GET("v3/weather/now.json")
-    Observable<Weather> getWeather(
-            @Query("location") String location
+    Observable<XZWeather> getWeather(
+            @Query("location") String location,
+            @Query("key") String key,
+            @Query("language") String language,
+            @Query("unit") String unit
     );
 
 }

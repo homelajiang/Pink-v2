@@ -17,7 +17,7 @@ public class Config {
     public static final String WEATHER_LANG = "zh_cn";
     public static final String WEATHER_UNITS = "metric";
 
-    public static final String WEATHER_XINZHI_KEY = "xkfhdmuybtisb2ru";
+    public static final String XINZHI_WEATHER_KEY = "xkfhdmuybtisb2ru";
 
     public static final int HOST_WEATHER_SUCCESS_CODE = 200;
     public static final long SPLASH_DELAY = 500;
@@ -28,6 +28,8 @@ public class Config {
 
     public static final String DB_NAME = "pink_db";
     public static final String SP_NAME = "pink_sp";
+    public static final String XINZHI_LANGUAGE = "zh-Hans";
+    public static final String XINZHI_UNIT = "c";
     public static String HOST_ApiAixifan = "http://api.aixifan.com/";
     public static String HOST_ApiAppAcfun="http://api.app.acfun.cn/";
     public static String HOST_DanmuAixifan="http://danmu.aixifan.com/";

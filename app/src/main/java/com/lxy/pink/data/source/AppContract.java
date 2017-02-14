@@ -54,7 +54,7 @@ public interface AppContract {
 
     Observable<Weather> getWeatherInfo(String location);
 
-    Observable<Void> saveWeatherInfo(Weather weather);
+    Observable<Weather> saveWeatherInfo(Weather weather);
 
     /**
      * get forecast weather info
