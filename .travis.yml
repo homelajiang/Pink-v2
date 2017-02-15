@@ -8,9 +8,11 @@ android:
     - extra-android-support
     - extra-android-m2repository
 
+before_install:
+  - chmod +x gradlew
 script:
-    - ./gradlew check -i
+  - ./gradlew assembleRelease
 
 after_failure:
-  - cat /home/travis/build/Bilibili/DanmakuFlameMaster/DanmakuFlameMaster/build/outputs/lint-results.html
-  - cat /home/travis/build/Bilibili/DanmakuFlameMaster/DanmakuFlameMaster/build/outputs/lint-results.xml
+  - cat /home/travis/build/homelajiang/Pink-v2/Pink-v2/build/outputs/lint-results.html
+  - cat /home/travis/build/homelajiang/Pink-v2/Pink-v2/build/outputs/lint-results.xml

@@ -22,7 +22,7 @@ public class AnimThread extends Thread {
 			try {
 				canvas = holder.lockCanvas();
 				synchronized (holder) {
-					snowView.onDraw(canvas);
+					snowView.draw(canvas);
 				}
 			} finally {
 				if (canvas != null) {
