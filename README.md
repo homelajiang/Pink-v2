@@ -1,6 +1,8 @@
 Pink Features List
 ==========================
 
+[![Build Status](https://travis-ci.org/homelajiang/Pink-v2.svg?branch=master)](https://travis-ci.org/homelajiang/Pink-v2)
+
 ## 首页
 
 #### 天气
