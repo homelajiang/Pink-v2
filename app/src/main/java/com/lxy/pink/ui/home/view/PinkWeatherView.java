@@ -4,12 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.lxy.pink.BuildConfig;
 import com.lxy.pink.R;
 import com.lxy.pink.core.PinkService;
 import com.lxy.pink.core.PinkServiceContract;

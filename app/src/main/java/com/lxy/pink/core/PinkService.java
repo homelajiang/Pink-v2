@@ -148,7 +148,7 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
             callback.locationStart();
         }
         if (weatherRequestLocation) {
-            weatherLoadStart();
+            weatherLocationStart();
         }
     }
 
