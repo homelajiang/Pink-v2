@@ -143,4 +143,5 @@
 
     <!--Weather-->
     <string name="weather_publish_time">%s 发布</string>
+    <string name="loading">努力加载中...</string>
 </resources>

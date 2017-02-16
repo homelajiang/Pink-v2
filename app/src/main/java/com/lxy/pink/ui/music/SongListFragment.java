@@ -1,11 +1,11 @@
 package com.lxy.pink.ui.music;
 
 import android.Manifest;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,12 +19,13 @@ import com.lxy.pink.event.PlayListLoadedEvent;
 import com.lxy.pink.event.PlayListNowEvent;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.base.adapter.OnItemClickListener;
-import com.lxy.pink.ui.common.DefaultDividerDecoration;
-import com.lxy.pink.ui.common.DefaultListItemDecoration;
 import com.lxy.pink.ui.permission.FcPermissions;
 import com.lxy.pink.ui.permission.FcPermissionsCallbacks;
+import com.lxy.pink.ui.video.VideoFragment;
+import com.lxy.pink.ui.video.VideoFragmentPresenter;
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,9 +36,12 @@ import butterknife.ButterKnife;
  */
 
 public class SongListFragment extends BaseFragment implements
-        SongListAdapter.AddPlayListCallback, SongListContract.View, FcPermissionsCallbacks {
+        SongListAdapter.AddPlayListCallback, SongListContract.View, SwipeRefreshLayout.OnRefreshListener,
+        FcPermissionsCallbacks {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private View root;
     private SongListAdapter mAdapter;
     private SongListContract.Presenter presenter;
@@ -52,15 +56,10 @@ public class SongListFragment extends BaseFragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.recyclerview, container, false);
+        root = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
         ButterKnife.bind(this, root);
-
-        return root;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.pink));
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter = new SongListAdapter(getContext(), null);
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -81,14 +80,26 @@ public class SongListFragment extends BaseFragment implements
         });
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mAdapter);
-//        recyclerView.addItemDecoration(new DefaultListItemDecoration());
 
-        new SongListPresenter(this);
+        isPrepared = true;
+        loadData();
+        return root;
+    }
 
-        /**
-         * ※ link start ※
-         */
-        FcPermissions.requestPermissions(this, "", PERMISSION_CODE_STORAFGE, PERMISSION_STROGE);
+    @Override
+    protected void loadData() {
+        if(!isPrepared || !isVisible ||!isFirstInit) {
+            return;
+        }
+        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new SongListPresenter(SongListFragment.this).subscribe();
+                //※ link start ※
+                FcPermissions.requestPermissions(SongListFragment.this, "", PERMISSION_CODE_STORAFGE, PERMISSION_STROGE);
+            }
+        }, 500);
     }
 
     @Override
@@ -113,12 +124,20 @@ public class SongListFragment extends BaseFragment implements
 
     @Override
     public void onMusicListLoaded(PlayList playList) {
+        isFirstInit = false;
         this.playList = playList;
         mAdapter.setPlayList(playList);
         mAdapter.notifyDataSetChanged();
-        if (playList != null) {
-            PlayListLoadedEvent e = new PlayListLoadedEvent(playList);
-            RxBus.getInstance().post(e);
+        stopRefresh();
+//        if (playList != null) {
+//            PlayListLoadedEvent e = new PlayListLoadedEvent(playList);
+//            RxBus.getInstance().post(e);
+//        }
+    }
+
+    public void stopRefresh() {
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -146,5 +165,15 @@ public class SongListFragment extends BaseFragment implements
             FcPermissions.checkDeniedPermissionsNeverAskAgain(this, "需要获取读写存储的权限",
                     R.string.pink_setting, R.string.pink_cancel, null, perms);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               presenter.loadMusicList(new ArrayList<String>());
+            }
+        },500);
     }
 }

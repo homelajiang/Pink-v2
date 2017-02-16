@@ -2,7 +2,6 @@ package com.lxy.pink.core;
 
 import android.content.ContentResolver;
 import android.location.LocationManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
@@ -21,6 +20,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+
 
 /**
  * Created by yuan on 2016/10/23.
@@ -81,10 +81,11 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Weather>() {
+
                     @Override
                     public void onCompleted() {
-                    }
 
+                    }
                     @Override
                     public void onError(Throwable e) {
                         //request location is weather

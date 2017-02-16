@@ -71,16 +71,23 @@ public class HomeAdapter extends EpoxyAdapter {
     public void serviceBind(PinkService service) {
         this.pinkService = service;
         this.pinkServiceBind = true;
-        this.pinkService.bindWeatherCallback(new SimpleWeatherCallback() {
-            @Override
-            public void weatherLoaded(Weather weather) {
-                if (pinkWeatherModel_.isShown())
-                    return;
-                pinkWeatherModel_.pinkService(pinkService);
-                pinkWeatherModel_.weather(weather);
-                showModel(pinkWeatherModel_);
-            }
-        });
+        //显示pinkWeather weather为null
+        pinkWeatherModel_.pinkService(pinkService);
+        showModel(pinkWeatherModel_);
+
+
+        //注册回调，在item发生改变的时候调用
+//        this.pinkService.bindWeatherCallback(new SimpleWeatherCallback() {
+//            @Override
+//            public void weatherLoaded(Weather weather) {
+//                if (pinkWeatherModel_.isShown())
+//                    return;
+//                pinkWeatherModel_.pinkService(pinkService);
+//                pinkWeatherModel_.weather(weather);
+//                showModel(pinkWeatherModel_);
+//            }
+//        });
+
         this.pinkService.bindTodoCallback(new SimpleTodoCallback() {
             @Override
             public void todoListLoaded(TodoList todoList) {

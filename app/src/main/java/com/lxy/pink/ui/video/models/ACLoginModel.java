@@ -1,6 +1,5 @@
 package com.lxy.pink.ui.video.models;
 
-import android.os.Handler;
 import android.view.View;
 
 import com.airbnb.epoxy.EpoxyAttribute;
@@ -8,8 +7,6 @@ import com.airbnb.epoxy.EpoxyModel;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACUser;
 import com.lxy.pink.ui.video.views.ACLoginView;
-
-import java.util.List;
 
 /**
  * Created by yuan on 2016/12/19.

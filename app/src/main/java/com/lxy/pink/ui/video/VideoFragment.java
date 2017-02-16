@@ -2,7 +2,9 @@ package com.lxy.pink.ui.video;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,11 +39,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         View root = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
         ButterKnife.bind(this, root);
 
-        mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE);
-//        mSwipeRefreshLayout.setBackgroundColor(Color.YELLOW);
-//        mSwipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
-//        mSwipeRefreshLayout.setDistanceToTriggerSync(100);
-//        mSwipeRefreshLayout.setProgressViewEndTarget(false,200);
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.pink));
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         int spanCount = getSpanCount();
@@ -55,9 +53,23 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(videoFragmentAdapter);
 
-        new VideoFragmentPresenter(getContext(), this).subscribe();
-
+        isPrepared = true;
+        loadData();
         return root;
+    }
+
+    @Override
+    protected void loadData() {
+        if(!isPrepared || !isVisible ||!isFirstInit) {
+            return;
+        }
+        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new VideoFragmentPresenter(getContext(), VideoFragment.this).subscribe();
+            }
+        }, 500);
     }
 
     private int getSpanCount() {
@@ -69,6 +81,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
 
     @Override
     public void recommendLoad(ACRecommend acRecommend) {
+        isFirstInit = false;
         if (acRecommend == null) {
             Toast.makeText(getContext(), R.string.pink_error_indescribable, Toast.LENGTH_SHORT).show();
         } else if (acRecommend.getCode() == 200) {
@@ -88,15 +101,6 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
 
     }
 
-    public void startRefresh() {
-        mRecyclerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-        }, 200);
-    }
-
     public void stopRefresh() {
         if (mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(false);
@@ -110,6 +114,11 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
 
     @Override
     public void onRefresh() {
-
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                presenter.getRecommend();
+            }
+        },500);
     }
 }

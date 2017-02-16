@@ -11,8 +11,6 @@ public abstract class SimpleWeatherCallback implements PinkServiceContract.Weath
 
     }
 
-    ;
-
     public void weatherLoadEnd() {
 
     }

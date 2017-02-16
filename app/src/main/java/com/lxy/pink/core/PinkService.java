@@ -115,6 +115,27 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
     }
 
     @Override
+    public void weatherLocationStart() {
+        for (PinkServiceContract.WeatherCallback callback : weatherCallbacks) {
+            callback.weatherLocationStart();
+        }
+    }
+
+    @Override
+    public void weatherLocationEnd() {
+        for (PinkServiceContract.WeatherCallback callback : weatherCallbacks) {
+            callback.weatherLocationEnd();
+        }
+    }
+
+    @Override
+    public void weatherLocationError() {
+        for (PinkServiceContract.WeatherCallback callback : weatherCallbacks) {
+            callback.weatherLocationError();
+        }
+    }
+
+    @Override
     public void todoListLoaded(TodoList todoList) {
         for (PinkServiceContract.TodoCallback callback : todoCallbacks) {
             callback.todoListLoaded(todoList);
@@ -126,6 +147,9 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
         for (PinkServiceContract.LocationCallback callback : locationCallbacks) {
             callback.locationStart();
         }
+        if (weatherRequestLocation) {
+            weatherLoadStart();
+        }
     }
 
     @Override
@@ -134,6 +158,7 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
             callback.locationLoaded(pinkLocation);
         }
         if (weatherRequestLocation) {
+            weatherLocationEnd();
             weatherRequestLocation = false;
             presenter.getWeather(pinkLocation.getLatitude() + ":" + pinkLocation.getLongitude());
         }
@@ -145,6 +170,7 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
             callback.locationError();
         }
         if (weatherRequestLocation) {
+            weatherLocationError();
             weatherRequestLocation = false;
             if (lastWeather != null && !TextUtils.isEmpty(lastWeather.getId())) {
                 presenter.getWeather(lastWeather.getId());
@@ -163,13 +189,8 @@ public class PinkService extends BaseService implements PinkServiceContract.Weat
     }
 
     public class PinkBinder extends Binder {
-        // TODO: 2016/12/25 合成为一个接口
         public PinkService getService() {
             return PinkService.this;
-        }
-
-        public void refreshNotifition() {
-
         }
 
         public void getWeather() {

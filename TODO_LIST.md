@@ -13,4 +13,4 @@ TODO LIST
     - [x] 播放器监听控制
 
 * 2017-02-13 10:29:16
-    - [ ]  fragment 懒加载
+    - [x]  fragment 懒加载
