@@ -52,11 +52,11 @@ public class ACLoginView extends CardView {
         this.btnLogin.setText(btnLoginRes);
     }
 
-    public void setLevel(int level) {
+    public void setLevel(String level) {
         this.level.setText(String.valueOf(level));
     }
 
-    public void setBanana(int banana) {
+    public void setBanana(String banana) {
         this.banana.setText(String.valueOf(banana));
     }
 

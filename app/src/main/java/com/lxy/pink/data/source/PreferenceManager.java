@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.lxy.pink.data.model.acfun.ACAuth;
+import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.player.PlayMode;
@@ -23,21 +25,12 @@ public class PreferenceManager {
     private static final String KEY_PRIVATEKEY = "privateKey";
     private static final String KEY_ACCESSTOKEN = "accessToken";
     private static final String KEY_PROFILEID = "profileId";
-    private static final String KEY_NICKNAME = "nickname";
-    private static final String KEY_USERIMG = "userImg";
-    private static final String KEY_GENDER = "gender";
-    private static final String KEY_JOINDATE = "joinDate";
-    private static final String KEY_QQ = "qq";
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_SIGNATURE = "signature";
-    private static final String KEY_EXP = "exp";
-    private static final String KEY_LEVEL = "level";
-    private static final String KEY_MOBILE = "mobile";
     private static final String KEY_PLAY_MUSIC_MODE = "key_play_music_mode";
     private static final String KEY_LAST_SONG = "key_last_song";
 
     private static Auth authBean;
-    private static Profile profileBean;
+
+    private static ACAuth acAuth;
 
     private static SharedPreferences preferences(Context context) {
         return context.getSharedPreferences(Config.SP_NAME, Context.MODE_PRIVATE);
@@ -69,17 +62,47 @@ public class PreferenceManager {
         return authBean;
     }
 
-    public static void setProfile(Context context, Profile profile) {
-        profileBean = profile;
-        setP(context, profile);
+    public static ACAuth getAcAuth(Context context) {
+        if (acAuth == null)
+            acAuth = getAcA(context);
+        return acAuth;
     }
 
-    public static Profile getProfile(Context context) {
-        if (profileBean == null) {
-            profileBean = getP(context);
-        }
-        return profileBean;
+    public static void setAcAuth(Context context, ACAuth acAuth) {
+        PreferenceManager.acAuth = acAuth;
+        setAcA(context, acAuth);
     }
+
+    private static void setAcA(Context context, ACAuth acAuth) {
+        SharedPreferences.Editor editor = edit(context);
+        editor.putString("ac_username", acAuth.getUsername());
+        editor.putString("ac_access_token", acAuth.getAccess_token());
+        editor.putString("ac_userImg", acAuth.getUserImg());
+        editor.putInt("ac_userGroupLevel", acAuth.getUserGroupLevel());
+        editor.putInt("ac_mobileCheck", acAuth.getMobileCheck());
+        editor.putLong("ac_expires", acAuth.getExpires());
+        editor.putLong("ac_userId", acAuth.getUserId());
+        editor.apply();
+    }
+
+    private static ACAuth getAcA(Context context) {
+        SharedPreferences sp = preferences(context);
+        ACAuth acAuth = new ACAuth();
+        acAuth.setUsername(sp.getString("ac_username", null));
+        acAuth.setAccess_token(sp.getString("ac_access_token", null));
+        acAuth.setUserImg(sp.getString("ac_userImg", null));
+        acAuth.setUserGroupLevel(sp.getInt("ac_userGroupLevel", 0));
+        acAuth.setMobileCheck(sp.getInt("ac_mobileCheck", 0));
+        acAuth.setExpires(sp.getLong("ac_expires", 0));
+        acAuth.setUserId(sp.getLong("ac_userId", 0));
+
+        if (TextUtils.isEmpty(acAuth.getUsername())
+                || TextUtils.isEmpty(acAuth.getAccess_token())
+                || acAuth.getUserId() == 0)
+            return null;
+        return acAuth;
+    }
+
 
     private static void setA(Context context, Auth auth) {
         SharedPreferences.Editor editor = edit(context);
@@ -104,39 +127,6 @@ public class PreferenceManager {
         return auth;
     }
 
-    private static void setP(Context context, Profile profile) {
-        SharedPreferences.Editor editor = edit(context);
-        editor.putString(KEY_NICKNAME, profile.getNickname());
-        editor.putString(KEY_USERIMG, profile.getUserImg());
-        editor.putInt(KEY_GENDER, profile.getGender());
-        editor.putLong(KEY_JOINDATE, profile.getJoinDate().getTime());
-        editor.putString(KEY_QQ, profile.getQq());
-        editor.putString(KEY_EMAIL, profile.getEmail());
-        editor.putString(KEY_SIGNATURE, profile.getSignature());
-        editor.putInt(KEY_EXP, profile.getExp());
-        editor.putInt(KEY_LEVEL, profile.getLevel());
-        editor.putString(KEY_MOBILE, profile.getMobile());
-        editor.apply();
-    }
-
-    private static Profile getP(Context context) {
-        SharedPreferences sp = preferences(context);
-        Profile profile = new Profile();
-        profile.setNickname(sp.getString(KEY_NICKNAME, null));
-        if (TextUtils.isEmpty(profile.getNickname())) {
-            return null;
-        }
-        profile.setUserImg(sp.getString(KEY_USERIMG, null));
-        profile.setGender(sp.getInt(KEY_GENDER, 0));
-        profile.setJoinDate(new Date(sp.getLong(KEY_JOINDATE, 0)));
-        profile.setQq(sp.getString(KEY_QQ, null));
-        profile.setEmail(sp.getString(KEY_EMAIL, null));
-        profile.setSignature(sp.getString(KEY_SIGNATURE, null));
-        profile.setExp(sp.getInt(KEY_EXP, 0));
-        profile.setLevel(sp.getInt(KEY_LEVEL, 0));
-        profile.setMobile(sp.getString(KEY_MOBILE, null));
-        return profile;
-    }
 
     public static PlayMode getPlayMode(Context context) {
         String playModeName = preferences(context).getString(KEY_PLAY_MUSIC_MODE, null);

@@ -2,8 +2,8 @@ package com.lxy.pink.data.retrofit.api;
 
 import com.lxy.pink.data.model.acfun.ACChannel;
 import com.lxy.pink.data.model.acfun.ACFun;
+import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACSplash;
-import com.lxy.pink.data.model.acfun.ACUser;
 import com.lxy.pink.data.model.acfun.ACVideo;
 
 import retrofit2.http.GET;
@@ -18,7 +18,7 @@ import rx.Observable;
 public interface ApiAppAcfunService {
     //http://api.app.acfun.cn/apiserver/profile?userId=784105
     @GET("apiserver/profile")
-    Observable<ACUser> getUserInfo(
+    Observable<ACProfile> getUserInfo(
             @Query("userId") String userId
     );
     //http://api.aixifan.com/open/phone/source

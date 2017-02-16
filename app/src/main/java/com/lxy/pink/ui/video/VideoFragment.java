@@ -1,8 +1,6 @@
 package com.lxy.pink.ui.video;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -52,7 +50,6 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(videoFragmentAdapter);
-
         isPrepared = true;
         loadData();
         return root;

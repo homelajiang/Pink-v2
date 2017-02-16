@@ -63,7 +63,6 @@ public class MainActivity extends BaseActivity implements
         new MainPresenter(this).subscribe();
 
         auth = PreferenceManager.getAuth(this);
-        profile = PreferenceManager.getProfile(this);
 
         headerViewHolder = new HeaderViewHolder(mNavView.getHeaderView(0));
         headerViewHolder.mHeadIcon.setOnClickListener(this);
@@ -164,7 +163,6 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void profileLoad(Profile profile) {
-        PreferenceManager.setProfile(this, profile);
         updateProfile(profile);
     }
 

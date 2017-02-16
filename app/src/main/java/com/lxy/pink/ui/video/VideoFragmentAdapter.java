@@ -1,11 +1,14 @@
 package com.lxy.pink.ui.video;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Toast;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.lxy.pink.data.model.acfun.ACAuth;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.video.models.ACArticleModelH;
 import com.lxy.pink.ui.video.models.ACArticleModelH_;
 import com.lxy.pink.ui.video.models.ACBananaVideoModel;
@@ -37,14 +40,11 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
     VideoFragmentAdapter(Context context) {
         this.context = context;
         enableDiffing();
-//        ACLoginModel acLoginModel = new ACLoginModel_();
-//        ACVideoModel acVideoModel = new ACVideoModel_();
-//        addModels(acLoginModel,acVideoModel);
     }
 
     public void setData(ACRecommend data) {
         this.data = data;
-        for (ACRecommend.DataBean dataBean : data.getData()) {
+        for (ACRecommend.DataBean dataBean : this.data.getData()) {
             switch (dataBean.getType().getId()) {
                 case 1://videos
                     addVideoModel(dataBean);
@@ -148,7 +148,9 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
     }
 
     private void addLoginModel() {
+
         ACLoginModel_ loginModel = new ACLoginModel_()
+                .acAuth(PreferenceManager.getAcAuth(context))
                 .clickListener(clickListener);
         addModel(loginModel);
     }
