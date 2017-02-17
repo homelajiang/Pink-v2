@@ -144,4 +144,17 @@
     <!--Weather-->
     <string name="weather_publish_time">%s 发布</string>
     <string name="loading">努力加载中...</string>
+    <string name="ac_welcome_login">登录</string>
+    <string name="ac_username_hint">用户名</string>
+    <string name="ac_password_hint">密码</string>
+    <string name="ac_login">登录</string>
+    <string name="ac_forget_password">忘记密码？</string>
+    <string name="ac_username_not_null">用户名不能为空</string>
+    <string name="ac_password_not_null">密码不能为空</string>
+    <string name="pink_error_network">网络连接失败</string>
+    <string name="pink_waiting">请稍等...</string>
+    <string name="ac_banana_gold">金香蕉：</string>
+    <string name="ac_banana">香蕉：</string>
+    <string name="ac_vip_standrad">正式会员</string>
+    <string name="ac_vip_unstandrad">准会员</string>
 </resources>

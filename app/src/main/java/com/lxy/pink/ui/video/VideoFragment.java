@@ -1,7 +1,9 @@
 package com.lxy.pink.ui.video;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,8 +15,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.acfun.ACAuth;
+import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.data.source.PreferenceManager;
 import com.lxy.pink.ui.base.BaseFragment;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +38,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
     SwipeRefreshLayout mSwipeRefreshLayout;
     private VideoContract.Presenter presenter;
     private VideoFragmentAdapter videoFragmentAdapter;
+    private ProgressDialog pd;
 
     @Nullable
     @Override
@@ -37,11 +46,11 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         View root = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
         ButterKnife.bind(this, root);
 
-        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.pink));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.pink));
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         int spanCount = getSpanCount();
-        videoFragmentAdapter = new VideoFragmentAdapter(getContext());
+        videoFragmentAdapter = new VideoFragmentAdapter(getContext(), this);
         videoFragmentAdapter.setSpanCount(spanCount);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
         gridLayoutManager.setSpanSizeLookup(videoFragmentAdapter.getSpanSizeLookup());
@@ -50,6 +59,9 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(videoFragmentAdapter);
+        pd = new ProgressDialog(getContext());
+        pd.setMessage(getString(R.string.pink_waiting));
+        pd.setCancelable(false);
         isPrepared = true;
         loadData();
         return root;
@@ -57,7 +69,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
 
     @Override
     protected void loadData() {
-        if(!isPrepared || !isVisible ||!isFirstInit) {
+        if (!isPrepared || !isVisible || !isFirstInit) {
             return;
         }
         mSwipeRefreshLayout.setRefreshing(true);
@@ -76,6 +88,20 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         return 6;
     }
 
+    //显示登录框
+    public void showLogin() {
+        new ACLoginDialogFragment()
+                .setLoginListener(new ACLoginDialogFragment.AcLoginListener() {
+                    @Override
+                    public void login(String username, String password) {
+                        presenter.login(username, password);
+                    }
+                })
+                .show(getActivity().getSupportFragmentManager(), "login");
+
+    }
+
+
     @Override
     public void recommendLoad(ACRecommend acRecommend) {
         isFirstInit = false;
@@ -91,11 +117,54 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
             }
         }
         stopRefresh();
+        ACAuth acAuth = PreferenceManager.getAcAuth(getContext());
+        if (acAuth != null)
+            presenter.getProfile(String.valueOf(acAuth.getUserId()));
     }
 
     @Override
     public void recommendError(Throwable e) {
+        isFirstInit = false;
 
+    }
+
+    @Override
+    public void loginStart() {
+        pd.show();
+    }
+
+    @Override
+    public void loginSuccess(ACAuthRes acAuthRes) {
+        pd.dismiss();
+        if (acAuthRes.getStatus() == 200 && acAuthRes.isSuccess()) {
+            ACAuth acAuth = acAuthRes.getData();
+            if (acAuth == null) {
+                return;
+            }
+            PreferenceManager.setAcAuth(getContext(), acAuth);
+            videoFragmentAdapter.updateLoginModel(acAuth, null);
+            presenter.getProfile(String.valueOf(acAuth.getUserId()));
+        } else {
+            String info = acAuthRes.getInfo();
+            if (TextUtils.isEmpty(info)) {
+                Toast.makeText(getContext(), R.string.pink_error_indescribable, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), info, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void loginError(Throwable e) {
+        pd.dismiss();
+        Toast.makeText(getContext(), R.string.pink_error_network, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void acProfileLoad(ACProfile acProfile) {
+        if (acProfile.getStatus() != 200 || !acProfile.isSuccess())
+            return;
+        videoFragmentAdapter.updateLoginModel(null, acProfile);
     }
 
     public void stopRefresh() {
@@ -116,6 +185,6 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
             public void run() {
                 presenter.getRecommend();
             }
-        },500);
+        }, 500);
     }
 }

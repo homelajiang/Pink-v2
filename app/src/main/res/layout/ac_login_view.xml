@@ -1,60 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="75dp">
 
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/head_icon"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_toEndOf="@+id/head_icon"
+            android:layout_toLeftOf="@+id/msg"
             android:layout_toRightOf="@+id/head_icon"
-            tools:text="TextView" />
+            android:layout_toStartOf="@+id/msg"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/level"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="3dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text"
+                        tools:text="洛阳一枝花" />
+
+                    <TextView
+                        android:id="@+id/level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginStart="3dp"
+                        android:background="@drawable/ac_level_border"
+                        android:textSize="@dimen/ac_level"
+                        tools:text="lv13" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/vip_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/ac_vip_bg"
+                    android:text="正式会员"
+                    android:textSize="@dimen/ac_vip" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ac_banana_gold"
+                    android:textSize="@dimen/ac_count" />
+
+                <TextView
+                    android:id="@+id/bananaGold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/ac_count"
+                    tools:text="100" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/ac_banana"
+                    android:textSize="@dimen/ac_count" />
+
+                <TextView
+                    android:id="@+id/banana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/ac_count"
+                    tools:text="20" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/head_icon"
-            android:layout_toEndOf="@+id/head_icon"
-            android:layout_toRightOf="@+id/head_icon"
-            tools:text="TextView" />
-
-        <TextView
-            android:id="@+id/banana"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/level"
-            android:layout_alignBottom="@+id/level"
-            android:layout_toEndOf="@+id/level"
-            android:layout_toRightOf="@+id/level"
-            tools:text="TextView" />
-
-        <TextView
-            android:id="@+id/temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/banana"
-            android:layout_toEndOf="@+id/banana"
-            android:layout_toRightOf="@+id/banana"
-            tools:text="TextView" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/head_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="9dp"
-            android:layout_marginStart="9dp"
-            fresco:placeholderImage="@drawable/ic_head_default"
-            fresco:roundAsCircle="true" />
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/btn_login"
+            android:layout_toStartOf="@+id/btn_login"
+            android:tint="@color/accent"
+            app:srcCompat="@drawable/ic_mail_outline_black_24dp" />
 
         <Button
             android:id="@+id/btn_login"
@@ -70,15 +122,17 @@
             android:paddingRight="20dp"
             tools:text="签到" />
 
-        <ImageView
-            android:id="@+id/msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.facebook.drawee.view.SimpleDraweeView xmlns:fresco="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/head_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/btn_login"
-            android:layout_toStartOf="@+id/btn_login"
-            fresco:srcCompat="@drawable/ic_mail_outline_black_24dp" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            fresco:actualImageScaleType="fitCenter"
+            fresco:placeholderImage="@drawable/ac_head_default"
+            fresco:roundAsCircle="true" />
     </RelativeLayout>
 </merge>

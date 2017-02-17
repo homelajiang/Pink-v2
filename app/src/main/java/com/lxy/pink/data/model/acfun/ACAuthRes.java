@@ -15,6 +15,25 @@ public class ACAuthRes {
     private ACAuth data;
     private boolean success;
     private int status;
+    private String result;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    private String info;
 
     public ACAuth getData() {
         return data;

@@ -27,12 +27,14 @@ public class ACLoginView extends CardView {
     public ImageView msg;
     @BindView(R.id.level)
     TextView level;
+    @BindView(R.id.bananaGold)
+    TextView bananaGold;
     @BindView(R.id.banana)
     TextView banana;
-    @BindView(R.id.temp)
-    TextView temp;
     @BindView(R.id.head_icon)
     public SimpleDraweeView headIcon;
+    @BindView(R.id.vip_type)
+    TextView mVipType;
 
     public ACLoginView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -60,7 +62,20 @@ public class ACLoginView extends CardView {
         this.banana.setText(String.valueOf(banana));
     }
 
+    public void setGoldBanana(String banana) {
+        this.bananaGold.setText(String.valueOf(banana));
+    }
+
     public void setHeadIcon(String headIcon) {
         this.headIcon.setImageURI(Uri.parse(headIcon));
     }
+
+    public void setVipType(int userGroupLevel) {
+        if (userGroupLevel == 1) {
+            mVipType.setText(R.string.ac_vip_standrad);
+        } else {
+            mVipType.setText(R.string.ac_vip_unstandrad);
+        }
+    }
+
 }

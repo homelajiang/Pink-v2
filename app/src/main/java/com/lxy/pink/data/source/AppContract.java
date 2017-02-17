@@ -3,6 +3,8 @@ package com.lxy.pink.data.source;
 import android.content.ContentResolver;
 
 import com.lxy.pink.data.model.BaseModel;
+import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
@@ -85,4 +87,6 @@ public interface AppContract {
      * video
      */
     Observable<ACRecommend> getRecommend();
+    Observable<ACAuthRes> ac_login(String username,String password);
+    Observable<ACProfile> ac_getProfile(String uid);
 }

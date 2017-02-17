@@ -2,13 +2,17 @@ package com.lxy.pink.ui.video;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACAuth;
+import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.source.PreferenceManager;
+import com.lxy.pink.ui.main.MainActivity;
 import com.lxy.pink.ui.video.models.ACArticleModelH;
 import com.lxy.pink.ui.video.models.ACArticleModelH_;
 import com.lxy.pink.ui.video.models.ACBananaVideoModel;
@@ -32,13 +36,17 @@ import com.lxy.pink.ui.video.models.ACVideoModel_;
  * Created by homelajiang on 2016/12/20 0020.
  */
 
-public class VideoFragmentAdapter extends EpoxyAdapter {
+public class VideoFragmentAdapter extends EpoxyAdapter{
 
     private final Context context;
+    private final VideoFragment videoFragment;
     private ACRecommend data;
 
-    VideoFragmentAdapter(Context context) {
+    private ACLoginModel_ loginModel;
+
+    VideoFragmentAdapter(Context context,VideoFragment videoFragment) {
         this.context = context;
+        this.videoFragment = videoFragment;
         enableDiffing();
     }
 
@@ -148,8 +156,7 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
     }
 
     private void addLoginModel() {
-
-        ACLoginModel_ loginModel = new ACLoginModel_()
+        loginModel = new ACLoginModel_()
                 .acAuth(PreferenceManager.getAcAuth(context))
                 .clickListener(clickListener);
         addModel(loginModel);
@@ -181,9 +188,27 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_login:
+                    ACAuth acAuth = PreferenceManager.getAcAuth(context);
+                    if (acAuth != null) {
+                        // TODO: 2017/2/17 0017  签到
+
+                    } else {
+                        videoFragment.showLogin();
+                    }
+                    break;
+            }
             Toast.makeText(context, v.getClass().getName(), Toast.LENGTH_SHORT).show();
         }
     };
+
+    //更新登录模块
+    public void updateLoginModel(ACAuth acAuth, ACProfile acProfile) {
+        loginModel.acAuth(acAuth)
+                .acProfile(acProfile);
+        notifyModelChanged(loginModel);
+    }
 
     public interface ACItemClickListener<T> {
         void onItemClicked(View v, T data);

@@ -13,6 +13,8 @@ import com.lxy.pink.data.db.TempModelDao;
 import com.lxy.pink.data.db.WeatherDao;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.TempModel;
+import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
@@ -254,5 +256,19 @@ public class AppDataSource implements AppContract {
         return RetrofitAPI.getInstance()
                 .getApiAixifanService()
                 .getRecommend(0, -1);
+    }
+
+    @Override
+    public Observable<ACAuthRes> ac_login(String username, String password) {
+        return RetrofitAPI.getInstance()
+                .getMobileAppAcfunService()
+                .login(username,password,"token","ELSH6ruK0qva88DD");
+    }
+
+    @Override
+    public Observable<ACProfile> ac_getProfile(String uid) {
+        return RetrofitAPI.getInstance()
+                .getApiAppAcfunService()
+                .getUserInfo(uid);
     }
 }

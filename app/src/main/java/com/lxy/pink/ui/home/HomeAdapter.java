@@ -2,31 +2,18 @@ package com.lxy.pink.ui.home;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyAdapter;
-import com.lxy.pink.R;
 import com.lxy.pink.core.PinkService;
 import com.lxy.pink.core.PinkServiceContract;
-import com.lxy.pink.data.model.location.PinkLocation;
-import com.lxy.pink.data.model.music.PlayList;
 import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.data.model.todo.TodoList;
-import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.player.IPlayback;
-import com.lxy.pink.player.PlayMode;
 import com.lxy.pink.player.PlaybackService;
 import com.lxy.pink.ui.home.imp.SimpleTodoCallback;
-import com.lxy.pink.ui.home.imp.SimpleWeatherCallback;
 import com.lxy.pink.ui.home.model.PinkCalendarModel_;
 import com.lxy.pink.ui.home.model.PinkMusicModel_;
 import com.lxy.pink.ui.home.model.PinkWeatherModel_;
-import com.lxy.pink.utils.Config;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by yuan on 2016/10/20.

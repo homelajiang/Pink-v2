@@ -29,26 +29,28 @@ public class ACLoginModel extends EpoxyModel<ACLoginView> {
     @Override
     public void bind(ACLoginView view) {
 
-        if(acProfile == null){
-            if(acAuth == null){
+        if (acProfile == null) {
+            view.setLevel("LV0");
+            view.setBanana("0");
+            view.setGoldBanana("0");
+            if (acAuth == null) {
                 view.setBtnLogin(R.string.login);
-                view.setLevel("");
-                view.setBanana("");
                 view.setUsername("");
                 view.setHeadIcon("res:///" + R.drawable.head_icon);
-            }else {
+                view.setVipType(0);
+            } else {
                 view.setBtnLogin(R.string.check);
-                view.setLevel("0");
-                view.setBanana("0");
+                view.setVipType(acAuth.getUserGroupLevel());
                 view.setUsername(acAuth.getUsername());
                 view.setHeadIcon(acAuth.getUserImg());
             }
-        }else {
-            if(acProfile.getStatus() ==200){
+        } else {
+            if (acProfile.getStatus() == 200) {
                 ACProfile.DataBean.FullUserBean fullUserBean = acProfile.getData().getFullUser();
                 view.setBtnLogin(R.string.check);
-                view.setLevel(String.valueOf(fullUserBean.getLevel()));
+                view.setLevel(String.valueOf("LV" + fullUserBean.getLevel()));
                 view.setBanana(String.valueOf(fullUserBean.getBanana()));
+                view.setGoldBanana(String.valueOf(fullUserBean.getBananaGold()));
                 view.setUsername(fullUserBean.getUsername());
                 view.setHeadIcon(fullUserBean.getUserImg());
             }

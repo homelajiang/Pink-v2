@@ -5,6 +5,8 @@ import android.content.ContentResolver;
 
 import com.lxy.pink.Injection;
 import com.lxy.pink.data.model.BaseModel;
+import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
@@ -123,5 +125,15 @@ public class AppRepository implements AppContract {
     @Override
     public Observable<ACRecommend> getRecommend() {
         return appDataSource.getRecommend();
+    }
+
+    @Override
+    public Observable<ACAuthRes> ac_login(String username, String password) {
+        return appDataSource.ac_login(username,password);
+    }
+
+    @Override
+    public Observable<ACProfile> ac_getProfile(String uid) {
+        return appDataSource.ac_getProfile(uid);
     }
 }

@@ -48,6 +48,8 @@ public interface PinkServiceContract {
     interface Presenter extends BasePresenter {
         void getWeather();
 
+        void refreshWeather();
+
         void saveWeather(Weather weather);
 
         void getWeather(String location);

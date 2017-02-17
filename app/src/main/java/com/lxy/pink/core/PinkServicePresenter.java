@@ -15,6 +15,8 @@ import com.lxy.pink.data.model.weather.Weather;
 import com.lxy.pink.data.source.AppRepository;
 import com.lxy.pink.ui.base.BaseView;
 
+import java.util.Date;
+
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -86,23 +88,31 @@ public class PinkServicePresenter implements PinkServiceContract.Presenter, AMap
                     public void onCompleted() {
 
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         //request location is weather
-                        weatherView.weatherLocationReq();
-                        getLocation();
+                        refreshWeather();
                     }
 
                     @Override
                     public void onNext(Weather weather) {
                         if (weather != null) {
                             weatherView.weatherLoaded(weather);
+                            //如果上次更新是在5分钟之内则不重新更新天气
+                            if (System.currentTimeMillis() - weather.getLastUpdate().getTime() < 5 * 60 * 1000)
+                                return;
                         }
-                        weatherView.weatherLocationReq();
-                        getLocation();
+                        refreshWeather();
                     }
                 });
         mSubscriptions.add(subscription);
+    }
+
+    @Override
+    public void refreshWeather() {
+        weatherView.weatherLocationReq();
+        getLocation();
     }
 
     @Override
