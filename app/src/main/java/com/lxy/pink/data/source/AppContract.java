@@ -4,8 +4,10 @@ import android.content.ContentResolver;
 
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACBaseModel;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -89,4 +91,18 @@ public interface AppContract {
     Observable<ACRecommend> getRecommend();
     Observable<ACAuthRes> ac_login(String username,String password);
     Observable<ACProfile> ac_getProfile(String uid);
+
+    /**
+     * 检查是否签到
+     * @param access_token
+     * @return
+     */
+    Observable<ACBaseModel> ac_checkSign(String access_token);
+
+    /**
+     * 签到
+     * @param access_token
+     * @return
+     */
+    Observable<ACSign> ac_sign(String access_token);
 }

@@ -14,8 +14,10 @@ import com.lxy.pink.data.db.WeatherDao;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.TempModel;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACBaseModel;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -262,7 +264,7 @@ public class AppDataSource implements AppContract {
     public Observable<ACAuthRes> ac_login(String username, String password) {
         return RetrofitAPI.getInstance()
                 .getMobileAppAcfunService()
-                .login(username,password,"token","ELSH6ruK0qva88DD");
+                .login(username, password, "token", "ELSH6ruK0qva88DD");
     }
 
     @Override
@@ -270,5 +272,19 @@ public class AppDataSource implements AppContract {
         return RetrofitAPI.getInstance()
                 .getApiAppAcfunService()
                 .getUserInfo(uid);
+    }
+
+    @Override
+    public Observable<ACBaseModel> ac_checkSign(String access_token) {
+        return RetrofitAPI.getInstance()
+                .getWebapiAppAcfunService()
+                .checkSign("1", access_token);
+    }
+
+    @Override
+    public Observable<ACSign> ac_sign(String access_token) {
+        return RetrofitAPI.getInstance()
+                .getWebapiAppAcfunService()
+                .sign(access_token, "1");
     }
 }

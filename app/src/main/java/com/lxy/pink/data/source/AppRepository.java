@@ -6,8 +6,10 @@ import android.content.ContentResolver;
 import com.lxy.pink.Injection;
 import com.lxy.pink.data.model.BaseModel;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACBaseModel;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -30,7 +32,6 @@ public class AppRepository implements AppContract {
 
     private static volatile AppRepository instance;
     private AppDataSource appDataSource;
-    private List<PlayList> mCachedPlayList;
 
     private AppRepository() {
         appDataSource = new AppDataSource(Injection.provideContext(), DaoMasterHelper.getDaoSession());
@@ -135,5 +136,15 @@ public class AppRepository implements AppContract {
     @Override
     public Observable<ACProfile> ac_getProfile(String uid) {
         return appDataSource.ac_getProfile(uid);
+    }
+
+    @Override
+    public Observable<ACBaseModel> ac_checkSign(String access_token) {
+        return appDataSource.ac_checkSign(access_token);
+    }
+
+    @Override
+    public Observable<ACSign> ac_sign(String access_token) {
+        return appDataSource.ac_sign(access_token);
     }
 }

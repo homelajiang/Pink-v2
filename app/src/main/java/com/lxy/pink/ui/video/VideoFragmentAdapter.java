@@ -1,8 +1,6 @@
 package com.lxy.pink.ui.video;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,7 +10,7 @@ import com.lxy.pink.data.model.acfun.ACAuth;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.source.PreferenceManager;
-import com.lxy.pink.ui.main.MainActivity;
+import com.lxy.pink.event.ACLoginEvent;
 import com.lxy.pink.ui.video.models.ACArticleModelH;
 import com.lxy.pink.ui.video.models.ACArticleModelH_;
 import com.lxy.pink.ui.video.models.ACBananaVideoModel;
@@ -27,32 +25,35 @@ import com.lxy.pink.ui.video.models.ACFunTimeModel;
 import com.lxy.pink.ui.video.models.ACFunTimeModel_;
 import com.lxy.pink.ui.video.models.ACHeaderModel;
 import com.lxy.pink.ui.video.models.ACHeaderModel_;
-import com.lxy.pink.ui.video.models.ACLoginModel;
 import com.lxy.pink.ui.video.models.ACLoginModel_;
 import com.lxy.pink.ui.video.models.ACVideoModel;
 import com.lxy.pink.ui.video.models.ACVideoModel_;
+import com.lxy.pink.ui.video.models.PlaceHolderModel;
 
 /**
  * Created by homelajiang on 2016/12/20 0020.
  */
 
-public class VideoFragmentAdapter extends EpoxyAdapter{
+public class VideoFragmentAdapter extends EpoxyAdapter {
 
     private final Context context;
     private final VideoFragment videoFragment;
-    private ACRecommend data;
+    private final PlaceHolderModel placeHolderModel;
 
     private ACLoginModel_ loginModel;
 
-    VideoFragmentAdapter(Context context,VideoFragment videoFragment) {
+    VideoFragmentAdapter(Context context, VideoFragment videoFragment) {
         this.context = context;
         this.videoFragment = videoFragment;
         enableDiffing();
+        placeHolderModel = new PlaceHolderModel();
+        addModel(placeHolderModel);
     }
 
     public void setData(ACRecommend data) {
-        this.data = data;
-        for (ACRecommend.DataBean dataBean : this.data.getData()) {
+
+        removeAllAfterModel(placeHolderModel);
+        for (ACRecommend.DataBean dataBean : data.getData()) {
             switch (dataBean.getType().getId()) {
                 case 1://videos
                     addVideoModel(dataBean);
@@ -204,9 +205,17 @@ public class VideoFragmentAdapter extends EpoxyAdapter{
     };
 
     //更新登录模块
-    public void updateLoginModel(ACAuth acAuth, ACProfile acProfile) {
-        loginModel.acAuth(acAuth)
-                .acProfile(acProfile);
+    public void updateLoginModel(ACLoginEvent event) {
+        ACAuth acAuth = event.getAcAuth();
+        ACProfile acProfile = event.getAcProfile();
+        boolean isSign = event.isSign();
+
+        if (acAuth != null)
+            loginModel.acAuth(acAuth);
+        if (acProfile != null)
+            loginModel.acProfile(acProfile);
+        loginModel.isSign(isSign);
+
         notifyModelChanged(loginModel);
     }
 

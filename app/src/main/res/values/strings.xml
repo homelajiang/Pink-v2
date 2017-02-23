@@ -157,4 +157,7 @@
     <string name="ac_banana">香蕉：</string>
     <string name="ac_vip_standrad">正式会员</string>
     <string name="ac_vip_unstandrad">准会员</string>
+    <string name="ac_sign_fail">签到失败</string>
+    <string name="ac_sign">签到</string>
+    <string name="ac_signed">已签到</string>
 </resources>

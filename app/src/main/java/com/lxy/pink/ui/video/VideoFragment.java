@@ -3,7 +3,6 @@ package com.lxy.pink.ui.video;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,17 +14,22 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.lxy.pink.R;
+import com.lxy.pink.RxBus;
 import com.lxy.pink.data.model.acfun.ACAuth;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACBaseModel;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.source.PreferenceManager;
+import com.lxy.pink.event.ACLoginEvent;
 import com.lxy.pink.ui.base.BaseFragment;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by yuan on 2016/10/18.
@@ -103,7 +107,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
 
 
     @Override
-    public void recommendLoad(ACRecommend acRecommend) {
+    public void recommendLoaded(ACRecommend acRecommend) {
         isFirstInit = false;
         if (acRecommend == null) {
             Toast.makeText(getContext(), R.string.pink_error_indescribable, Toast.LENGTH_SHORT).show();
@@ -117,15 +121,17 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
             }
         }
         stopRefresh();
+        //刷新资料
         ACAuth acAuth = PreferenceManager.getAcAuth(getContext());
-        if (acAuth != null)
+        if (acAuth != null){
             presenter.getProfile(String.valueOf(acAuth.getUserId()));
+            presenter.checkSign(String.valueOf(acAuth.getAccess_token()));
+        }
     }
 
     @Override
     public void recommendError(Throwable e) {
         isFirstInit = false;
-
     }
 
     @Override
@@ -134,23 +140,20 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
     }
 
     @Override
-    public void loginSuccess(ACAuthRes acAuthRes) {
+    public void loginLoaded(ACAuthRes acAuthRes) {
         pd.dismiss();
         if (acAuthRes.getStatus() == 200 && acAuthRes.isSuccess()) {
             ACAuth acAuth = acAuthRes.getData();
             if (acAuth == null) {
                 return;
             }
-            PreferenceManager.setAcAuth(getContext(), acAuth);
-            videoFragmentAdapter.updateLoginModel(acAuth, null);
+            RxBus.getInstance().post(new ACLoginEvent(acAuth));
             presenter.getProfile(String.valueOf(acAuth.getUserId()));
+            presenter.checkSign(String.valueOf(acAuth.getAccess_token()));
         } else {
-            String info = acAuthRes.getInfo();
-            if (TextUtils.isEmpty(info)) {
-                Toast.makeText(getContext(), R.string.pink_error_indescribable, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), info, Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(getContext(),
+                    TextUtils.isEmpty(acAuthRes.getInfo()) ? getString(R.string.pink_error_indescribable) : acAuthRes.getInfo(),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -161,10 +164,49 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
     }
 
     @Override
-    public void acProfileLoad(ACProfile acProfile) {
+    public void acProfileLoaded(ACProfile acProfile) {
         if (acProfile.getStatus() != 200 || !acProfile.isSuccess())
             return;
-        videoFragmentAdapter.updateLoginModel(null, acProfile);
+        RxBus.getInstance().post(new ACLoginEvent(acProfile));
+    }
+
+    @Override
+    public void checkSignLoaded(ACBaseModel signRes) {
+        boolean sign;
+        try {
+            sign = Boolean.parseBoolean(signRes.getData());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return;
+        }
+        RxBus.getInstance().post(new ACLoginEvent(sign));
+    }
+
+    @Override
+    public void signLoaded(ACSign acSign) {
+        ACAuth acAuth = PreferenceManager.getAcAuth(getContext());
+        if (acSign.getCode() == 200) {
+            // TODO: 2017/2/23 0023  签到成功进行提示
+            Toast.makeText(getContext(), "签到成功", Toast.LENGTH_SHORT).show();
+            //通知签到成功，使签到按钮不可用
+            RxBus.getInstance().post(new ACLoginEvent(true));
+            if (acAuth != null)
+                //重新请求用户资料
+                presenter.getProfile(String.valueOf(acAuth.getUserId()));
+        } else {
+            Toast.makeText(getContext(),
+                    TextUtils.isEmpty(acSign.getMessage()) ? getString(R.string.ac_sign_fail) : acSign.getMessage()
+                    , Toast.LENGTH_SHORT).show();
+        }
+
+        if (acAuth != null)
+            //重新检查签到状态
+            presenter.sign(acAuth.getAccess_token());
+    }
+
+    @Override
+    public void signError(Throwable e) {
+
     }
 
     public void stopRefresh() {
@@ -186,5 +228,29 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
                 presenter.getRecommend();
             }
         }, 500);
+    }
+
+    @Override
+    protected Subscription subscribeEvents() {
+        return RxBus.getInstance().toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        if (o instanceof ACLoginEvent) {
+                            updateAcUserInfo((ACLoginEvent) o);
+                        }
+                    }
+                })
+                .subscribe(RxBus.defaultSubscriber());
+    }
+
+    //更新用户信息
+    private void updateAcUserInfo(ACLoginEvent event) {
+        //如果auth不为空则更新auth
+        if (event.getAcAuth() != null) {
+            PreferenceManager.setAcAuth(getContext(), event.getAcAuth());
+        }
+        videoFragmentAdapter.updateLoginModel(event);
     }
 }

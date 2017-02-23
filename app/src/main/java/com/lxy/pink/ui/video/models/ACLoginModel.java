@@ -20,6 +20,8 @@ public class ACLoginModel extends EpoxyModel<ACLoginView> {
     ACProfile acProfile;
     @EpoxyAttribute
     View.OnClickListener clickListener;
+    @EpoxyAttribute
+    boolean isSign = true;//是否已经签到
 
     @Override
     protected int getDefaultLayout() {
@@ -29,17 +31,28 @@ public class ACLoginModel extends EpoxyModel<ACLoginView> {
     @Override
     public void bind(ACLoginView view) {
 
+        if (acAuth == null) {
+            view.setBtnLogin(R.string.login);
+            view.btnLogin.setEnabled(true);
+        } else {
+            if (isSign) {
+                view.setBtnLogin(R.string.ac_signed);
+                view.btnLogin.setEnabled(false);
+            } else {
+                view.setBtnLogin(R.string.ac_sign);
+                view.btnLogin.setEnabled(true);
+            }
+        }
+
         if (acProfile == null) {
             view.setLevel("LV0");
             view.setBanana("0");
             view.setGoldBanana("0");
             if (acAuth == null) {
-                view.setBtnLogin(R.string.login);
                 view.setUsername("");
                 view.setHeadIcon("res:///" + R.drawable.head_icon);
                 view.setVipType(0);
             } else {
-                view.setBtnLogin(R.string.check);
                 view.setVipType(acAuth.getUserGroupLevel());
                 view.setUsername(acAuth.getUsername());
                 view.setHeadIcon(acAuth.getUserImg());
@@ -47,7 +60,6 @@ public class ACLoginModel extends EpoxyModel<ACLoginView> {
         } else {
             if (acProfile.getStatus() == 200) {
                 ACProfile.DataBean.FullUserBean fullUserBean = acProfile.getData().getFullUser();
-                view.setBtnLogin(R.string.check);
                 view.setLevel(String.valueOf("LV" + fullUserBean.getLevel()));
                 view.setBanana(String.valueOf(fullUserBean.getBanana()));
                 view.setGoldBanana(String.valueOf(fullUserBean.getBananaGold()));

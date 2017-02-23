@@ -44,4 +44,11 @@ public interface MobileAppAcfunService {
             @Field("client_id") String client_id
 
     );
+
+    //http://mobile.app.acfun.cn/member/unRead.aspx?uid=784105&access_token=d9Gaxrn6iJZ0w8KOfyqNBAn7zzJDMCs9
+    @GET("member/unRead.aspx")
+    Observable<Object> getUnReadCount(
+            @Query("uid") String uid,
+            @Query("accessToken") String accessToken
+    );
 }

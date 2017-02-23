@@ -152,6 +152,8 @@ public class MainActivity extends BaseActivity implements
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return;
+        }else {
+            moveTaskToBack(true);
         }
     }
 

@@ -1,19 +1,17 @@
 package com.lxy.pink.data.model.acfun;
 
 /**
- * Created by yuan on 2016/12/19.
+ * Created by homelajiang on 2017/2/23 0023.
  */
 
-public class ACBaseModel {
+public class ACSign {
 
     /**
-     * code : 200
-     * data : true
-     * message : OK
+     * code : 410004
+     * message : 已签过到
      */
 
     private int code;
-    private String data;
     private String message;
 
     public int getCode() {
@@ -22,14 +20,6 @@ public class ACBaseModel {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 
     public String getMessage() {

@@ -1,20 +1,17 @@
 package com.lxy.pink.ui.video;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.lxy.pink.data.model.acfun.ACAuth;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACBaseModel;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
-import com.lxy.pink.data.retrofit.RetrofitAPI;
+import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.source.AppRepository;
 
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -55,7 +52,7 @@ public class VideoFragmentPresenter implements VideoContract.Presenter {
 
                             @Override
                             public void onNext(ACRecommend acRecommend) {
-                                view.recommendLoad(acRecommend);
+                                view.recommendLoaded(acRecommend);
                             }
                         });
         subscriptions.add(subscription);
@@ -85,7 +82,7 @@ public class VideoFragmentPresenter implements VideoContract.Presenter {
 
                             @Override
                             public void onNext(ACAuthRes acAuthRes) {
-                                view.loginSuccess(acAuthRes);
+                                view.loginLoaded(acAuthRes);
                             }
                         });
         subscriptions.add(subscription);
@@ -110,7 +107,55 @@ public class VideoFragmentPresenter implements VideoContract.Presenter {
 
                             @Override
                             public void onNext(ACProfile acProfile) {
-                                view.acProfileLoad(acProfile);
+                                view.acProfileLoaded(acProfile);
+                            }
+                        });
+        subscriptions.add(subscription);
+    }
+
+    @Override
+    public void checkSign(String accessToken) {
+        Subscription subscription =
+                repository.ac_checkSign(accessToken)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<ACBaseModel>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                            }
+
+                            @Override
+                            public void onNext(ACBaseModel acBaseModel) {
+                                view.checkSignLoaded(acBaseModel);
+                            }
+                        });
+        subscriptions.add(subscription);
+    }
+
+    @Override
+    public void sign(String accessToken) {
+        Subscription subscription =
+                repository.ac_sign(accessToken)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<ACSign>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                view.signError(e);
+                            }
+
+                            @Override
+                            public void onNext(ACSign acSign) {
+                                view.signLoaded(acSign);
                             }
                         });
         subscriptions.add(subscription);
