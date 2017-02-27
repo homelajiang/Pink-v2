@@ -73,6 +73,19 @@ public class PreferenceManager {
         setAcA(context, acAuth);
     }
 
+    public static void clearAcAuth(Context context) {
+        PreferenceManager.acAuth = null;
+        SharedPreferences.Editor editor = edit(context);
+        editor.remove("ac_username");
+        editor.remove("ac_access_token");
+        editor.remove("ac_userImg");
+        editor.remove("ac_userGroupLevel");
+        editor.remove("ac_mobileCheck");
+        editor.remove("ac_expires");
+        editor.remove("ac_userId");
+        editor.commit();
+    }
+
     private static void setAcA(Context context, ACAuth acAuth) {
         SharedPreferences.Editor editor = edit(context);
         editor.putString("ac_username", acAuth.getUsername());
@@ -87,20 +100,22 @@ public class PreferenceManager {
 
     private static ACAuth getAcA(Context context) {
         SharedPreferences sp = preferences(context);
-        ACAuth acAuth = new ACAuth();
-        acAuth.setUsername(sp.getString("ac_username", null));
-        acAuth.setAccess_token(sp.getString("ac_access_token", null));
-        acAuth.setUserImg(sp.getString("ac_userImg", null));
-        acAuth.setUserGroupLevel(sp.getInt("ac_userGroupLevel", 0));
-        acAuth.setMobileCheck(sp.getInt("ac_mobileCheck", 0));
-        acAuth.setExpires(sp.getLong("ac_expires", 0));
-        acAuth.setUserId(sp.getLong("ac_userId", 0));
+        ACAuth acA = new ACAuth();
+        acA.setUsername(sp.getString("ac_username", null));
+        acA.setAccess_token(sp.getString("ac_access_token", null));
+        acA.setUserImg(sp.getString("ac_userImg", null));
+        acA.setUserGroupLevel(sp.getInt("ac_userGroupLevel", 0));
+        acA.setMobileCheck(sp.getInt("ac_mobileCheck", 0));
+        acA.setExpires(sp.getLong("ac_expires", 0));
+        acA.setUserId(sp.getLong("ac_userId", 0));
 
-        if (TextUtils.isEmpty(acAuth.getUsername())
-                || TextUtils.isEmpty(acAuth.getAccess_token())
-                || acAuth.getUserId() == 0)
+        if (TextUtils.isEmpty(acA.getUsername())
+                || TextUtils.isEmpty(acA.getAccess_token())
+                || acA.getUserId() == 0) {
             return null;
-        return acAuth;
+        } else {
+            return acA;
+        }
     }
 
 

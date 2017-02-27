@@ -2,12 +2,14 @@ package com.lxy.pink.ui.video;
 
 import android.content.Context;
 
+import com.lxy.pink.data.model.acfun.ACAuth;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
 import com.lxy.pink.data.model.acfun.ACBaseModel;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.source.AppRepository;
+import com.lxy.pink.data.source.PreferenceManager;
 
 import rx.Subscriber;
 import rx.Subscription;

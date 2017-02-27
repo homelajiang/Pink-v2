@@ -15,9 +15,9 @@ import com.lxy.pink.ui.video.views.ACLoginView;
 
 public class ACLoginModel extends EpoxyModel<ACLoginView> {
     @EpoxyAttribute
-    ACAuth acAuth;
+    ACAuth acAuth; // acAuth为null时表示未登录或者过期导致的null
     @EpoxyAttribute
-    ACProfile acProfile;
+    ACProfile acProfile; //
     @EpoxyAttribute
     View.OnClickListener clickListener;
     @EpoxyAttribute

@@ -191,13 +191,7 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_login:
-                    ACAuth acAuth = PreferenceManager.getAcAuth(context);
-                    if (acAuth != null) {
-                        // TODO: 2017/2/17 0017  签到
-
-                    } else {
-                        videoFragment.showLogin();
-                    }
+                        videoFragment.loginOrSign();
                     break;
             }
             Toast.makeText(context, v.getClass().getName(), Toast.LENGTH_SHORT).show();
@@ -206,15 +200,15 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
 
     //更新登录模块
     public void updateLoginModel(ACLoginEvent event) {
-        ACAuth acAuth = event.getAcAuth();
+        ACAuth acAuth = PreferenceManager.getAcAuth(context);
         ACProfile acProfile = event.getAcProfile();
         boolean isSign = event.isSign();
 
-        if (acAuth != null)
-            loginModel.acAuth(acAuth);
+        loginModel.acAuth(acAuth);
+        loginModel.isSign(isSign);
+
         if (acProfile != null)
             loginModel.acProfile(acProfile);
-        loginModel.isSign(isSign);
 
         notifyModelChanged(loginModel);
     }
