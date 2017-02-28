@@ -34,19 +34,27 @@
         <service android:name="com.amap.api.location.APSService" >
         </service>
 
+        <!--<activity-->
+            <!--android:name=".ui.splash.SplashActivity">-->
+            <!--android:theme="@style/PINK.Theme.Launcher"-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity
-            android:name=".ui.splash.SplashActivity">
-            android:theme="@style/PINK.Theme.Launcher"
+            android:name=".ui.main.MainActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.auth.LoginActivity" />
+
+        <activity android:name=".ui.video.video.ACVideoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".ui.auth.LoginActivity" />
 
         <service android:name=".core.PinkService" />
         <service android:name=".player.PlaybackService">

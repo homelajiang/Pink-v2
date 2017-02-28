@@ -140,6 +140,7 @@
         <item quantity="other">%d 年前</item>
     </plurals>
 
+    <string name="pink_share">分享</string>
 
     <!--Weather-->
     <string name="weather_publish_time">%s 发布</string>
@@ -160,4 +161,6 @@
     <string name="ac_sign_fail">签到失败</string>
     <string name="ac_sign">签到</string>
     <string name="ac_signed">已签到</string>
+    <string name="pink_download">下载</string>
+    <string name="pink_more">更多</string>
 </resources>
