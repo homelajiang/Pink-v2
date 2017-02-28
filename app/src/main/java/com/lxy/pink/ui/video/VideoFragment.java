@@ -22,7 +22,8 @@ import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.source.PreferenceManager;
-import com.lxy.pink.event.ACLoginEvent;
+import com.lxy.pink.event.ACProfileEvent;
+import com.lxy.pink.event.ACSignEvent;
 import com.lxy.pink.ui.base.BaseFragment;
 
 import butterknife.BindView;
@@ -153,7 +154,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
             }
             //存储acAuth
             PreferenceManager.setAcAuth(getContext(), acAuth);
-            RxBus.getInstance().post(new ACLoginEvent());
+            RxBus.getInstance().post(new ACProfileEvent());
             presenter.checkSign(String.valueOf(acAuth.getAccess_token()));
             acLoginDialogFragment.dismiss();
         } else {
@@ -173,7 +174,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
     public void acProfileLoaded(ACProfile acProfile) {
         if (acProfile.getStatus() != 200 || !acProfile.isSuccess())
             return;
-        RxBus.getInstance().post(new ACLoginEvent(acProfile));
+        RxBus.getInstance().post(new ACProfileEvent(acProfile));
     }
 
     @Override
@@ -186,7 +187,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
                 e.printStackTrace();
                 return;
             }
-            RxBus.getInstance().post(new ACLoginEvent(sign));
+            RxBus.getInstance().post(new ACSignEvent(sign));
             ACAuth acAuth = PreferenceManager.getAcAuth(getContext());
             if (acAuth != null)
                 //重新请求用户资料
@@ -194,7 +195,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         } else {
             Toast.makeText(getContext(), signRes.getMessage(), Toast.LENGTH_SHORT).show();
             PreferenceManager.clearAcAuth(getContext());
-            RxBus.getInstance().post(new ACLoginEvent());
+            RxBus.getInstance().post(new ACProfileEvent());
         }
     }
 
@@ -204,7 +205,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
         if (acSign.getCode() == 200) {
             Toast.makeText(getContext(), acSign.getData().getMsg(), Toast.LENGTH_SHORT).show();
             //通知签到成功，使签到按钮不可用
-            RxBus.getInstance().post(new ACLoginEvent(true));
+            RxBus.getInstance().post(new ACSignEvent(true));
             if (acAuth != null)
                 //重新请求用户资料
                 presenter.getProfile(String.valueOf(acAuth.getUserId()));
@@ -216,7 +217,7 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
 
         if (acAuth != null)
             //重新检查签到状态
-            presenter.sign(acAuth.getAccess_token());
+            presenter.checkSign(acAuth.getAccess_token());
     }
 
     @Override
@@ -252,8 +253,10 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
                 .doOnNext(new Action1<Object>() {
                     @Override
                     public void call(Object o) {
-                        if (o instanceof ACLoginEvent) {
-                            updateAcUserInfo((ACLoginEvent) o);
+                        if (o instanceof ACProfileEvent) {
+                            updateAcUserInfo((ACProfileEvent) o);
+                        } else if (o instanceof ACSignEvent) {
+                            updateSign((ACSignEvent) o);
                         }
                     }
                 })
@@ -261,7 +264,11 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
     }
 
     //更新用户信息
-    private void updateAcUserInfo(ACLoginEvent event) {
+    private void updateAcUserInfo(ACProfileEvent event) {
         videoFragmentAdapter.updateLoginModel(event);
+    }
+
+    private void updateSign(ACSignEvent acSignEvent) {
+        videoFragmentAdapter.updateSign(acSignEvent);
     }
 }

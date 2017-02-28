@@ -10,7 +10,8 @@ import com.lxy.pink.data.model.acfun.ACAuth;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.source.PreferenceManager;
-import com.lxy.pink.event.ACLoginEvent;
+import com.lxy.pink.event.ACProfileEvent;
+import com.lxy.pink.event.ACSignEvent;
 import com.lxy.pink.ui.video.models.ACArticleModelH;
 import com.lxy.pink.ui.video.models.ACArticleModelH_;
 import com.lxy.pink.ui.video.models.ACBananaVideoModel;
@@ -198,18 +199,21 @@ public class VideoFragmentAdapter extends EpoxyAdapter {
         }
     };
 
-    //更新登录模块
-    public void updateLoginModel(ACLoginEvent event) {
+    //更新登录模块--资料
+    public void updateLoginModel(ACProfileEvent event) {
         ACAuth acAuth = PreferenceManager.getAcAuth(context);
         ACProfile acProfile = event.getAcProfile();
-        boolean isSign = event.isSign();
 
         loginModel.acAuth(acAuth);
-        loginModel.isSign(isSign);
-
         if (acProfile != null)
             loginModel.acProfile(acProfile);
 
+        notifyModelChanged(loginModel);
+    }
+
+    //更新登录模块--是否签到
+    public void updateSign(ACSignEvent acSignEvent){
+        loginModel.isSign(acSignEvent.isSign());
         notifyModelChanged(loginModel);
     }
 
