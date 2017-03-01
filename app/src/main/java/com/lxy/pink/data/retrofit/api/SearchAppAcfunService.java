@@ -1,6 +1,6 @@
 package com.lxy.pink.data.retrofit.api;
 
-import com.lxy.pink.data.model.acfun.ACSearchLike;
+import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -23,7 +23,7 @@ public interface SearchAppAcfunService {
      */
     //http://search.app.acfun.cn/like?id=ac3506658&pageSize=6&pageNo=1&type=1
     @GET("like")
-    Observable<ACSearchLike> searchByVideoId(
+    Observable<ACVideoSearchLike> searchByVideoId(
             @Query("id") String id,
             @Query("pageSize") int pageSize,
             @Query("pageNo") int pageNo,

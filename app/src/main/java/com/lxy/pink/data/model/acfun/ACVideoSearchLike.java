@@ -6,7 +6,7 @@ import java.util.List;
  * Created by homelajiang on 2017/3/1 0001.
  */
 
-public class ACSearchLike {
+public class ACVideoSearchLike {
 
     /**
      * status : 200

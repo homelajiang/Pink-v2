@@ -163,4 +163,5 @@
     <string name="ac_signed">已签到</string>
     <string name="pink_download">下载</string>
     <string name="pink_more">更多</string>
+    <string name="ac_video_null">视频不存在</string>
 </resources>

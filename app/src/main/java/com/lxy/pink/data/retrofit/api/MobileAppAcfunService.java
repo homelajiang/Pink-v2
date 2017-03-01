@@ -43,7 +43,7 @@ public interface MobileAppAcfunService {
     @GET("api/friend.aspx")
     Observable<ACCheckFollow> checkFollow(
             @Query("name") String name,
-            @Query("userId") String userId,
+            @Query("userId") int userId,
             @Query("access_token") String access_token
     );
 

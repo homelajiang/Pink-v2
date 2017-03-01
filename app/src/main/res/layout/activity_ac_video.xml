@@ -47,10 +47,10 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7">
 
-                <VideoView
-                    android:id="@+id/videoview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                <!--<VideoView-->
+                    <!--android:id="@+id/videoview"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent" />-->
 
                 <!--&lt;!&ndash;哔哩哔哩开源的弹幕控件&ndash;&gt;-->
                 <!--<master.flame.danmaku.ui.widget.DanmakuView-->
