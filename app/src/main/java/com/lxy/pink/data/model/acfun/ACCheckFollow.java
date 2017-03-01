@@ -4,7 +4,7 @@ package com.lxy.pink.data.model.acfun;
  * Created by yuan on 2016/12/19.
  */
 
-public class ACUserFollow {
+public class ACCheckFollow {
 
     /**
      * isFollowing : false

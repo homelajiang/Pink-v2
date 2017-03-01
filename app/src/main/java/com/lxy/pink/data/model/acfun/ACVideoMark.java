@@ -10,13 +10,13 @@ public class ACVideoMark {
      * success : true
      * msg : ok
      * status : 200
-     * data : {"exist":false,"isStowed":0,"stowCount":2324}
+     * data : {"exist":false}
      */
 
     private boolean success;
     private String msg;
     private int status;
-    private DataBean data;
+    private DataEntity data;
 
     public boolean isSuccess() {
         return success;
@@ -42,24 +42,20 @@ public class ACVideoMark {
         this.status = status;
     }
 
-    public DataBean getData() {
+    public DataEntity getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(DataEntity data) {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataEntity {
         /**
          * exist : false
-         * isStowed : 0
-         * stowCount : 2324
          */
 
         private boolean exist;
-        private int isStowed;
-        private int stowCount;
 
         public boolean isExist() {
             return exist;
@@ -67,22 +63,6 @@ public class ACVideoMark {
 
         public void setExist(boolean exist) {
             this.exist = exist;
-        }
-
-        public int getIsStowed() {
-            return isStowed;
-        }
-
-        public void setIsStowed(int isStowed) {
-            this.isStowed = isStowed;
-        }
-
-        public int getStowCount() {
-            return stowCount;
-        }
-
-        public void setStowCount(int stowCount) {
-            this.stowCount = stowCount;
         }
     }
 }

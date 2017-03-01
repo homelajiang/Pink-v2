@@ -6,7 +6,7 @@ import java.util.List;
  * Created by yuan on 2016/12/19.
  */
 
-public class ACFun {
+public class ACFunInfo {
 
     /**
      * code : 200
