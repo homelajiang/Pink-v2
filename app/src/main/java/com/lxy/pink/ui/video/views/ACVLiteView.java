@@ -23,7 +23,7 @@ public class ACVLiteView extends CardView {
 
     public ACVLiteView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(getContext(), R.layout.ac_video_v_lite_view, this);
+        inflate(getContext(), R.layout.ac_video_info_v_lite_view, this);
         ButterKnife.bind(this);
     }
 }

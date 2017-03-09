@@ -15,7 +15,7 @@
         android:drawableTop="@drawable/ic_share_black_24dp"
         android:gravity="center"
         android:textColor="@color/primary_text"
-        tools:text="@string/pink_share" />
+        android:text="@string/pink_share" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/video_download"
@@ -27,5 +27,5 @@
         android:drawableTop="@drawable/ic_file_download_black_24dp"
         android:gravity="center"
         android:textColor="@color/primary_text"
-        tools:text="@string/pink_download" />
+        android:text="@string/pink_download" />
 </LinearLayout>

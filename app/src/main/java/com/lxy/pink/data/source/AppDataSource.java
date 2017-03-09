@@ -7,17 +7,24 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.google.gson.Gson;
-import com.lxy.pink.data.db.DaoMaster;
 import com.lxy.pink.data.db.DaoSession;
-import com.lxy.pink.data.db.TempModelDao;
 import com.lxy.pink.data.db.WeatherDao;
 import com.lxy.pink.data.model.BaseModel;
-import com.lxy.pink.data.model.TempModel;
+import com.lxy.pink.data.model.acfun.ACActionFollow;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACBananaCheck;
+import com.lxy.pink.data.model.acfun.ACBananaInfo;
+import com.lxy.pink.data.model.acfun.ACBananaPostRes;
 import com.lxy.pink.data.model.acfun.ACBaseModel;
+import com.lxy.pink.data.model.acfun.ACCheckFollow;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
+import com.lxy.pink.data.model.acfun.ACVideoComment;
+import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
+import com.lxy.pink.data.model.acfun.ACVideoInfo;
+import com.lxy.pink.data.model.acfun.ACVideoMark;
+import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -32,15 +39,12 @@ import com.lxy.pink.data.retrofit.RetrofitAPI;
 import com.lxy.pink.data.source.db.DaoMasterHelper;
 import com.lxy.pink.utils.Config;
 
-import org.greenrobot.greendao.query.DeleteQuery;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -286,5 +290,89 @@ public class AppDataSource implements AppContract {
         return RetrofitAPI.getInstance()
                 .getWebapiAppAcfunService()
                 .sign(access_token, "1");
+    }
+
+    @Override
+    public Observable<ACVideoInfo> getVideoInfo(int contentId) {
+        return RetrofitAPI.getInstance()
+                .getApiAixifanService()
+                .getVideoInfo(contentId);
+    }
+
+    @Override
+    public Observable<ACCheckFollow> checkFollow(int userId, String access_token) {
+        return RetrofitAPI.getInstance()
+                .getMobileAppAcfunService()
+                .checkFollow("checkFollow", userId, access_token);
+    }
+
+    @Override
+    public Observable<ACActionFollow> actionFollow(String name, int userId, String accessToken) {
+        return RetrofitAPI.getInstance()
+                .getMobileAppAcfunService()
+                .actionFollow(name, userId, accessToken);
+    }
+
+    @Override
+    public Observable<ACVideoMark> checkMark(int contentId, int userId, String accessToken) {
+        return RetrofitAPI.getInstance()
+                .getApiAppAcfunService()
+                .checkVideoMark(contentId, userId, accessToken);
+    }
+
+    @Override
+    public Observable<ACVideoMark> actionMark(String name, int userId, int contentId, String accessToken) {
+        return RetrofitAPI.getInstance()
+                .getApiAppAcfunService()
+                .videoMark(name, accessToken, userId, contentId);
+    }
+
+    @Override
+    public Observable<ACBananaInfo> getBananaInfo(String accessToken) {
+        return RetrofitAPI.getInstance()
+                .getMobileAppAcfunService()
+                .getBananaInfo(accessToken);
+    }
+
+    @Override
+    public Observable<ACBananaCheck> getBananaCheck(String accessToken) {
+        return RetrofitAPI.getInstance()
+                .getApiAixifanService()
+                .checkBanana(accessToken);
+    }
+
+    @Override
+    public Observable<ACBananaPostRes> sendBanana(String accessToken, int userId, int count, int contentId) {
+        return RetrofitAPI.getInstance()
+                .getMobileAppAcfunService()
+                .actionBanana(accessToken, userId, count, contentId);
+    }
+
+    @Override
+    public Observable<String> getDanmuku(int danmukuId) {
+        return RetrofitAPI.getInstance()
+                .getDanmuAixifanService()
+                .getDadnmu(danmukuId, 0, 500);
+    }
+
+    @Override
+    public Observable<ACVideoComment> getVideoComment(int contentId, int pageNo) {
+        return RetrofitAPI.getInstance()
+                .getMobileAppAcfunService()
+                .getVideoComment(4, contentId, 50, pageNo);
+    }
+
+    @Override
+    public Observable<ACVideoCommentRes> sendComment(String text, int quoteId, int contentId, String accessToken, int userId, String captcha) {
+        return RetrofitAPI.getInstance()
+                .getMobileAppAcfunService()
+                .sendVideoComment(text, quoteId, contentId, "mobile", accessToken, userId, "");
+    }
+
+    @Override
+    public Observable<ACVideoSearchLike> getVideoRecommend(String id) {
+        return RetrofitAPI.getInstance()
+                .getSearchAppAcfunService()
+                .searchByVideoId(id, 10, 1, 1);
     }
 }

@@ -27,7 +27,7 @@ public interface ApiAixifanService {
     //    http://api.aixifan.com/videos/3378857
     @GET("videos/{contentId}")
     Observable<ACVideoInfo> getVideoInfo(
-            @Query("contentId") int contentId
+            @Path("contentId") int contentId
     );
 
     //http://api.aixifan.com/open/phone/source

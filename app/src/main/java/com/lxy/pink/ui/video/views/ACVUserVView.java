@@ -17,11 +17,11 @@ import butterknife.ButterKnife;
 
 public class ACVUserVView extends LinearLayout {
     @BindView(R.id.user_icon)
-    SimpleDraweeView mUserIcon;
+    public SimpleDraweeView mUserIcon;
     @BindView(R.id.user_name)
-    TextView mUserName;
+    public TextView mUserName;
     @BindView(R.id.more)
-    TextView mMore;
+    public TextView mMore;
 
     public ACVUserVView(Context context, AttributeSet attrs) {
         super(context, attrs);

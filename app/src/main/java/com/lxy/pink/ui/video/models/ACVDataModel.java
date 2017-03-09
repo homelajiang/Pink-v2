@@ -1,22 +1,24 @@
 package com.lxy.pink.ui.video.models;
 
+import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
+import com.airbnb.epoxy.EpoxyModelClass;
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.ui.video.views.ACVDataView;
 
 /**
  * Created by homelajiang on 2017/2/28 0028.
  */
 
-public class ACVDataModel extends EpoxyModel<ACVDataView> {
-    @Override
-    protected int getDefaultLayout() {
-        return R.layout.ac_video_info_data_model;
-    }
+@EpoxyModelClass(layout = R.layout.ac_video_info_data_model)
+public abstract class ACVDataModel extends EpoxyModel<ACVDataView> {
+@EpoxyAttribute
+    ACVideoInfo.DataBean.VisitBean visitBean;
 
     @Override
     public void bind(ACVDataView view) {
-        super.bind(view);
+        view.setVisit(visitBean);
     }
 
     @Override

@@ -16,9 +16,9 @@ import butterknife.ButterKnife;
 
 public class ACVHeaderView extends LinearLayout {
     @BindView(R.id.title)
-    TextView mTitle;
+    public TextView mTitle;
     @BindView(R.id.sub_title)
-    TextView mSubTitle;
+    public TextView mSubTitle;
 
     public ACVHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);

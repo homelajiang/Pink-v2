@@ -5,11 +5,21 @@ import android.content.ContentResolver;
 
 import com.lxy.pink.Injection;
 import com.lxy.pink.data.model.BaseModel;
+import com.lxy.pink.data.model.acfun.ACActionFollow;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
+import com.lxy.pink.data.model.acfun.ACBananaCheck;
+import com.lxy.pink.data.model.acfun.ACBananaInfo;
+import com.lxy.pink.data.model.acfun.ACBananaPostRes;
 import com.lxy.pink.data.model.acfun.ACBaseModel;
+import com.lxy.pink.data.model.acfun.ACCheckFollow;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
+import com.lxy.pink.data.model.acfun.ACVideoComment;
+import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
+import com.lxy.pink.data.model.acfun.ACVideoInfo;
+import com.lxy.pink.data.model.acfun.ACVideoMark;
+import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
 import com.lxy.pink.data.model.auth.Auth;
 import com.lxy.pink.data.model.auth.Profile;
 import com.lxy.pink.data.model.location.PinkLocation;
@@ -130,7 +140,7 @@ public class AppRepository implements AppContract {
 
     @Override
     public Observable<ACAuthRes> ac_login(String username, String password) {
-        return appDataSource.ac_login(username,password);
+        return appDataSource.ac_login(username, password);
     }
 
     @Override
@@ -146,5 +156,65 @@ public class AppRepository implements AppContract {
     @Override
     public Observable<ACSign> ac_sign(String access_token) {
         return appDataSource.ac_sign(access_token);
+    }
+
+    @Override
+    public Observable<ACVideoInfo> getVideoInfo(int contentId) {
+        return appDataSource.getVideoInfo(contentId);
+    }
+
+    @Override
+    public Observable<ACCheckFollow> checkFollow(int userId, String access_token) {
+        return appDataSource.checkFollow(userId, access_token);
+    }
+
+    @Override
+    public Observable<ACActionFollow> actionFollow(String name, int userId, String accessToken) {
+        return appDataSource.actionFollow(name, userId, accessToken);
+    }
+
+    @Override
+    public Observable<ACVideoMark> checkMark(int contentId, int userId, String accessToken) {
+        return appDataSource.checkMark(contentId, userId, accessToken);
+    }
+
+    @Override
+    public Observable<ACVideoMark> actionMark(String name, int userId, int contentId, String accessToken) {
+        return appDataSource.actionMark(name, userId, contentId, accessToken);
+    }
+
+    @Override
+    public Observable<ACBananaInfo> getBananaInfo(String accessToken) {
+        return appDataSource.getBananaInfo(accessToken);
+    }
+
+    @Override
+    public Observable<ACBananaCheck> getBananaCheck(String accessToken) {
+        return appDataSource.getBananaCheck(accessToken);
+    }
+
+    @Override
+    public Observable<ACBananaPostRes> sendBanana(String accessToken, int userId, int count, int contentId) {
+        return appDataSource.sendBanana(accessToken, userId, count, contentId);
+    }
+
+    @Override
+    public Observable<String> getDanmuku(int danmukuId) {
+        return appDataSource.getDanmuku(danmukuId);
+    }
+
+    @Override
+    public Observable<ACVideoComment> getVideoComment(int contentId, int pageNo) {
+        return appDataSource.getVideoComment(contentId,pageNo);
+    }
+
+    @Override
+    public Observable<ACVideoCommentRes> sendComment(String text, int quoteId, int contentId, String accessToken, int userId, String captcha) {
+        return appDataSource.sendComment(text, quoteId, contentId, accessToken, userId, captcha);
+    }
+
+    @Override
+    public Observable<ACVideoSearchLike> getVideoRecommend(String id) {
+        return appDataSource.getVideoRecommend(id);
     }
 }
