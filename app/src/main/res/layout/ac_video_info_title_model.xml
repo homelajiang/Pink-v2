@@ -2,8 +2,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/video_title"
+    style="@style/PinkVideoInfo.title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="28dp"
+    android:paddingBottom="10dp"
     tools:text="Title">
 
 </TextView>

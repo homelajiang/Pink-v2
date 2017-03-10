@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/PinkVideoInfo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -12,25 +13,28 @@
         android:layout_height="60dp"
         fresco:fadeDuration="300"
         fresco:placeholderImage="@drawable/ic_head_default"
-        fresco:roundAsCircle="false" />
+        fresco:roundAsCircle="true" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/up_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lines="1"
+            android:textSize="16sp"
             tools:text="homela jiang" />
 
         <TextView
             android:id="@+id/publish_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:lines="1"
             tools:text="3hours before updated" />
     </LinearLayout>
@@ -40,5 +44,6 @@
         android:id="@+id/follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         tools:text="FOLLOW" />
 </LinearLayout>

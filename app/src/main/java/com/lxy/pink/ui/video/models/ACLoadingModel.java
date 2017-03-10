@@ -1,5 +1,7 @@
 package com.lxy.pink.ui.video.models;
 
+import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -35,6 +37,8 @@ public abstract class ACLoadingModel extends EpoxyModelWithHolder<ACLoadingModel
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
+            mLoadingLayout.getLayoutParams().height =
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, itemView.getContext().getResources().getDisplayMetrics());
         }
     }
 

@@ -13,6 +13,7 @@ import com.lxy.pink.data.model.acfun.ACCheckFollow;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
+import com.lxy.pink.data.model.acfun.ACUserContribute;
 import com.lxy.pink.data.model.acfun.ACVideoComment;
 import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
@@ -99,11 +100,14 @@ public interface AppContract {
      * video
      */
     Observable<ACRecommend> getRecommend();
-    Observable<ACAuthRes> ac_login(String username,String password);
+
+    Observable<ACAuthRes> ac_login(String username, String password);
+
     Observable<ACProfile> ac_getProfile(String uid);
 
     /**
      * 检查是否签到
+     *
      * @param access_token
      * @return
      */
@@ -111,21 +115,35 @@ public interface AppContract {
 
     /**
      * 签到
+     *
      * @param access_token
      * @return
      */
     Observable<ACSign> ac_sign(String access_token);
 
     Observable<ACVideoInfo> getVideoInfo(int contentId);
+
     Observable<ACCheckFollow> checkFollow(int userId, String access_token);
+
     Observable<ACActionFollow> actionFollow(String name, int userId, String accessToken);
+
     Observable<ACVideoMark> checkMark(int contentId, int userId, String accessToken);
+
     Observable<ACVideoMark> actionMark(String name, int userId, int contentId, String accessToken);
+
     Observable<ACBananaInfo> getBananaInfo(String accessToken);
+
     Observable<ACBananaCheck> getBananaCheck(String accessToken);
+
     Observable<ACBananaPostRes> sendBanana(String accessToken, int userId, int count, int contentId);
+
     Observable<String> getDanmuku(int danmukuId);
+
     Observable<ACVideoComment> getVideoComment(int contentId, int pageNo);
+
     Observable<ACVideoCommentRes> sendComment(String text, int quoteId, int contentId, String accessToken, int userId, String captcha);
+
     Observable<ACVideoSearchLike> getVideoRecommend(String id);
+
+    Observable<ACUserContribute> getUserContribute(int pageNo, int pageSize, int userId, int type, int sort);
 }

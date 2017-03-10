@@ -63,6 +63,9 @@ public class VideoFragment extends BaseFragment implements VideoContract.View, S
 
         mRecyclerView.addItemDecoration(new VerticalGridCardSpacingDecoration());
         mRecyclerView.setLayoutManager(gridLayoutManager);
+        RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+        mRecyclerView.setRecycledViewPool(viewPool);
+        viewPool.setMaxRecycledViews(0, 10);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(videoFragmentAdapter);
         pd = new ProgressDialog(getContext());

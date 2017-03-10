@@ -1,6 +1,7 @@
 package com.lxy.pink.data.retrofit.api;
 
 import com.lxy.pink.data.model.acfun.ACProfile;
+import com.lxy.pink.data.model.acfun.ACUserContribute;
 import com.lxy.pink.data.model.acfun.ACVideoMark;
 
 import retrofit2.http.Field;
@@ -55,5 +56,15 @@ public interface ApiAppAcfunService {
             @Field("access_token") String access_token,
             @Field("userId") int userId,
             @Field("contentId") int contentId
+    );
+
+    //http://api.app.acfun.cn/apiserver/user/contribution?pageNo=1&pageSize=20&userId=614361&type=1&sort=2
+    @GET("apiserver/user/contribution")
+    Observable<ACUserContribute> getUserContribute(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize,
+            @Query("userId") int userId,
+            @Query("type") int type,
+            @Query("sort") int sort
     );
 }

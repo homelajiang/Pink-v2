@@ -20,6 +20,7 @@ import com.lxy.pink.data.model.acfun.ACCheckFollow;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
+import com.lxy.pink.data.model.acfun.ACUserContribute;
 import com.lxy.pink.data.model.acfun.ACVideoComment;
 import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
@@ -374,5 +375,12 @@ public class AppDataSource implements AppContract {
         return RetrofitAPI.getInstance()
                 .getSearchAppAcfunService()
                 .searchByVideoId(id, 10, 1, 1);
+    }
+
+    @Override
+    public Observable<ACUserContribute> getUserContribute(int pageNo, int pageSize, int userId, int type, int sort) {
+        return RetrofitAPI.getInstance()
+                .getApiAppAcfunService()
+                .getUserContribute(pageNo, pageSize, userId, type, sort);
     }
 }

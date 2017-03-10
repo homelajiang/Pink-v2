@@ -1,10 +1,9 @@
 package com.lxy.pink.ui.video.video;
 
 import com.airbnb.epoxy.EpoxyAdapter;
-import com.airbnb.epoxy.EpoxyModel;
-import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
-import com.lxy.pink.ui.video.models.ACVListModel;
-import com.lxy.pink.ui.video.models.ACVListModel_;
+import com.lxy.pink.data.model.acfun.ACUserContribute;
+import com.lxy.pink.ui.video.models.ACLoadingModel;
+import com.lxy.pink.ui.video.models.ACLoadingModel_;
 import com.lxy.pink.ui.video.models.ACVLiteModel;
 import com.lxy.pink.ui.video.models.ACVLiteModel_;
 import com.lxy.pink.ui.video.models.ACVUserVModel;
@@ -19,25 +18,26 @@ import java.util.List;
 public class ACVideoUserRefAdapter extends EpoxyAdapter {
 
 
-    public ACVideoUserRefAdapter(String avatar, int userId, String name) {
+    public ACVideoUserRefAdapter(String avatar, int userId, String name,
+                                 List<ACUserContribute.DataEntity.PageEntity.ListEntity> data) {
         ACVUserVModel acvUserVModel = new ACVUserVModel_()
                 .userId(userId)
                 .avatar(avatar)
                 .name(name);
-        addModels(
-                acvUserVModel
-        );
-    }
-
-    public void setRecommendList(List<ACVideoSearchLike.DataEntity.PageEntity.ListEntity> recommendList) {
-        if (recommendList == null)
+        ACLoadingModel_ loadingModel = new ACLoadingModel_();
+        addModel(acvUserVModel);
+        if (data == null) {
+            addModel(loadingModel);
             return;
-        for (ACVideoSearchLike.DataEntity.PageEntity.ListEntity entity : recommendList) {
-            ACVLiteModel liteModel = new ACVLiteModel_()
-                    .contentId(entity.getContentId())
-                    .coverUrl(entity.getTitleImg())
-                    .name(entity.getTitle());
-            addModel(liteModel);
+        }
+        if (data.size() == 0)
+            return;
+        for (ACUserContribute.DataEntity.PageEntity.ListEntity e : data) {
+            ACVLiteModel m = new ACVLiteModel_()
+                    .contentId(e.getContentId())
+                    .coverUrl(e.getCover())
+                    .name(e.getTitle());
+            addModel(m);
         }
     }
 }

@@ -18,6 +18,7 @@
     <color name="background">#EAEAEA</color>
     <color name="background_light_1">#FAFAFA</color>
     <color name="progress_bg">#22AAAAAA</color>
+    <color name="ac_video_info_border">#259b24</color>
 
 
 </resources>

@@ -56,6 +56,13 @@
         <item name="android:textColor">@color/hint_text</item>
     </style>
 
+    <style name="PinkVideoInfo">
+        <item name="android:layout_margin">10dp</item>
+    </style>
+    <style name="PinkVideoInfo.title">
+        <item name="android:textSize">18sp</item>
+    </style>
+
 
     <!--name为声明的"属性集合"名，可以随便取，但是最好是设置为跟我们的View一样的名称-->
     <declare-styleable name="OWLoadingView">
