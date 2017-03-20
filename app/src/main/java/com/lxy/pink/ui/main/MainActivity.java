@@ -9,6 +9,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -25,6 +27,7 @@ import com.lxy.pink.event.ProfileUpdateEvent;
 import com.lxy.pink.ui.auth.LoginActivity;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.core.PinkService;
+import com.lxy.pink.ui.video.video.ACVideoActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,6 +88,26 @@ public class MainActivity extends BaseActivity implements
         if (auth != null && profile != null) {
             updateProfile(profile);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.video_detail:
+                startActivity(new Intent(this, ACVideoActivity.class));
+                break;
+            case R.id.fun_detail:
+                break;
+            case R.id.article_detail:
+                break;
+        }
+        return true;
     }
 
     @Override
@@ -152,7 +175,7 @@ public class MainActivity extends BaseActivity implements
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return;
-        }else {
+        } else {
             moveTaskToBack(true);
         }
     }

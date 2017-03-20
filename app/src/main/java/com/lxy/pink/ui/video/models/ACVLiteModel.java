@@ -37,6 +37,10 @@ public abstract class ACVLiteModel extends EpoxyModelWithHolder<ACVLiteModel.ACV
         SimpleDraweeView mVideoCover;
         @BindView(R.id.video_title)
         TextView mVideoTitle;
+        @BindView(R.id.view_count)
+        TextView mVideoCount;
+        @BindView(R.id.danmu_count)
+        TextView mDanmuCount;
 
         @Override
         protected void bindView(View itemView) {
