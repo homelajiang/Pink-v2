@@ -1,5 +1,6 @@
 package com.lxy.pink.data.retrofit;
 
+import com.lxy.pink.Injection;
 import com.lxy.pink.data.retrofit.api.ApiAixifanService;
 import com.lxy.pink.data.retrofit.api.ApiAppAcfunService;
 import com.lxy.pink.data.retrofit.api.DanmuAixifanService;
@@ -11,6 +12,7 @@ import com.lxy.pink.data.retrofit.api.WeatherService;
 import com.lxy.pink.data.retrofit.api.WebapiAppAcfunService;
 import com.lxy.pink.utils.Config;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -24,13 +26,29 @@ public class RetrofitAPI implements RetrofitApimpl {
 
     private WeatherService weatherService;
     private RemoteService remoteService;
+    private final static int CACHE_SIZE_BYTES = 2 * 1024 * 1024;
 
-    private OkHttpClient normalClient = new OkHttpClient();
+    Cache cache = new Cache(Injection.provideContext().getCacheDir(), CACHE_SIZE_BYTES);
+    private OkHttpClient normalClient = new OkHttpClient().newBuilder()
+            .cache(cache)
+            .build();
     //        client.interceptors().add(new HeaderInterceptor());
-    private static OkHttpClient acClient = new OkHttpClient.Builder()
+    private OkHttpClient acClient = new OkHttpClient.Builder()
+            .cache(cache)
             .addNetworkInterceptor(new ACHeaderInterceptor())
             .build();
 
+/*    if (response.isSuccessful() &&
+            response.raw().networkResponse() != null &&
+            response.raw().networkResponse().code() ==
+    HttpURLConnection.HTTP_NOT_MODIFIED) {
+        // not modified, no need to do anything.
+        return;
+    }
+
+    response.networkResponse().code() // NO*/
+
+// parse response here
 
     private static RetrofitAPI instance;
     private TodoService todoService;
