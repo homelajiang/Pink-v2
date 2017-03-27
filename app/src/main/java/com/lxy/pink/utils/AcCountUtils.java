@@ -6,6 +6,11 @@ package com.lxy.pink.utils;
 
 public class AcCountUtils {
 
+    /**
+     * format the counts for acfun like google play
+     * @param counts
+     * @return a array has two element ,first element is the count string ,the second element is the count unit string
+     */
     public static String[] formatVideoCount(final int counts){
         String[] count = new String[2];
 
@@ -28,8 +33,6 @@ public class AcCountUtils {
            count[0] = String.valueOf("+∞");
            count[1] = null;
        }
-
-
         return count;
     }
 }

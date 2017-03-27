@@ -1,7 +1,6 @@
 package com.lxy.pink.ui.video.views;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 
@@ -31,7 +30,7 @@ public class ACBannerView extends CardView {
     }
 
     public void setBanner(String url) {
-        FrescoUtils.setpImage(url,mBanner);
+        FrescoUtils.setImage(url,mBanner);
     }
     // TODO: 2016/12/20 0020  set methods
 }

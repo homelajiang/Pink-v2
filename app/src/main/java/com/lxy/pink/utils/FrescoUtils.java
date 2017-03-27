@@ -12,7 +12,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
  */
 
 public class FrescoUtils {
-    public static void setpImage(String imgUrl, SimpleDraweeView simpleDraweeView) {
+    public static void setImage(String imgUrl, SimpleDraweeView simpleDraweeView) {
         if (simpleDraweeView == null)
             return;
         if (!TextUtils.isEmpty(imgUrl) && imgUrl.endsWith(".gif")) {

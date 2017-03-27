@@ -35,7 +35,7 @@ public class ACFunView extends CardView {
     }
 
     public void setFunCover(String url) {
-        FrescoUtils.setpImage(url, mFunCover);
+        FrescoUtils.setImage(url, mFunCover);
     }
 
     public void setFunTitle(String title) {

@@ -3,7 +3,6 @@ package com.lxy.pink.ui.video.video;
 import android.widget.Toast;
 
 import com.airbnb.epoxy.EpoxyAdapter;
-import com.facebook.common.internal.Throwables;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACActionFollow;
 import com.lxy.pink.data.model.acfun.ACBananaCheck;
@@ -18,24 +17,18 @@ import com.lxy.pink.data.model.acfun.ACVideoMark;
 import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
 import com.lxy.pink.ui.video.models.ACVActionModel;
 import com.lxy.pink.ui.video.models.ACVActionModel_;
-import com.lxy.pink.ui.video.models.ACVDataModel;
 import com.lxy.pink.ui.video.models.ACVDataModel_;
 import com.lxy.pink.ui.video.models.ACVHeaderModel;
 import com.lxy.pink.ui.video.models.ACVHeaderModel_;
 import com.lxy.pink.ui.video.models.ACVIntroModel;
 import com.lxy.pink.ui.video.models.ACVIntroModel_;
-import com.lxy.pink.ui.video.models.ACVListModel;
 import com.lxy.pink.ui.video.models.ACVListModel_;
 import com.lxy.pink.ui.video.models.ACVTitleModel;
 import com.lxy.pink.ui.video.models.ACVTitleModel_;
-import com.lxy.pink.ui.video.models.ACVUserHModel;
 import com.lxy.pink.ui.video.models.ACVUserHModel_;
-import com.lxy.pink.ui.video.models.ACVUserListModel;
 import com.lxy.pink.ui.video.models.ACVUserListModel_;
-import com.lxy.pink.ui.video.models.ACVUserVModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by homelajiang on 2017/3/1 0001.
@@ -86,7 +79,7 @@ public class ACVideoAdapter extends EpoxyAdapter implements ACVideoContract.View
                 .avatar(videoInfo.getOwner().getAvatar())
                 .userId(videoInfo.getOwner().getId())
                 .name(videoInfo.getOwner().getName());
-        ACVHeaderModel videoHeaderModel = new ACVHeaderModel_()
+        ACVHeaderModel recommendTitle = new ACVHeaderModel_()
                 .title("相关推荐");
         recommendListModel = new ACVListModel_();
 
@@ -97,7 +90,7 @@ public class ACVideoAdapter extends EpoxyAdapter implements ACVideoContract.View
                 acvIntroModel,
                 acvActionModel,
                 upListModel,
-                videoHeaderModel,
+                recommendTitle,
                 recommendListModel
         );
     }

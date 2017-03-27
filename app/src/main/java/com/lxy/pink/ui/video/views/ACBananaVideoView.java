@@ -5,7 +5,6 @@ import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
 import com.lxy.pink.utils.FrescoUtils;
@@ -38,7 +37,7 @@ public class ACBananaVideoView extends CardView {
     }
 
     public void setVideoCover(String url) {
-        FrescoUtils.setpImage(url, videoCover);
+        FrescoUtils.setImage(url, videoCover);
     }
 
     public void setVideoTitle(String title) {

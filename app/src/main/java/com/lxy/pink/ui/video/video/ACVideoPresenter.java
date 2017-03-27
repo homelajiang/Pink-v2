@@ -64,9 +64,9 @@ public class ACVideoPresenter implements ACVideoContract.Presenter {
                                     }
                                     getVideoRecommend("ac" + info.getContentId());
                                     getUserContributeVideo(info.getOwner().getId());
+                                    getVideoComment(info.getContentId());
                                 }
                             }
-
                             @Override
                             public void onError(Throwable e) {
                                 view.getVideoInfoFail(e);

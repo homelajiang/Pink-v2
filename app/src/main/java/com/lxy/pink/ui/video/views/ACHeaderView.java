@@ -1,7 +1,6 @@
 package com.lxy.pink.ui.video.views;
 
 import android.content.Context;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -38,7 +37,7 @@ public class ACHeaderView extends LinearLayout {
     }
 
     public void setIcon(String url) {
-        FrescoUtils.setpImage(url,icon);
+        FrescoUtils.setImage(url,icon);
     }
 
     public void setTitle(String title) {
