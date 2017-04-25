@@ -16,11 +16,15 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-            <!--app:layout_scrollFlags="scroll|enterAlways"-->
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            />
 
-            <include layout="@layout/layout_main_toolbar" />
-        </android.support.v7.widget.Toolbar>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/white" />
 
     </android.support.design.widget.AppBarLayout>
 

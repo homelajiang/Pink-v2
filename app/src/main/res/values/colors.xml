@@ -2,8 +2,8 @@
 <resources>
     <!--Common-->
     <color name="transparent">#00000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <!--<color name="white">#FFFFFF</color>-->
+    <!--<color name="black">#000000</color>-->
     <color name="pink">#ff33dd</color>
 
     <color name="primary">#075B78</color>
@@ -15,10 +15,26 @@
     <color name="hint_text">#AAAAAA</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
-    <color name="background">#EAEAEA</color>
+    <!--<color name="background">#EAEAEA</color>-->
     <color name="background_light_1">#FAFAFA</color>
     <color name="progress_bg">#22AAAAAA</color>
     <color name="ac_video_info_border">#259b24</color>
+
+
+
+    <color name="colorPrimary">#4285f4</color>
+    <color name="colorPrimaryDark">#3367d6</color>
+    <color name="colorAccent">#FFC400</color>
+
+    <color name="white">#ffffff</color>
+    <color name="warm_grey">#999999</color>
+    <color name="black">#333333</color>
+    <color name="greyish_brown">#4d4d4d</color>
+    <color name="ice_blue">#feffff</color>
+    <color name="warm_grey_two">#9d9d9d</color>
+    <color name="watermelon">#fd4c5b</color>
+    <color name="background">#EBEBEB</color>
+    <color name="foreground">#FAFAFA</color>
 
 
 </resources>

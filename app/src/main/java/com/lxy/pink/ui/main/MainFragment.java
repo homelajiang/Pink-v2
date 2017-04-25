@@ -3,6 +3,7 @@ package com.lxy.pink.ui.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +17,6 @@ import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.event.PlayListLoadedEvent;
 import com.lxy.pink.event.PlayListNowEvent;
-import com.lxy.pink.player.PlaybackService;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.home.HomeFragment;
 import com.lxy.pink.ui.music.SongListFragment;
@@ -41,26 +41,14 @@ public class MainFragment extends BaseFragment {
 
     static final int DEFAULT_PAGE_INDEX = 0;
     public static final String TAG = "MainFragment";
-    @BindViews({R.id.radio_btn_main, R.id.radio_btn_music,
-            R.id.radio_btn_video, R.id.radio_btn_news})
-    List<RadioButton> radioButtons;
-    @BindView(R.id.radio_group)
-    RadioGroup radioGroup;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-    @BindView(R.id.radio_btn_main)
-    RadioButton mRadioBtnMain;
-    @BindView(R.id.radio_btn_music)
-    RadioButton mRadioBtnMusic;
-    @BindView(R.id.radio_btn_video)
-    RadioButton mRadioBtnVideo;
-    @BindView(R.id.radio_btn_news)
-    RadioButton mRadioBtnNews;
-
+    @BindView(R.id.tab_layout_main)
+    TabLayout mTabLayoutMain;
     private String[] titles;
 
     @Nullable
@@ -69,11 +57,14 @@ public class MainFragment extends BaseFragment {
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, root);
+        initViews();
+        return root;
+    }
 
+    private void initViews() {
         ((AppCompatActivity) getActivity())
                 .setSupportActionBar(toolbar);
         titles = getResources().getStringArray(R.array.pink_main_titles);
-
         BaseFragment[] fragments = new BaseFragment[titles.length];
 
         fragments[0] = new HomeFragment();
@@ -85,7 +76,7 @@ public class MainFragment extends BaseFragment {
                 .getSupportFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(titles.length - 1);
-        viewPager.setPageMargin(getResources().getDimensionPixelOffset(R.dimen.mp_margin_large));
+//        viewPager.setPageMargin(getResources().getDimensionPixelOffset(R.dimen.mp_margin_large));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -94,24 +85,13 @@ public class MainFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-                radioButtons.get(position).setChecked(true);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-
-        radioButtons.get(DEFAULT_PAGE_INDEX).setChecked(true);
-        return root;
-    }
-
-    @OnCheckedChanged({R.id.radio_btn_main, R.id.radio_btn_music,
-            R.id.radio_btn_video, R.id.radio_btn_news})
-    public void onRadioButtonChecked(RadioButton button, boolean isChecked) {
-        if (isChecked) {
-            onItemChecked(radioButtons.indexOf(button));
-        }
+        mTabLayoutMain.setupWithViewPager(viewPager);
     }
 
     private void onItemChecked(int position) {
@@ -135,4 +115,8 @@ public class MainFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }
