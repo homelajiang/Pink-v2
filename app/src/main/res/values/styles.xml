@@ -15,9 +15,8 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--Item icon-->
-    
-    <style name="PinkWidget">
-    </style>
+
+    <style name="PinkWidget"></style>
 
     <style name="PinkWidget.Icon">
         <item name="android:layout_width">@dimen/pink_widget_icon</item>
@@ -45,18 +44,64 @@
     </style>
 
     <style name="PinkMusicItem.Title">
-        <item name="android:textSize">@dimen/pink_music_item_title</item>
-        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:maxWidth">160dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">3dp</item>
     </style>
 
     <style name="PinkMusicItem.Info">
-        <item name="android:textSize">@dimen/pink_music_item_info</item>
-        <item name="android:textColor">@color/hint_text</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/warm_grey</item>
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingStart">3dp</item>
+    </style>
+
+    <style name="PinkMusicItem.Time">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginRight">13dp</item>
+        <item name="android:layout_marginEnd">13dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="PinkMusicItem.Button">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">23dp</item>
+        <item name="android:layout_marginEnd">23dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:tint">@color/black</item>
+    </style>
+
+
+    <style name="PinkCalendarItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="PinkCalendarItem.Title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">19.3sp</item>
+    </style>
+
+    <style name="PinkCalendarItem.content">
+        <item name="android:textColor">@color/greyish_brown</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="PinkCalendarItem.time">
+        <item name="android:textColor">@color/warm_grey</item>
+        <item name="android:textSize">12.7sp</item>
     </style>
 
     <style name="PinkVideoInfo">
         <item name="android:layout_margin">10dp</item>
     </style>
+
     <style name="PinkVideoInfo.title">
         <item name="android:textSize">18sp</item>
     </style>

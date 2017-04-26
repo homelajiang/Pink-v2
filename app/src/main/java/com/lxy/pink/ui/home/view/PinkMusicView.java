@@ -16,7 +16,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.music.Song;
 import com.lxy.pink.player.IPlayback;
-import com.lxy.pink.player.PlayMode;
 import com.lxy.pink.player.PlaybackService;
 import com.lxy.pink.utils.MediaHelper;
 import com.lxy.pink.utils.TimeUtils;
@@ -40,8 +39,6 @@ public class PinkMusicView extends RelativeLayout implements IPlayback.Callback 
     TextView mMusicSubTitle;
     @BindView(R.id.music_time)
     TextView mMusicTime;
-    @BindView(R.id.right_area)
-    RelativeLayout mRightArea;
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
 
@@ -143,13 +140,13 @@ public class PinkMusicView extends RelativeLayout implements IPlayback.Callback 
     private void updatePlayMode(){
         switch (mPlayer.getPlayMode()){
             case LIST:
-                mMusicModeToggle.setImageResource(R.drawable.ic_repeat_black_24dp);
+                mMusicModeToggle.setImageResource(R.drawable.ic_repeat_black_20dp);
                 break;
             case SHUFFLE:
-                mMusicModeToggle.setImageResource(R.drawable.ic_shuffle_black_24dp);
+                mMusicModeToggle.setImageResource(R.drawable.ic_shuffle_black_20dp);
                 break;
             case SINGLE:
-                mMusicModeToggle.setImageResource(R.drawable.ic_repeat_one_black_24dp);
+                mMusicModeToggle.setImageResource(R.drawable.ic_repeat_one_black_20dp);
                 break;
         }
     }

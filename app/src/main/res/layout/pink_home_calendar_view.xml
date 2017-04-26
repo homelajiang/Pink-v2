@@ -8,27 +8,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="9dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="9dp">
 
         <com.lxy.pink.ui.widget.ExListView
             android:id="@+id/exListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@drawable/list_divider_line"
-            tools:listitem="@layout/item_home_todo_item"
-            android:dividerHeight="@dimen/mp.divider.line" />
+            android:dividerHeight="@dimen/mp.divider.line"
+            tools:listitem="@layout/item_home_todo_item" />
 
         <TextView
             android:id="@+id/empty_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:paddingTop="10dp"
             android:paddingLeft="@dimen/pink_widget_padding_horizontal"
             android:paddingRight="@dimen/pink_widget_padding_horizontal"
+            android:paddingTop="10dp"
             android:text="@string/pink_todo_count_emptyview"
-            android:textColor="@color/hint_text"/>
+            android:textColor="@color/hint_text" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

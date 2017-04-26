@@ -56,5 +56,7 @@
     <dimen name="ac_count">10sp</dimen>
     <dimen name="ac_vip">8sp</dimen>
     <dimen name="ac_level">10sp</dimen>
+    <dimen name="pink_card_radius">2dp</dimen>
+    <dimen name="pink_card_elevation">2dp</dimen>
 
 </resources>

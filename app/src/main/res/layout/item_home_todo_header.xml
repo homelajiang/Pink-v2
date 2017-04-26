@@ -10,12 +10,11 @@
     android:orientation="horizontal">
 
         <TextView
+            style="@style/PinkCalendarItem.Title"
             android:id="@+id/todo_count"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="1个待办事项"
-            android:textSize="@dimen/pink_widget_title" />
+            tools:text="1个待办事项"/>
 
         <android.support.v7.widget.AppCompatImageView
             style="@style/PinkWidget.Icon"
