@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,46 +16,81 @@
             android:id="@+id/video_cover"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            fresco:viewAspectRatio="1.78" />
+            android:layout_weight="1"
+            fresco:viewAspectRatio="1.85" />
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3">
+            android:layout_weight="1.3"
+            android:paddingBottom="5dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="7dp">
 
             <TextView
                 android:id="@+id/videoTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="TextView" />
+                android:lines="2"
+                android:textColor="@color/black"
+                android:textSize="13.3sp"
+                tools:text="[多素材/催泪/AMV]现在就想见你 但却见不到你" />
 
-            <TextView
-                android:id="@+id/videoBanana"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/videoTitle"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ac_level_border"
+                    android:textSize="8sp"
+                    android:text="UP" />
+
+                <TextView
+                    android:id="@+id/upName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4.3dp"
+                    android:lines="1"
+                    android:textColor="@color/warm_grey"
+                    android:textSize="13.3sp"
+                    tools:text="壹级天灾" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                tools:text="TextView" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/videoBanana"
-                android:layout_toEndOf="@+id/videoBanana"
-                android:layout_toRightOf="@+id/videoBanana"
-                android:text="UP:" />
+                <TextView
+                    android:id="@+id/viewCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="3dp"
+                    android:drawableStart="@drawable/ic_play_gray_13dp"
+                    android:textColor="@color/warm_grey"
+                    android:textSize="10.7sp"
+                    tools:text="2.8万" />
 
-            <TextView
-                android:id="@+id/upName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/textView4"
-                android:layout_toRightOf="@+id/textView4"
-                tools:text="TextView" />
+                <TextView
+                    android:id="@+id/videoBanana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:drawablePadding="3dp"
+                    android:drawableStart="@drawable/ic_danmu_gray_13dp"
+                    android:textColor="@color/warm_grey"
+                    android:textSize="10.7sp"
+                    tools:text="1057" />
+            </RelativeLayout>
+
         </RelativeLayout>
     </LinearLayout>
-</merge>
+</android.support.v7.widget.CardView>

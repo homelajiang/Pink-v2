@@ -2,9 +2,9 @@ package com.lxy.pink.ui.video.views;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,8 +21,6 @@ import butterknife.ButterKnife;
 public class ACLoginView extends CardView {
     @BindView(R.id.username)
     TextView username;
-    @BindView(R.id.btn_login)
-    public Button btnLogin;
     @BindView(R.id.msg)
     public ImageView msg;
     @BindView(R.id.level)
@@ -33,8 +31,8 @@ public class ACLoginView extends CardView {
     TextView banana;
     @BindView(R.id.head_icon)
     public SimpleDraweeView headIcon;
-    @BindView(R.id.vip_type)
-    TextView mVipType;
+    @BindView(R.id.btn_login)
+    public AppCompatImageView btnLogin;
 
     public ACLoginView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -51,7 +49,6 @@ public class ACLoginView extends CardView {
     }
 
     public void setBtnLogin(int btnLoginRes) {
-        this.btnLogin.setText(btnLoginRes);
     }
 
     public void setLevel(String level) {
@@ -71,11 +68,6 @@ public class ACLoginView extends CardView {
     }
 
     public void setVipType(int userGroupLevel) {
-        if (userGroupLevel == 1) {
-            mVipType.setText(R.string.ac_vip_standrad);
-        } else {
-            mVipType.setText(R.string.ac_vip_unstandrad);
-        }
     }
 
 }
