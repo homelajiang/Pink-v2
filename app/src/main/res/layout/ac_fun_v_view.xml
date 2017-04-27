@@ -1,35 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/fun_cover"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        fresco:roundedCornerRadius="1dp"
+        fresco:viewAspectRatio="0.75" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/gradient_dark_90"
+        android:fitsSystemWindows="true"
+        android:layout_above="@+id/fun_title" />
+    <TextView
+        android:id="@+id/fun_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fun_cover"
+        android:layout_marginTop="9.7dp"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="13.3sp"
+        tools:text="TextView" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/fun_cover"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            fresco:viewAspectRatio="0.75" />
+    <TextView
+        android:id="@+id/fun_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fun_title"
+        android:layout_marginTop="7.3dp"
+        android:textColor="@color/warm_grey"
+        android:textSize="13.3sp"
+        tools:text="TextView" />
 
-        <TextView
-            android:id="@+id/fun_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fun_cover"
-            android:lines="2"
-            tools:text="TextView" />
-
-        <TextView
-            android:id="@+id/fun_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fun_title"
-            tools:text="TextView" />
-
-    </RelativeLayout>
-
-</merge>
+</RelativeLayout>
