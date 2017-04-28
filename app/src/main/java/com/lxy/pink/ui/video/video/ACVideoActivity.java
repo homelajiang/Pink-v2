@@ -1,5 +1,6 @@
 package com.lxy.pink.ui.video.video;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -25,10 +27,10 @@ import butterknife.ButterKnife;
 
 public class ACVideoActivity extends BaseActivity {
     private static final String CONTENT_ID = "contentId";
-    @BindView(R.id.video_cover)
-    SimpleDraweeView videoCover;
-    @BindView(R.id.video_danmu)
-    FrameLayout videoDanmu;
+//    @BindView(R.id.video_cover)
+//    SimpleDraweeView videoCover;
+//    @BindView(R.id.video_danmu)
+//    FrameLayout videoDanmu;
     @BindView(R.id.play_button)
     ButtonBarLayout playButton;
     @BindView(R.id.toolbar)
@@ -47,6 +49,8 @@ public class ACVideoActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ac_video);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         ButterKnife.bind(this);
         init();
     }

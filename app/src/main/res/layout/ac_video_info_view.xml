@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="7dp"
+    android:paddingEnd="14dp"
+    android:paddingStart="14dp"
+    android:paddingTop="7dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        tools:text="第二届啪啪啪大赛//我妈妈都没这" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/video_play_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="3dp"
+            android:drawableStart="@drawable/ic_play_gray_13dp"
+            android:textColor="@color/warm_grey"
+            android:textSize="12sp"
+            tools:text="2.8万" />
+
+        <TextView
+            android:id="@+id/video_danmu_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:drawablePadding="3dp"
+            android:drawableStart="@drawable/ic_danmu_gray_13dp"
+            android:textColor="@color/warm_grey"
+            android:textSize="12sp"
+            tools:text="1057" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/video_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/warm_grey"
+        android:textSize="12sp"
+        tools:text="@string/pink_todo_count_emptyview" />
+</LinearLayout>

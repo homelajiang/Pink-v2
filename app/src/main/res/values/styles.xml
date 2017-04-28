@@ -4,16 +4,22 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:windowBackground">@color/background</item>
+    </style>
 
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar_StatusBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <!--Item icon-->
 
     <style name="PinkWidget"></style>
@@ -97,15 +103,6 @@
         <item name="android:textColor">@color/warm_grey</item>
         <item name="android:textSize">12.7sp</item>
     </style>
-
-    <style name="PinkVideoInfo">
-        <item name="android:layout_margin">10dp</item>
-    </style>
-
-    <style name="PinkVideoInfo.title">
-        <item name="android:textSize">18sp</item>
-    </style>
-
 
     <!--name为声明的"属性集合"名，可以随便取，但是最好是设置为跟我们的View一样的名称-->
     <declare-styleable name="OWLoadingView">

@@ -18,4 +18,9 @@ public class PlaceHolderModel extends SimpleEpoxyModel {
     public void bind(View view) {
         super.bind(view);
     }
+
+    @Override
+    public int getSpanSize(int totalSpanCount, int position, int itemCount) {
+        return totalSpanCount;
+    }
 }

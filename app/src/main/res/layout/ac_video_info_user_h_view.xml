@@ -2,15 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/PinkVideoInfo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:background="@drawable/bg_two_divider"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="12dp"
+    android:paddingEnd="14dp"
+    android:paddingStart="14dp"
+    android:paddingTop="12dp">
 
     <com.facebook.drawee.view.SimpleDraweeView xmlns:fresco="http://schemas.android.com/apk/res-auto"
         android:id="@+id/user_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="13dp"
         fresco:fadeDuration="300"
         fresco:placeholderImage="@drawable/ic_head_default"
         fresco:roundAsCircle="true" />
@@ -18,32 +24,39 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="11dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/up_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:textSize="16sp"
-            tools:text="homela jiang" />
+            android:textColor="@color/black"
+            android:textSize="12.7sp"
+            tools:text="AS挚雪" />
 
         <TextView
             android:id="@+id/publish_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="6.3dp"
             android:lines="1"
-            tools:text="3hours before updated" />
+            android:textColor="@color/warm_grey"
+            android:textSize="11.3sp"
+            tools:text="3天前投递" />
     </LinearLayout>
 
 
-    <android.support.v7.widget.AppCompatButton
+    <RadioButton
         android:id="@+id/follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        tools:text="FOLLOW" />
+        android:background="@drawable/selector_follow"
+        android:button="@null"
+        android:textColor="@color/watermelon"
+        android:textSize="13.3sp"
+        tools:text="+关注" />
 </LinearLayout>

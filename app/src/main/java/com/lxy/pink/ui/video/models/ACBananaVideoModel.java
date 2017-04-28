@@ -1,5 +1,6 @@
 package com.lxy.pink.ui.video.models;
 
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,10 +29,6 @@ public abstract class ACBananaVideoModel extends EpoxyModelWithHolder<ACBananaVi
 
     @Override
     public void bind(ACBananaVideoViewHolder viewHolder) {
-        viewHolder.setVideoCover(contentBean.getImage());
-        viewHolder.setVideoTitle(contentBean.getTitle());
-        viewHolder.setUpName(contentBean.getOwner().getName());
-        viewHolder.setVideoBanana(contentBean.getVisit().getGoldBanana());
         viewHolder.setData(contentBean);
         if (acItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,28 +65,11 @@ public abstract class ACBananaVideoModel extends EpoxyModelWithHolder<ACBananaVi
         }
 
         public void setData(ACRecommend.DataBean.ContentsBean contentBean) {
-            FrescoUtils.setImage(contentBean.getUrl(), videoCover);
+            FrescoUtils.setImage(contentBean.getImage(), videoCover);
             videoTitle.setText(String.valueOf(contentBean.getTitle()));
             upName.setText(String.valueOf(contentBean.getOwner().getName()));
             videoBanana.setText(String.valueOf(contentBean.getVisit().getGoldBanana()));
             mViewCount.setText(String.valueOf(contentBean.getVisit().getViews()));
         }
-
-        public void setVideoCover(String url) {
-            FrescoUtils.setImage(url, videoCover);
-        }
-
-        public void setVideoTitle(String title) {
-            this.videoTitle.setText(title);
-        }
-
-        public void setUpName(String upName) {
-            this.upName.setText(upName);
-        }
-
-        public void setVideoBanana(int videoBanana) {
-            this.videoBanana.setText(String.valueOf(videoBanana));
-        }
-
     }
 }

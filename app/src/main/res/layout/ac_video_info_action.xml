@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="7dp"
+    android:paddingEnd="14dp"
+    android:paddingStart="14dp"
+    android:paddingTop="7dp">
+
+    <LinearLayout
+        android:id="@+id/layout_share"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.7dp"
+            android:text="@string/share"
+            android:textColor="@color/black"
+            android:textSize="11.3sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_feed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.7dp"
+            android:text="@string/feed"
+            android:textColor="@color/black"
+            android:textSize="11.3sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_mark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.7dp"
+            android:textColor="@color/black"
+            android:textSize="11.3sp"
+            tools:text="@string/mark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_cache"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.7dp"
+            android:textColor="@color/black"
+            android:textSize="11.3sp"
+            tools:text="@string/cache" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -9,7 +9,7 @@
     <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!--<uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -31,28 +31,35 @@
             android:name="com.amap.api.v2.apikey"
             android:value="5e4579cd1b4888414e76b997cbf7e38b" />
         <!-- 定位需要的服务 -->
-        <service android:name="com.amap.api.location.APSService" >
-        </service>
+        <service android:name="com.amap.api.location.APSService"></service>
 
         <activity
-            android:name=".ui.splash.SplashActivity">
-            android:theme="@style/PINK.Theme.Launcher"
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".ui.splash.SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.Launcher"
+
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.auth.LoginActivity" />
 
-        <activity android:name=".ui.video.video.ACVideoActivity">
+        <activity
+            android:name=".ui.video.video.ACVideoActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.video.fun.ACFunActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".core.PinkService" />
         <service android:name=".player.PlaybackService">

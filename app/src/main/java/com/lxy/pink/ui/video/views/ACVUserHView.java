@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -24,7 +25,7 @@ public class ACVUserHView extends LinearLayout {
     @BindView(R.id.publish_time)
     public TextView mPublishTime;
     @BindView(R.id.follow)
-    public AppCompatButton mFollow;
+    public RadioButton mFollow;
 
     public ACVUserHView(Context context, AttributeSet attrs) {
         super(context, attrs);

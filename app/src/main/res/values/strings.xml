@@ -140,7 +140,7 @@
         <item quantity="other">%d 年前</item>
     </plurals>
 
-    <string name="pink_share">分享</string>
+    <string name="share">分享</string>
 
     <!--Weather-->
     <string name="weather_publish_time">%s 发布</string>
@@ -168,4 +168,7 @@
     <string name="unfollow">未关注</string>
     <string name="ac_count_view">观看次数</string>
     <string name="ac_count_danmu">弹幕数量</string>
+    <string name="feed">投食</string>
+    <string name="mark">收藏</string>
+    <string name="cache">缓存</string>
 </resources>

@@ -27,6 +27,7 @@ import com.lxy.pink.event.ProfileUpdateEvent;
 import com.lxy.pink.ui.auth.LoginActivity;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.core.PinkService;
+import com.lxy.pink.ui.video.fun.ACFunActivity;
 import com.lxy.pink.ui.video.video.ACVideoActivity;
 
 import butterknife.BindView;
@@ -103,6 +104,7 @@ public class MainActivity extends BaseActivity implements
                 startActivity(new Intent(this, ACVideoActivity.class));
                 break;
             case R.id.fun_detail:
+                startActivity(new Intent(this, ACFunActivity.class));
                 break;
             case R.id.article_detail:
                 break;

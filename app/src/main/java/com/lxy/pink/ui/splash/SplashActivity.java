@@ -5,9 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
@@ -34,6 +36,8 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_splash);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         unbinder = ButterKnife.bind(this);
         new Handler()
                 .postDelayed(new Runnable() {
@@ -44,26 +48,6 @@ public class SplashActivity extends BaseActivity {
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 }, Config.SPLASH_DELAY);
-//        LayoutTransition transition = new LayoutTransition();
-//        mRelativeLayout.setLayoutTransition(transition);
-//
-//        ObjectAnimator animIn = ObjectAnimator.ofFloat(null, "rotationY", 90f, 0f);
-//        animIn.setDuration(transition.getDuration(LayoutTransition.APPEARING));
-//        animIn.addListener(new AnimatorListenerAdapter() {
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//                View view = (View) ((ObjectAnimator) animation).getTarget();
-//                view.setRotation(0f);
-//            }
-//        });
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Button button = new Button(SplashActivity.this);
-//                button.setText("jdhsjkghfdkjgd");
-//                mRelativeLayout.addView(button);
-//            }
-//        }, 3000);
     }
 
 
