@@ -53,14 +53,14 @@ public abstract class ACVListModel extends EpoxyModelWithHolder<ACVListModel.VLi
             ButterKnife.bind(this, itemView);
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()
-                    , LinearLayoutManager.HORIZONTAL, false));
+                    , LinearLayoutManager.VERTICAL, false));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
                 @Override
                 public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                     DisplayMetrics metrics = Injection.provideContext().getResources().getDisplayMetrics();
-                    int size2 = (int) TypedValue.applyDimension(COMPLEX_UNIT_DIP, 12f, metrics);
-                    outRect.set(size2, 0, size2, 0);
+                    int size2 = (int) TypedValue.applyDimension(COMPLEX_UNIT_DIP, 14f, metrics);
+                    outRect.set(size2, size2 / 2, size2, size2 / 2);
                 }
             });
         }

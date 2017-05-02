@@ -89,15 +89,25 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tablayout"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="-35dp"
-        android:background="#cc333333" />
+        app:cardCornerRadius="0dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|start">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabGravity="center"
+            app:tabMode="scrollable"
+            app:tabTextColor="@color/black" />
+    </android.support.v7.widget.CardView>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

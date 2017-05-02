@@ -1,6 +1,5 @@
 package com.lxy.pink.ui.video.models;
 
-import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +10,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACRecommend;
+import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
 import com.lxy.pink.ui.video.VideoFragmentAdapter;
 import com.lxy.pink.utils.FrescoUtils;
 
@@ -25,18 +25,26 @@ public abstract class ACBananaVideoModel extends EpoxyModelWithHolder<ACBananaVi
     @EpoxyAttribute
     ACRecommend.DataBean.ContentsBean contentBean;
     @EpoxyAttribute
+    ACVideoSearchLike.DataEntity.PageEntity.ListEntity searchEntry;
+    @EpoxyAttribute
     VideoFragmentAdapter.ACItemClickListener<ACRecommend.DataBean.ContentsBean> acItemClickListener;
 
     @Override
     public void bind(ACBananaVideoViewHolder viewHolder) {
-        viewHolder.setData(contentBean);
-        if (acItemClickListener != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    acItemClickListener.onItemClicked(v, contentBean);
-                }
-            });
+        if (contentBean != null) {
+            viewHolder.setData(contentBean);
+            if (acItemClickListener != null) {
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        acItemClickListener.onItemClicked(v, contentBean);
+                    }
+                });
+            }
+        } else if (searchEntry != null) {
+            viewHolder.setData(searchEntry);
+        } else {
+
         }
     }
 
@@ -70,6 +78,14 @@ public abstract class ACBananaVideoModel extends EpoxyModelWithHolder<ACBananaVi
             upName.setText(String.valueOf(contentBean.getOwner().getName()));
             videoBanana.setText(String.valueOf(contentBean.getVisit().getGoldBanana()));
             mViewCount.setText(String.valueOf(contentBean.getVisit().getViews()));
+        }
+
+        public void setData(ACVideoSearchLike.DataEntity.PageEntity.ListEntity searchEntry) {
+            FrescoUtils.setImage(searchEntry.getTitleImg(), videoCover);
+            videoTitle.setText(String.valueOf(searchEntry.getTitle()));
+            upName.setText(String.valueOf(searchEntry.getUsername()));
+            videoBanana.setText(String.valueOf(searchEntry.getComments()));
+            mViewCount.setText(String.valueOf(searchEntry.getViews()));
         }
     }
 }

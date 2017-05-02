@@ -36,7 +36,9 @@ public class ACVideoUserRefAdapter extends EpoxyAdapter {
             ACVLiteModel m = new ACVLiteModel_()
                     .contentId(e.getContentId())
                     .coverUrl(e.getCover())
-                    .name(e.getTitle());
+                    .name(e.getTitle())
+                    .play_count(String.valueOf(e.getViews()))
+                    .danmu_count(String.valueOf(e.getComments()));
             addModel(m);
         }
     }

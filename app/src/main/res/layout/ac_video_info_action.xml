@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="7dp"
+    android:layout_height="wrap_content"
     android:paddingEnd="14dp"
-    android:paddingStart="14dp"
-    android:paddingTop="7dp">
+    android:paddingStart="14dp">
 
     <LinearLayout
         android:id="@+id/layout_share"
@@ -14,12 +13,17 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp">
 
-        <android.support.v7.widget.AppCompatImageButton
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="45dp"
-            android:layout_height="45dp" />
+            android:layout_height="45dp"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_share_black_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,10 +40,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp">
 
-        <android.support.v7.widget.AppCompatImageButton
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="45dp"
             android:layout_height="45dp" />
 
@@ -58,10 +65,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp">
 
-        <android.support.v7.widget.AppCompatImageButton
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="45dp"
             android:layout_height="45dp" />
 
@@ -69,9 +79,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8.7dp"
+            android:text="@string/mark"
             android:textColor="@color/black"
-            android:textSize="11.3sp"
-            tools:text="@string/mark" />
+            android:textSize="11.3sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,20 +90,25 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp">
 
-        <android.support.v7.widget.AppCompatImageButton
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="45dp"
-            android:layout_height="45dp" />
+            android:layout_height="45dp"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_file_download_black_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8.7dp"
+            android:text="@string/cache"
             android:textColor="@color/black"
-            android:textSize="11.3sp"
-            tools:text="@string/cache" />
+            android:textSize="11.3sp" />
     </LinearLayout>
 
 </LinearLayout>

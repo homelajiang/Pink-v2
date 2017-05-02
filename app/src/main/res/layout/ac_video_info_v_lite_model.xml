@@ -3,12 +3,13 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="160dp"
-    android:layout_height="150dp">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
         android:orientation="vertical">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -23,28 +24,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="2"
-            tools:text="TextView" />
+            android:paddingEnd="8.5dp"
+            android:paddingStart="8.5dp"
+            android:paddingTop="7dp"
+            android:textColor="@color/black"
+            android:textSize="13.3sp"
+            tools:text="TextViewgsgfdsgfdsgfdsgfdsgfsdgfds" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:paddingBottom="7dp"
+            android:paddingEnd="8.5dp"
+            android:paddingStart="8.5dp">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
                 <TextView
                     android:id="@+id/view_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="3dp"
+                    android:drawableStart="@drawable/ic_play_gray_13dp"
                     android:lines="1"
-                    android:text="100" />
+                    android:textColor="@color/warm_grey"
+                    android:textSize="10.7sp"
+                    tools:text="100" />
             </LinearLayout>
 
             <LinearLayout
@@ -52,16 +62,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
                 <TextView
                     android:id="@+id/danmu_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="3dp"
+                    android:drawableStart="@drawable/ic_danmu_gray_13dp"
                     android:lines="1"
-                    android:text="100" />
+                    android:textColor="@color/warm_grey"
+                    android:textSize="10.7sp"
+                    tools:text="100" />
             </LinearLayout>
 
 

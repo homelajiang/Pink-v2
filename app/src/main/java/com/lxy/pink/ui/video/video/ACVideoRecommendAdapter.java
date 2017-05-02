@@ -2,6 +2,8 @@ package com.lxy.pink.ui.video.video;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
+import com.lxy.pink.ui.video.models.ACBananaVideoModel;
+import com.lxy.pink.ui.video.models.ACBananaVideoModel_;
 import com.lxy.pink.ui.video.models.ACLoadingModel;
 import com.lxy.pink.ui.video.models.ACLoadingModel_;
 import com.lxy.pink.ui.video.models.ACVLiteModel;
@@ -24,11 +26,9 @@ public class ACVideoRecommendAdapter extends EpoxyAdapter {
         if (recommendList.size() == 0)
             return;
         for (ACVideoSearchLike.DataEntity.PageEntity.ListEntity entity : recommendList) {
-            ACVLiteModel liteModel = new ACVLiteModel_()
-                    .contentId(Integer.parseInt(entity.getContentId().replace("ac", "")))
-                    .coverUrl(entity.getTitleImg())
-                    .name(entity.getTitle());
-            addModel(liteModel);
+            ACBananaVideoModel videoModel = new ACBananaVideoModel_()
+                    .searchEntry(entity);
+            addModel(videoModel);
         }
     }
 }

@@ -25,11 +25,17 @@ public abstract class ACVLiteModel extends EpoxyModelWithHolder<ACVLiteModel.ACV
     String name;
     @EpoxyAttribute
     int contentId;
+    @EpoxyAttribute
+    String danmu_count;
+    @EpoxyAttribute
+    String play_count;
 
     @Override
     public void bind(ACVLiteViewHolder holder) {
         holder.mVideoTitle.setText(String.valueOf(name));
         holder.mVideoCover.setImageURI(coverUrl);
+        holder.mVideoCount.setText(play_count);
+        holder.mDanmuCount.setText(danmu_count);
     }
 
     static class ACVLiteViewHolder extends EpoxyHolder {

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,10 +28,10 @@ import butterknife.ButterKnife;
 
 public class ACVideoActivity extends BaseActivity {
     private static final String CONTENT_ID = "contentId";
-//    @BindView(R.id.video_cover)
-//    SimpleDraweeView videoCover;
-//    @BindView(R.id.video_danmu)
-//    FrameLayout videoDanmu;
+    @BindView(R.id.video_cover)
+    SimpleDraweeView videoCover;
+    @BindView(R.id.video_danmu)
+    FrameLayout videoDanmu;
     @BindView(R.id.play_button)
     ButtonBarLayout playButton;
     @BindView(R.id.toolbar)
@@ -43,7 +44,10 @@ public class ACVideoActivity extends BaseActivity {
     FloatingActionButton fab;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.tablayout)
+    TabLayout mTablayout;
     private ACVideoAdapter adapter;
+    private TabLayout.Tab commentTab;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,11 +68,14 @@ public class ACVideoActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        adapter = new ACVideoAdapter(this,3529332);
+        adapter = new ACVideoAdapter(this, 3529332);
         LinearLayoutManager linearLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+        mTablayout.addTab(mTablayout.newTab().setText(R.string.brief));
+        commentTab = mTablayout.newTab().setText(R.string.comment);
+        mTablayout.addTab(commentTab);
     }
 
     @Override
