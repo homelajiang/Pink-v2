@@ -55,8 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@drawable/selector_follow"
+        android:textColor="@drawable/selector_follow_text"
         android:button="@null"
-        android:textColor="@color/watermelon"
         android:textSize="13.3sp"
+        android:checked="true"
+        android:enabled="false"
         tools:text="+关注" />
 </LinearLayout>

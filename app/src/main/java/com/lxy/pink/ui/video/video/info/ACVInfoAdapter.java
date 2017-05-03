@@ -1,7 +1,11 @@
 package com.lxy.pink.ui.video.video.info;
 
+import android.content.Context;
+
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACActionFollow;
+import com.lxy.pink.data.model.acfun.ACAuth;
 import com.lxy.pink.data.model.acfun.ACBananaCheck;
 import com.lxy.pink.data.model.acfun.ACBananaInfo;
 import com.lxy.pink.data.model.acfun.ACBananaPostRes;
@@ -10,8 +14,13 @@ import com.lxy.pink.data.model.acfun.ACUserContribute;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.data.model.acfun.ACVideoMark;
 import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
+import com.lxy.pink.data.source.PreferenceManager;
+import com.lxy.pink.ui.video.models.ACLoadingModel;
+import com.lxy.pink.ui.video.models.ACLoadingModel_;
 import com.lxy.pink.ui.video.models.ACVActionModel;
 import com.lxy.pink.ui.video.models.ACVActionModel_;
+import com.lxy.pink.ui.video.models.ACVFlowModel;
+import com.lxy.pink.ui.video.models.ACVFlowModel_;
 import com.lxy.pink.ui.video.models.ACVHeaderModel;
 import com.lxy.pink.ui.video.models.ACVHeaderModel_;
 import com.lxy.pink.ui.video.models.ACVInfoModel;
@@ -27,10 +36,19 @@ import java.util.ArrayList;
  */
 
 public class ACVInfoAdapter extends EpoxyAdapter implements ACVInfoContract.View {
+    private final ACLoadingModel_ loadingModel;
+    private final Context context;
     private ACVInfoContract.Presenter presenter;
     private ACVUserHModel_ acvUserHModel;
     private ACVUserListModel_ upListModel;
     private ACVListModel_ recommendListModel;
+
+    public ACVInfoAdapter(Context context) {
+        this.context = context;
+        loadingModel = new ACLoadingModel_();
+        addModel(loadingModel);
+    }
+
 
     @Override
     public void setPresenter(ACVInfoContract.Presenter presenter) {
@@ -38,6 +56,10 @@ public class ACVInfoAdapter extends EpoxyAdapter implements ACVInfoContract.View
     }
 
     public void linkStart(ACVideoInfo.DataBean videoInfo) {
+        removeModel(loadingModel);
+        if (videoInfo == null)
+            return;
+        new ACVInfoPresenter(context, this, videoInfo.getContentId()).subscribe();
         ACVInfoModel acvInfoModel = new ACVInfoModel_()
                 .videoInfo(videoInfo.getDescription())
                 .title(videoInfo.getTitle())
@@ -51,24 +73,33 @@ public class ACVInfoAdapter extends EpoxyAdapter implements ACVInfoContract.View
 
         ACVActionModel acvActionModel = new ACVActionModel_();
         ACVHeaderModel tagsModel = new ACVHeaderModel_()
-                .title("标签相关");
+                .title(context.getString(R.string.refTags));
         upListModel = new ACVUserListModel_()
                 .avatar(videoInfo.getOwner().getAvatar())
                 .userId(videoInfo.getOwner().getId())
                 .name(videoInfo.getOwner().getName());
         ACVHeaderModel recommendTitle = new ACVHeaderModel_()
-                .title("相关推荐");
+                .title(context.getString(R.string.refRecommond));
         recommendListModel = new ACVListModel_();
-
+        ACVFlowModel acvFlowModel = new ACVFlowModel_()
+                .titles(videoInfo.getTags());
         addModels(
                 acvInfoModel,
                 acvUserHModel,
                 acvActionModel,
                 tagsModel,
+                acvFlowModel,
                 upListModel,
                 recommendTitle,
                 recommendListModel
         );
+        presenter.getVideoRecommend("ac" + videoInfo.getContentId());
+        presenter.getUserContributeVideo(videoInfo.getOwner().getId());
+        ACAuth acAuth = PreferenceManager.getAcAuth(context);
+        if (acAuth != null) {
+            presenter.checkMark(videoInfo.getContentId(), videoInfo.getOwner().getId(), acAuth.getAccess_token());
+            presenter.checkFollow(videoInfo.getOwner().getId(), acAuth.getAccess_token());
+        }
     }
 
     @Override
@@ -83,13 +114,10 @@ public class ACVInfoAdapter extends EpoxyAdapter implements ACVInfoContract.View
 
     @Override
     public void checkFollowFail(Throwable e) {
-        acvUserHModel.followed(0);
-        notifyModelChanged(acvUserHModel);
     }
 
     @Override
     public void followSuccess(ACActionFollow acActionFollow) {
-
     }
 
     @Override

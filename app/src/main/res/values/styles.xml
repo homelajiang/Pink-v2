@@ -110,6 +110,11 @@
         <attr name="hexagon_color" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="FlowLayout">
+        <attr name="horizontal_spacing" format="dimension" />
+        <attr name="vertical_spacing" format="dimension" />
+    </declare-styleable>
+
     <style name="BannerDefaultStyle">
         <item name="android:layout_marginTop">10dp</item>
         <!-- 自定义属性在styles.xml中不需要命名空间,直接用属性名就可以了 -->

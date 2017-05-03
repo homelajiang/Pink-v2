@@ -54,14 +54,11 @@ public class ACVideoPresenter implements ACVideoContract.Presenter {
                         .subscribe(new Subscriber<ACVideoInfo>() {
                             @Override
                             public void onCompleted() {
-
                             }
-
                             @Override
                             public void onError(Throwable e) {
                                 view.getVideoInfoFail(e);
                             }
-
                             @Override
                             public void onNext(ACVideoInfo acVideoInfo) {
                                 view.getVideoInfoSuccess(acVideoInfo);

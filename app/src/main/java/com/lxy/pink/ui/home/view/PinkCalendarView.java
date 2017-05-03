@@ -14,8 +14,7 @@ import com.lxy.pink.core.PinkService;
 import com.lxy.pink.core.PinkServiceContract;
 import com.lxy.pink.data.model.todo.Todo;
 import com.lxy.pink.data.model.todo.TodoList;
-import com.lxy.pink.ui.home.TodoAdapter;
-import com.lxy.pink.ui.widget.ExListView;
+import com.lxy.pink.widget.ExListView;
 import com.lxy.pink.utils.TimeUtils;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.widget;
+package com.lxy.pink.widget;
 
 import android.content.Context;
 import android.view.View;

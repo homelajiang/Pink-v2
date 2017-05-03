@@ -3,11 +3,10 @@ package com.lxy.pink.utils;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.lxy.pink.R;
-import com.lxy.pink.ui.widget.CharacterDrawable;
+import com.lxy.pink.widget.CharacterDrawable;
 
 /**
  * Created by homelajiang on 2016/10/8 0008.

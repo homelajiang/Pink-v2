@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyHolder;
@@ -30,7 +31,7 @@ import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 /**
  * Created by homelajiang on 2017/2/28 0028.
  */
-@EpoxyModelClass(layout = R.layout.ac_video_info_recyclerview)
+@EpoxyModelClass(layout = R.layout.recyclerview)
 public abstract class ACVListModel extends EpoxyModelWithHolder<ACVListModel.VLiteRecyclerViewHolder> {
 
     @EpoxyAttribute
@@ -51,6 +52,9 @@ public abstract class ACVListModel extends EpoxyModelWithHolder<ACVListModel.VLi
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
+            ViewGroup.LayoutParams lp = recyclerView.getLayoutParams();
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()
                     , LinearLayoutManager.VERTICAL, false));

@@ -77,6 +77,7 @@ public class ACVideoInfo {
         private int parentChannelId;
         private long releaseDate;
         private int status;
+        private String[] tags;
         private String title;
         private int topLevel;
         private long updatedAt;
@@ -85,6 +86,13 @@ public class ACVideoInfo {
         private VisitBean visit;
         private List<VideosBean> videos;
 
+        public String[] getTags() {
+            return tags;
+        }
+
+        public void setTags(String[] tags) {
+            this.tags = tags;
+        }
         public int getChannelId() {
             return channelId;
         }

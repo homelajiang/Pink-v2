@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.widget.OWloading;
+package com.lxy.pink.widget.OWloading;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

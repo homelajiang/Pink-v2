@@ -173,4 +173,6 @@
     <string name="cache">缓存</string>
     <string name="brief">简介</string>
     <string name="comment">评论</string>
+    <string name="refTags">标签相关</string>
+    <string name="refRecommond">相关推荐</string>
 </resources>

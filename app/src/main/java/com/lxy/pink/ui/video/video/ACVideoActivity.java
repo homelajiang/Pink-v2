@@ -7,17 +7,22 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.ButtonBarLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.ui.base.BaseActivity;
+import com.lxy.pink.ui.base.BaseFragment;
+import com.lxy.pink.ui.video.video.comment.ACVideoCommentFragment;
+import com.lxy.pink.ui.video.video.info.ACVideoInfoFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by homelajiang on 2017/2/28 0028.
  */
 
-public class ACVideoActivity extends BaseActivity {
+public class ACVideoActivity extends BaseActivity implements ACVideoContract.View {
     private static final String CONTENT_ID = "contentId";
     @BindView(R.id.video_cover)
     SimpleDraweeView videoCover;
@@ -42,12 +47,14 @@ public class ACVideoActivity extends BaseActivity {
     AppBarLayout appBar;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
     @BindView(R.id.tablayout)
     TabLayout mTablayout;
+    @BindView(R.id.viewpage)
+    ViewPager mViewpage;
     private ACVideoAdapter adapter;
     private TabLayout.Tab commentTab;
+    private BaseFragment[] fragments;
+    private ACVideoContract.Presenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,14 +75,14 @@ public class ACVideoActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        adapter = new ACVideoAdapter(this, 3529332);
-        LinearLayoutManager linearLayoutManager =
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        mTablayout.addTab(mTablayout.newTab().setText(R.string.brief));
-        commentTab = mTablayout.newTab().setText(R.string.comment);
-        mTablayout.addTab(commentTab);
+        fragments = new BaseFragment[2];
+        fragments[0] = new ACVideoInfoFragment();
+        fragments[1] = new ACVideoCommentFragment();
+        String[] titles = getResources().getStringArray(R.array.video_info);
+        ACVideoPageAdapter adapter = new ACVideoPageAdapter(getSupportFragmentManager(), titles, fragments);
+        mViewpage.setAdapter(adapter);
+        mTablayout.setupWithViewPager(mViewpage);
+        new ACVideoPresenter(this, this, 3529332).subscribe();
     }
 
     @Override
@@ -90,5 +97,39 @@ public class ACVideoActivity extends BaseActivity {
     protected void onDestroy() {
         adapter.onDestroy();
         super.onDestroy();
+    }
+
+    @Override
+    public void setPresenter(ACVideoContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void getVideoInfoSuccess(ACVideoInfo info) {
+        if (info.getCode() != 200) {
+            String msg = TextUtils.isEmpty(info.getMessage()) ? getString(R.string.pink_error_indescribable) : info.getMessage();
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            ((ACVideoInfoFragment) fragments[0]).loadInfo(null);
+            ((ACVideoCommentFragment) fragments[0]).loadInfo(null);
+            return;
+        }
+        ((ACVideoInfoFragment) fragments[0]).loadInfo(info.getData());
+        ((ACVideoCommentFragment) fragments[0]).loadInfo(info.getData());
+
+    }
+
+    @Override
+    public void getVideoInfoFail(Throwable e) {
+
+    }
+
+    @Override
+    public void getDanmukuSuccess(String danmuku) {
+
+    }
+
+    @Override
+    public void getDanmukuFail(Throwable e) {
+
     }
 }

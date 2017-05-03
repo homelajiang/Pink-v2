@@ -97,7 +97,7 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.recyclerview_homefragment, container, false);
+        View root = inflater.inflate(R.layout.recyclerview, container, false);
         ButterKnife.bind(this, root);
         initView();
         initData();

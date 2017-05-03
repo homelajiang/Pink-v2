@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.widget;
+package com.lxy.pink.widget;
 
 class Random {
     private static final java.util.Random RANDOM = new java.util.Random();

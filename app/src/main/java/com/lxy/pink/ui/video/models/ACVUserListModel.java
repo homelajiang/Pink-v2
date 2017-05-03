@@ -32,7 +32,7 @@ import static android.util.TypedValue.COMPLEX_UNIT_DIP;
  * Created by homelajiang on 2017/3/9 0009.
  */
 
-@EpoxyModelClass(layout = R.layout.ac_video_info_recyclerview_bg_model)
+@EpoxyModelClass(layout = R.layout.recyclerview_with_bg)
 public abstract class ACVUserListModel extends EpoxyModelWithHolder<ACVUserListModel.UserRecyclerViewHolder> {
     @EpoxyAttribute
     String avatar;
