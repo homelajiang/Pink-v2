@@ -110,11 +110,11 @@ public class ACVideoActivity extends BaseActivity implements ACVideoContract.Vie
             String msg = TextUtils.isEmpty(info.getMessage()) ? getString(R.string.pink_error_indescribable) : info.getMessage();
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             ((ACVideoInfoFragment) fragments[0]).loadInfo(null);
-            ((ACVideoCommentFragment) fragments[0]).loadInfo(null);
+            ((ACVideoCommentFragment) fragments[1]).loadInfo(null);
             return;
         }
         ((ACVideoInfoFragment) fragments[0]).loadInfo(info.getData());
-        ((ACVideoCommentFragment) fragments[0]).loadInfo(info.getData());
+        ((ACVideoCommentFragment) fragments[1]).loadInfo(info.getData());
 
     }
 

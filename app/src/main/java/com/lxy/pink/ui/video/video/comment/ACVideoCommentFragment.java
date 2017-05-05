@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACVideoCommentData;
@@ -30,6 +31,7 @@ public class ACVideoCommentFragment extends BaseFragment implements ACVCommentCo
     RecyclerView mRecyclerView;
     private Unbinder unbinder;
     private ACVCommentAdapter adapter;
+    private ACVCommentContract.Presenter presenter;
 
     @Nullable
     @Override
@@ -44,7 +46,8 @@ public class ACVideoCommentFragment extends BaseFragment implements ACVCommentCo
         return view;
     }
 
-    public void loadInfo(ACVideoInfo.DataBean videoInfo){
+    public void loadInfo(ACVideoInfo.DataBean videoInfo) {
+        new ACVCommentPresenter(getContext(), this, videoInfo.getContentId()).subscribe();
     }
 
     @Override
@@ -55,12 +58,13 @@ public class ACVideoCommentFragment extends BaseFragment implements ACVCommentCo
 
     @Override
     public void setPresenter(ACVCommentContract.Presenter presenter) {
-
+        this.presenter = presenter;
     }
 
     @Override
     public void getVideoCommentSuccess(ACVideoCommentData acVideoCommentData) {
-
+        adapter.addData(acVideoCommentData.getData().getPage().getList(),
+                acVideoCommentData.getData().getPage().getMap());
     }
 
     @Override

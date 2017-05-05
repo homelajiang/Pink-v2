@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
@@ -20,6 +21,8 @@ import butterknife.ButterKnife;
 
 @EpoxyModelClass(layout = R.layout.ac_loading_model)
 public abstract class ACLoadingModel extends EpoxyModelWithHolder<ACLoadingModel.ACLoadingViewHolder> {
+//    @EpoxyAttribute
+//    int paddTopButtom;
 
     @Override
     public void bind(ACLoadingViewHolder view) {
@@ -36,8 +39,8 @@ public abstract class ACLoadingModel extends EpoxyModelWithHolder<ACLoadingModel
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
-            mLoadingLayout.getLayoutParams().height =
-                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, itemView.getContext().getResources().getDisplayMetrics());
+            int top = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, itemView.getContext().getResources().getDisplayMetrics());
+            mLoadingLayout.setPadding(0, top, 0, top);
         }
     }
 

@@ -15,6 +15,7 @@ import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.model.acfun.ACUserContribute;
 import com.lxy.pink.data.model.acfun.ACVideoComment;
+import com.lxy.pink.data.model.acfun.ACVideoCommentData;
 import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.data.model.acfun.ACVideoMark;
@@ -139,7 +140,7 @@ public interface AppContract {
 
     Observable<String> getDanmuku(int danmukuId);
 
-    Observable<ACVideoComment> getVideoComment(int contentId, int pageNo);
+    Observable<ACVideoCommentData> getVideoComment(int contentId, int pageNo);
 
     Observable<ACVideoCommentRes> sendComment(String text, int quoteId, int contentId, String accessToken, int userId, String captcha);
 

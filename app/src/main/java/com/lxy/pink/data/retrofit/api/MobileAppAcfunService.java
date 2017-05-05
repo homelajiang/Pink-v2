@@ -8,6 +8,7 @@ import com.lxy.pink.data.model.acfun.ACBananaPostRes;
 import com.lxy.pink.data.model.acfun.ACCheckFollow;
 import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACVideoComment;
+import com.lxy.pink.data.model.acfun.ACVideoCommentData;
 import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoMark;
 
@@ -114,7 +115,7 @@ public interface MobileAppAcfunService {
     //获取评论信息
     //http://mobile.app.acfun.cn/comment/content/list?version=4&contentId=3506658&pageSize=50&pageNo=1
     @GET("comment/content/list")
-    Observable<ACVideoComment> getVideoComment(
+    Observable<ACVideoCommentData> getVideoComment(
             @Query("version") int version,
             @Query("contentId") int contentId,
             @Query("pageSize") int pageSize,

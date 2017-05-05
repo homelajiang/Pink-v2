@@ -22,6 +22,7 @@ import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.model.acfun.ACUserContribute;
 import com.lxy.pink.data.model.acfun.ACVideoComment;
+import com.lxy.pink.data.model.acfun.ACVideoCommentData;
 import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.data.model.acfun.ACVideoMark;
@@ -357,7 +358,7 @@ public class AppDataSource implements AppContract {
     }
 
     @Override
-    public Observable<ACVideoComment> getVideoComment(int contentId, int pageNo) {
+    public Observable<ACVideoCommentData> getVideoComment(int contentId, int pageNo) {
         return RetrofitAPI.getInstance()
                 .getMobileAppAcfunService()
                 .getVideoComment(4, contentId, 50, pageNo);
