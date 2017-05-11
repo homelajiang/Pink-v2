@@ -35,6 +35,8 @@
     <color name="watermelon">#fd4c5b</color>
     <color name="background">#EAEAEA</color>
     <color name="foreground">#FAFAFA</color>
+    <color name="quote_border">#ffe5e5e5</color>
+    <color name="quote_bg">#fffffdf0</color>
 
 
 </resources>

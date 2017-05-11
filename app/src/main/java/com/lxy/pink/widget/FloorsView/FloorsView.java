@@ -3,6 +3,7 @@ package com.lxy.pink.widget.FloorsView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.acfun.ACVideoComment;
 
 import java.util.List;
 
@@ -21,7 +23,11 @@ import java.util.List;
 
 public class FloorsView extends LinearLayout {
 
+    private final int mLineSize;
+    private final Paint mPaint;
     private int mMaxNum = 10;
+    private Drawable drawable;
+    private List<ACVideoComment> datas;
 
     public FloorsView(Context context) {
         this(context, null);
@@ -30,21 +36,38 @@ public class FloorsView extends LinearLayout {
     public FloorsView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setOrientation(VERTICAL);
-        setBackgroundColor(Color.parseColor("#FFFEEE"));
+//        setBackgroundColor(Color.parseColor("#FFFEEE"));
+        drawable = ContextCompat.getDrawable(context, R.drawable.floors_bound);
+        this.mLineSize = (int) TypedValue.applyDimension(1, 0.5f, context.getResources().getDisplayMetrics());
+        this.mPaint = new Paint(1);
+        this.mPaint.setColor(context.getResources().getColor(R.color.quote_border));
+        this.mPaint.setStyle(Paint.Style.FILL);
+
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (getChildCount() <= 0) {
+            setMeasuredDimension(0, 0);
+        } else {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        if (!isPressed()) {
-            final int i = getChildCount();
-            Drawable mBorder = ContextCompat.getDrawable(getContext(), R.drawable.floors_border);
-            for (int j = 0; j < i; j++) {
-                View child = getChildAt(j);
-                mBorder.setBounds(child.getLeft(), child.getLeft(), child.getRight(), child.getBottom());
-                mBorder.draw(canvas);
+        int childCount = getChildCount();
+        if (this.drawable != null && childCount > 0) {
+            for (int i = childCount - 1; i >= 0; i--) {
+                View child = getChildAt(i);
+                if (i > childCount - 6) {
+                    this.drawable.setBounds(child.getLeft(), child.getLeft(), child.getRight(), child.getBottom());
+                    this.drawable.draw(canvas);
+                } else {
+                    canvas.drawRect((float) child.getLeft(), (float) child.getBottom(), (float) child.getRight(), (float) (child.getBottom() + this.mLineSize), this.mPaint);
+                }
             }
         }
-
         super.dispatchDraw(canvas);
     }
 

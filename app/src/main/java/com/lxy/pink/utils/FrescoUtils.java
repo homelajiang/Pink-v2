@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.lxy.pink.BuildConfig;
+import com.lxy.pink.R;
 
 /**
  * Created by homelajiang on 2016/12/22 0022.
@@ -21,6 +23,8 @@ public class FrescoUtils {
                     .setAutoPlayAnimations(true)
                     .build();
             simpleDraweeView.setController(controller);
+        } else if (TextUtils.isEmpty(imgUrl)) {
+            simpleDraweeView.setImageURI(Uri.parse("res://com.lxy.pink/"+R.drawable.ac_head_default));
         } else {
             simpleDraweeView.setImageURI(Uri.parse(imgUrl));
         }

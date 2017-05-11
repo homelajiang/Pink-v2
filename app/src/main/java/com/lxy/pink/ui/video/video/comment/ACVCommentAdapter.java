@@ -1,5 +1,7 @@
 package com.lxy.pink.ui.video.video.comment;
 
+import android.util.Log;
+
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.lxy.pink.data.model.acfun.ACVideoComment;
 import com.lxy.pink.ui.video.models.ACCommentModel;
@@ -39,12 +41,21 @@ public class ACVCommentAdapter extends EpoxyAdapter {
 
             for (ACVideoComment comment; quoteId > 0; quoteId = comment.getQuoteId()) {
                 comment = CommentMap.get("c" + quoteId);
-                comments.add(comment);
+                comments.add(CommentMap.get("c" + quoteId));
+                if(!comment.isRepeated()){
+                    comment.setRepeated(true);
+                }
             }
             ACCommentModel commentModel = new ACCommentModel_()
                     .acVideoComment(lastComment)
                     .commentList(comments);
             addModel(commentModel);
+
+            String log = "";
+            for (ACVideoComment comment : comments) {
+              log =  comment.getFloor()+String.valueOf(comment.isRepeated())+"-"+log;
+            }
+            Log.d("comments", log+lastComment.getFloor()+String.valueOf(lastComment.isRepeated()));
         }
     }
 
