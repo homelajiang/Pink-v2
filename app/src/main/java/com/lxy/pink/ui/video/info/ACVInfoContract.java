@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.video.video.info;
+package com.lxy.pink.ui.video.info;
 
 import com.lxy.pink.data.model.acfun.ACActionFollow;
 import com.lxy.pink.data.model.acfun.ACBananaCheck;

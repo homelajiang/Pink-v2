@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.video.video.info;
+package com.lxy.pink.ui.video.comment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lxy.pink.R;
+import com.lxy.pink.data.model.acfun.ACVideoCommentData;
+import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.ui.base.BaseFragment;
 
@@ -21,12 +23,13 @@ import butterknife.Unbinder;
  * Created by homelajiang on 2017/5/2 0002.
  */
 
-public class ACVideoInfoFragment extends BaseFragment {
+public class ACCommentFragment extends BaseFragment implements ACCommentContract.View {
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private Unbinder unbinder;
-    private ACVInfoAdapter adapter;
+    private ACCommentAdapter adapter;
+    private ACCommentContract.Presenter presenter;
 
     @Nullable
     @Override
@@ -36,18 +39,44 @@ public class ACVideoInfoFragment extends BaseFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(layoutManager);
-        adapter = new ACVInfoAdapter(getContext());
+        adapter = new ACCommentAdapter(getContext());
         mRecyclerView.setAdapter(adapter);
         return view;
     }
 
     public void loadInfo(ACVideoInfo.DataBean videoInfo) {
-        adapter.linkStart(videoInfo);
+        new ACCommentPresenter(getContext(), this, videoInfo.getContentId()).subscribe();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void setPresenter(ACCommentContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void getVideoCommentSuccess(ACVideoCommentData acVideoCommentData) {
+        adapter.addData(acVideoCommentData.getData().getPage().getList(),
+                acVideoCommentData.getData().getPage().getMap());
+    }
+
+    @Override
+    public void getVideoCommentFail(Throwable e) {
+
+    }
+
+    @Override
+    public void sendCommentSuccess(ACVideoCommentRes res) {
+
+    }
+
+    @Override
+    public void sendCommentFail(Throwable e) {
+
     }
 }

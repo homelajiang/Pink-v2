@@ -1,8 +1,7 @@
-package com.lxy.pink.ui.video.video.comment;
+package com.lxy.pink.ui.video.comment;
 
 import android.content.Context;
 
-import com.lxy.pink.data.model.acfun.ACVideoComment;
 import com.lxy.pink.data.model.acfun.ACVideoCommentData;
 import com.lxy.pink.data.source.AppRepository;
 
@@ -15,16 +14,16 @@ import rx.subscriptions.CompositeSubscription;
  * Created by homelajiang on 2017/5/2 0002.
  */
 
-public class ACVCommentPresenter implements ACVCommentContract.Presenter {
+public class ACCommentPresenter implements ACCommentContract.Presenter {
 
     private final int contentId;
     private final Context context;
-    private final ACVCommentContract.View view;
+    private final ACCommentContract.View view;
     private final AppRepository respository;
     private final CompositeSubscription subscriptions;
     private int PageNo;
 
-    ACVCommentPresenter(Context context, ACVCommentContract.View view, int contentId) {
+    ACCommentPresenter(Context context, ACCommentContract.View view, int contentId) {
         this.contentId = contentId;
         this.context = context;
         this.view = view;

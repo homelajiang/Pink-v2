@@ -2,19 +2,25 @@ package com.lxy.pink.widget.FloorsView;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
-import com.lxy.pink.data.model.acfun.ACVideoComment;
+import com.lxy.pink.data.model.acfun.ACComment;
+import com.lxy.pink.utils.FrescoUtils;
+import com.lxy.pink.utils.FuzzyDateFormatter;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,9 +31,10 @@ public class FloorsView extends LinearLayout {
 
     private final int mLineSize;
     private final Paint mPaint;
+    private final int density;
     private int mMaxNum = 10;
     private Drawable drawable;
-    private List<ACVideoComment> datas;
+    private List<ACComment> datas;
 
     public FloorsView(Context context) {
         this(context, null);
@@ -37,6 +44,7 @@ public class FloorsView extends LinearLayout {
         super(context, attrs);
         setOrientation(VERTICAL);
 //        setBackgroundColor(Color.parseColor("#FFFEEE"));
+        this.density = (int) getResources().getDimension(R.dimen.quote_indentation);
         drawable = ContextCompat.getDrawable(context, R.drawable.floors_bound);
         this.mLineSize = (int) TypedValue.applyDimension(1, 0.5f, context.getResources().getDisplayMetrics());
         this.mPaint = new Paint(1);
@@ -71,25 +79,57 @@ public class FloorsView extends LinearLayout {
         super.dispatchDraw(canvas);
     }
 
-    public void setViewList(List<View> commentViewList) {
-        if (commentViewList == null || commentViewList.isEmpty()) {
-            removeAllViewsInLayout();
+    public void setQuoteList(List<ACComment> commentViewList) {
+        this.datas = commentViewList;
+        removeAllViews();
+        if (datas == null || datas.isEmpty()) {
             return;
         }
-        int space = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
-        int size = commentViewList.size();
-        int j = 0;
-        for (int i = size - 1; i >= 0; i--) {
-            LinearLayout.LayoutParams params = generateDefaultLayoutParams();
-            int k = space * i;
-            if (i > 6) {
-                k = space * 6;
-            }
-            params.leftMargin = k;
-            params.rightMargin = k;
-            params.topMargin = j == 0 ? k : 0;
-            View v = commentViewList.get(i);
-            addViewInLayout(v, j++, params);
+        for (ACComment comment : this.datas) {
+            View view = getQuoteItemView(comment);
+            view.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
+            addView(view);
         }
+        reLayoutChildren();
+    }
+
+    private void reLayoutChildren() {
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View childAt = getChildAt(i);
+            LayoutParams layoutParams = new LinearLayout
+                    .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            int min = Math.min((childCount - i) - 1, 4) * this.density;
+            layoutParams.leftMargin = min;
+            layoutParams.rightMargin = min;
+            if (i == childCount - 1) {
+                layoutParams.topMargin = 0;
+            } else {
+                layoutParams.topMargin = Math.min(childCount - i, 4) * this.density;
+            }
+            childAt.setLayoutParams(layoutParams);
+        }
+    }
+
+    private View getQuoteItemView(ACComment comment) {
+        View view = LayoutInflater.from(getContext())
+                .inflate(R.layout.ac_comment_quote, null);
+        TextView name = (TextView) view.findViewById(R.id.name);
+        SimpleDraweeView headIcon = (SimpleDraweeView) view.findViewById(R.id.simpleDraweeView);
+        TextView publishTime = (TextView) view.findViewById(R.id.publish_time);
+        TextView floor = (TextView) view.findViewById(R.id.floor);
+        TextView content = (TextView) view.findViewById(R.id.content);
+        name.setText(comment.getUsername());
+        int nameColor = comment.getNameRed() == 0 ? android.R.color.holo_red_dark : R.color.black;
+        name.setTextColor(ContextCompat.getColor(getContext(), nameColor));
+        FrescoUtils.setImage(comment.getAvatar(), headIcon);
+        content.setText(comment.getContent());
+        floor.setText(String.valueOf("#" + comment.getFloor()));
+        publishTime.setText(FuzzyDateFormatter.getTimeAgo(getContext(), new Date(comment.getTime())));
+        return view;
     }
 }

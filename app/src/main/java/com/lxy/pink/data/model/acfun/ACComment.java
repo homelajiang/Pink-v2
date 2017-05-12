@@ -4,7 +4,7 @@ package com.lxy.pink.data.model.acfun;
  * Created by homelajiang on 2017/3/1 0001.
  */
 
-public class ACVideoComment {
+public class ACComment {
 
     /**
      * id : 73366098
@@ -39,7 +39,6 @@ public class ACVideoComment {
     private int avatarFrame;
     private boolean isDelete;
     private boolean isUpDelete;
-    private boolean repeated;
 
     public int getId() {
         return id;
@@ -159,13 +158,5 @@ public class ACVideoComment {
 
     public void setIsUpDelete(boolean isUpDelete) {
         this.isUpDelete = isUpDelete;
-    }
-
-    public boolean isRepeated() {
-        return repeated;
-    }
-
-    public void setRepeated(boolean repeated) {
-        this.repeated = repeated;
     }
 }

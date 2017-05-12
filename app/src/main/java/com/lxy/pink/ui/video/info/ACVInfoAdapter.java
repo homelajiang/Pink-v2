@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.video.video.info;
+package com.lxy.pink.ui.video.info;
 
 import android.content.Context;
 
@@ -15,7 +15,6 @@ import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.data.model.acfun.ACVideoMark;
 import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
 import com.lxy.pink.data.source.PreferenceManager;
-import com.lxy.pink.ui.video.models.ACLoadingModel;
 import com.lxy.pink.ui.video.models.ACLoadingModel_;
 import com.lxy.pink.ui.video.models.ACVActionModel;
 import com.lxy.pink.ui.video.models.ACVActionModel_;

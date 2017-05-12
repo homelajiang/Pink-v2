@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.video.video.info;
+package com.lxy.pink.ui.video.info;
 
 import android.content.Context;
 

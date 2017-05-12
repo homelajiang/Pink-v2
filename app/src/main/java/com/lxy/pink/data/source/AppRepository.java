@@ -16,7 +16,6 @@ import com.lxy.pink.data.model.acfun.ACProfile;
 import com.lxy.pink.data.model.acfun.ACRecommend;
 import com.lxy.pink.data.model.acfun.ACSign;
 import com.lxy.pink.data.model.acfun.ACUserContribute;
-import com.lxy.pink.data.model.acfun.ACVideoComment;
 import com.lxy.pink.data.model.acfun.ACVideoCommentData;
 import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;

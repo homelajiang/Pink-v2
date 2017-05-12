@@ -1,4 +1,4 @@
-package com.lxy.pink.ui.video.video.comment;
+package com.lxy.pink.ui.video.info;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,14 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lxy.pink.R;
-import com.lxy.pink.data.model.acfun.ACVideoCommentData;
-import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.ui.base.BaseFragment;
-import com.lxy.pink.ui.video.video.info.ACVInfoAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,13 +21,12 @@ import butterknife.Unbinder;
  * Created by homelajiang on 2017/5/2 0002.
  */
 
-public class ACVideoCommentFragment extends BaseFragment implements ACVCommentContract.View {
+public class ACVideoInfoFragment extends BaseFragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private Unbinder unbinder;
-    private ACVCommentAdapter adapter;
-    private ACVCommentContract.Presenter presenter;
+    private ACVInfoAdapter adapter;
 
     @Nullable
     @Override
@@ -41,44 +36,18 @@ public class ACVideoCommentFragment extends BaseFragment implements ACVCommentCo
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(layoutManager);
-        adapter = new ACVCommentAdapter();
+        adapter = new ACVInfoAdapter(getContext());
         mRecyclerView.setAdapter(adapter);
         return view;
     }
 
     public void loadInfo(ACVideoInfo.DataBean videoInfo) {
-        new ACVCommentPresenter(getContext(), this, videoInfo.getContentId()).subscribe();
+        adapter.linkStart(videoInfo);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void setPresenter(ACVCommentContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
-    public void getVideoCommentSuccess(ACVideoCommentData acVideoCommentData) {
-        adapter.addData(acVideoCommentData.getData().getPage().getList(),
-                acVideoCommentData.getData().getPage().getMap());
-    }
-
-    @Override
-    public void getVideoCommentFail(Throwable e) {
-
-    }
-
-    @Override
-    public void sendCommentSuccess(ACVideoCommentRes res) {
-
-    }
-
-    @Override
-    public void sendCommentFail(Throwable e) {
-
     }
 }

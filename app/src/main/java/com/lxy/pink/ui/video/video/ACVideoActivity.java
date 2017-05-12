@@ -21,8 +21,8 @@ import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.ui.base.BaseFragment;
-import com.lxy.pink.ui.video.video.comment.ACVideoCommentFragment;
-import com.lxy.pink.ui.video.video.info.ACVideoInfoFragment;
+import com.lxy.pink.ui.video.comment.ACCommentFragment;
+import com.lxy.pink.ui.video.info.ACVideoInfoFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +77,7 @@ public class ACVideoActivity extends BaseActivity implements ACVideoContract.Vie
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragments = new BaseFragment[2];
         fragments[0] = new ACVideoInfoFragment();
-        fragments[1] = new ACVideoCommentFragment();
+        fragments[1] = new ACCommentFragment();
         String[] titles = getResources().getStringArray(R.array.video_info);
         ACVideoPageAdapter adapter = new ACVideoPageAdapter(getSupportFragmentManager(), titles, fragments);
         mViewpage.setAdapter(adapter);
@@ -110,11 +110,11 @@ public class ACVideoActivity extends BaseActivity implements ACVideoContract.Vie
             String msg = TextUtils.isEmpty(info.getMessage()) ? getString(R.string.pink_error_indescribable) : info.getMessage();
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             ((ACVideoInfoFragment) fragments[0]).loadInfo(null);
-            ((ACVideoCommentFragment) fragments[1]).loadInfo(null);
+            ((ACCommentFragment) fragments[1]).loadInfo(null);
             return;
         }
         ((ACVideoInfoFragment) fragments[0]).loadInfo(info.getData());
-        ((ACVideoCommentFragment) fragments[1]).loadInfo(info.getData());
+        ((ACCommentFragment) fragments[1]).loadInfo(info.getData());
 
     }
 

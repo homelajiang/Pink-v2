@@ -1,18 +1,14 @@
 package com.lxy.pink.data.retrofit.api;
 
 import com.lxy.pink.data.model.acfun.ACActionFollow;
-import com.lxy.pink.data.model.acfun.ACAuth;
 import com.lxy.pink.data.model.acfun.ACAuthRes;
 import com.lxy.pink.data.model.acfun.ACBananaInfo;
 import com.lxy.pink.data.model.acfun.ACBananaPostRes;
 import com.lxy.pink.data.model.acfun.ACCheckFollow;
-import com.lxy.pink.data.model.acfun.ACProfile;
-import com.lxy.pink.data.model.acfun.ACVideoComment;
 import com.lxy.pink.data.model.acfun.ACVideoCommentData;
 import com.lxy.pink.data.model.acfun.ACVideoCommentRes;
 import com.lxy.pink.data.model.acfun.ACVideoMark;
 
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;

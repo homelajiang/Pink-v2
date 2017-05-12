@@ -58,5 +58,6 @@
     <dimen name="ac_level">10sp</dimen>
     <dimen name="pink_card_radius">2dp</dimen>
     <dimen name="pink_card_elevation">2dp</dimen>
+    <dimen name="quote_indentation">3dp</dimen>
 
 </resources>

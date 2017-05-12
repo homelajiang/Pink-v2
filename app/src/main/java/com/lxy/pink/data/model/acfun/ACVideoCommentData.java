@@ -78,7 +78,7 @@ public class ACVideoCommentData {
             private int totalCount;
             private int pageSize;
             private int pageNo;
-            private Map<String, ACVideoComment> map;
+            private Map<String, ACComment> map;
             private List<Integer> list;
 
             public int getTotalCount() {
@@ -105,11 +105,11 @@ public class ACVideoCommentData {
                 this.pageNo = pageNo;
             }
 
-            public Map<String, ACVideoComment> getMap() {
+            public Map<String, ACComment> getMap() {
                 return map;
             }
 
-            public void setMap(Map<String, ACVideoComment> map) {
+            public void setMap(Map<String, ACComment> map) {
                 this.map = map;
             }
 

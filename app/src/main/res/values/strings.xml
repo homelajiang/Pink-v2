@@ -175,4 +175,6 @@
     <string name="comment">评论</string>
     <string name="refTags">标签相关</string>
     <string name="refRecommond">相关推荐</string>
+    <string name="emoji">表情</string>
+    <string name="image">图片</string>
 </resources>
