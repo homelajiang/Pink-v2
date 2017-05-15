@@ -10,18 +10,15 @@ import android.view.View;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyHolder;
-import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.Injection;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACUserContribute;
-import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
-import com.lxy.pink.ui.video.video.ACVideoUserRefAdapter;
+import com.lxy.pink.ui.video.detail.ACVideoUserRefAdapter;
 
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -7,78 +7,91 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <com.lxy.pink.widget.FloorsView.FloorsView
-        android:id="@+id/duplicate_quote_floors_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
-        android:id="@+id/duplicate_quote_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:background="@drawable/floors_bound"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/duplicate_quote_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="重复引用已隐藏"/>
+        <com.lxy.pink.widget.FloorsView.FloorsView
+            android:id="@+id/duplicate_quote_floors_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/duplicate_quote_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            tools:text="[收起]"/>
+        <LinearLayout
+            android:id="@+id/duplicate_quote_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/duplicate_quote_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_expand_less_black_24dp"/>
+            <TextView
+                android:id="@+id/duplicate_quote_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="重复引用已隐藏"/>
+
+            <TextView
+                android:id="@+id/duplicate_quote_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                tools:text="[收起]"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/duplicate_quote_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_expand_less_black_24dp"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <com.lxy.pink.widget.FloorsView.FloorsView
-        android:id="@+id/no_duplicate_quote_floors_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
-        android:id="@+id/no_duplicate_quote_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:background="@drawable/floors_bound"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/no_duplicate_quote_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="1层引用已显示"/>
+        <com.lxy.pink.widget.FloorsView.FloorsView
+            android:id="@+id/no_duplicate_quote_floors_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/no_duplicate_quote_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            tools:text="[收起]"/>
+        <LinearLayout
+            android:id="@+id/no_duplicate_quote_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/no_duplicate_quote_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="#d05"
-            app:srcCompat="@drawable/ic_expand_more_black_24dp"/>
+            <TextView
+                android:id="@+id/no_duplicate_quote_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="1层引用已显示"/>
+
+            <TextView
+                android:id="@+id/no_duplicate_quote_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                tools:text="[收起]"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/no_duplicate_quote_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="#d05"
+                app:srcCompat="@drawable/ic_expand_more_black_24dp"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="13dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="13dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/simpleDraweeView"
@@ -117,7 +130,7 @@
             android:textSize="12.7sp"
             tools:text="#112"/>
 
-        <TextView
+        <com.lxy.pink.widget.FloorsView.FrescoHtmlTextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

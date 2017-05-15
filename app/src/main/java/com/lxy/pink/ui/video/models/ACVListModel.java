@@ -5,21 +5,18 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyHolder;
-import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.Injection;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACVideoSearchLike;
-import com.lxy.pink.ui.video.video.ACVideoRecommendAdapter;
+import com.lxy.pink.ui.video.detail.ACVideoRecommendAdapter;
 
 import java.util.List;
 

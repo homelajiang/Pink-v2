@@ -411,7 +411,7 @@ public class EmojiParser {
         a.put("🌾", ":ear_of_rice:");
         a.put("🔥", ":fire:");
         a.put("🎤", ":microphone:");
-        a.put("🅰", ":a:");
+        a.put("🅰", ":onDetachedFromWindow:");
         a.put("😲", ":astonished:");
         a.put("Ⓜ", ":m:");
         a.put("💩", ":shit:");
@@ -425,7 +425,7 @@ public class EmojiParser {
         a.put("🔨", ":hammer:");
         a.put("🌻", ":sunflower:");
         a.put("🔲", ":black_square_button:");
-        a.put("🅱", ":b:");
+        a.put("🅱", ":eggs:");
         a.put("🔇", ":mute:");
         a.put("🕙", ":clock10:");
         a.put("®", ":registered:");
@@ -1076,7 +1076,7 @@ public class EmojiParser {
         b.put(":heavy_check_mark:", "✔");
         b.put(":innocent:", "😇");
         b.put(":heavy_minus_sign:", "➖");
-        b.put(":a:", "🅰");
+        b.put(":onDetachedFromWindow:", "🅰");
         b.put(":thumbsdown:", "👎");
         b.put(":musical_keyboard:", "🎹");
         b.put(":department_store:", "🏬");
@@ -1089,7 +1089,7 @@ public class EmojiParser {
         b.put(":clipboard:", "📋");
         b.put(":whale2:", "🐋");
         b.put(":helicopter:", "🚁");
-        b.put(":b:", "🅱");
+        b.put(":eggs:", "🅱");
         b.put(":bird:", "🐦");
         b.put(":card_index:", "📇");
         b.put(":city_sunset:", "🌆");

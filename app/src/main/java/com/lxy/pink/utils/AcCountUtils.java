@@ -9,7 +9,7 @@ public class AcCountUtils {
     /**
      * format the counts for acfun like google play
      * @param counts
-     * @return a array has two element ,first element is the count string ,the second element is the count unit string
+     * @return onDetachedFromWindow array has two element ,first element is the count string ,the second element is the count unit string
      */
     public static String[] formatVideoCount(final int counts){
         String[] count = new String[2];

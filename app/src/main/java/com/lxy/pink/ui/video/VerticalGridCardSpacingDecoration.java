@@ -16,7 +16,7 @@ import com.lxy.pink.BuildConfig;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 
 /**
- * Modifies item spacing in a recycler view so that items are equally spaced no matter where they
+ * Modifies item spacing in onDetachedFromWindow recycler view so that items are equally spaced no matter where they
  * are on the grid.
  */
 public class VerticalGridCardSpacingDecoration extends ItemDecoration {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingEnd="14dp"
-    android:paddingStart="14dp">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingBottom="2dp"
+              android:paddingTop="20dp">
 
     <LinearLayout
         android:id="@+id/layout_share"
@@ -20,10 +20,10 @@
         android:paddingTop="7dp">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:padding="10dp"
-            app:srcCompat="@drawable/ic_share_black_24dp" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_share_24dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
             android:layout_marginTop="8.7dp"
             android:text="@string/share"
             android:textColor="@color/black"
-            android:textSize="11.3sp" />
+            android:textSize="11.3sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -47,9 +47,10 @@
         android:paddingTop="7dp">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp" android:padding="10dp"
-            app:srcCompat="@drawable/ic_event_black_24dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_banana_24dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +58,7 @@
             android:layout_marginTop="8.7dp"
             android:text="@string/feed"
             android:textColor="@color/black"
-            android:textSize="11.3sp" />
+            android:textSize="11.3sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -73,10 +74,10 @@
         android:paddingTop="7dp">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            app:srcCompat="@drawable/ic_share_black_24dp"
-            android:padding="10dp" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_mark_seletced_24dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -84,7 +85,7 @@
             android:layout_marginTop="8.7dp"
             android:text="@string/mark"
             android:textColor="@color/black"
-            android:textSize="11.3sp" />
+            android:textSize="11.3sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -100,10 +101,10 @@
         android:paddingTop="7dp">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:padding="10dp"
-            app:srcCompat="@drawable/ic_file_download_black_24dp" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_download_24dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -111,7 +112,7 @@
             android:layout_marginTop="8.7dp"
             android:text="@string/cache"
             android:textColor="@color/black"
-            android:textSize="11.3sp" />
+            android:textSize="11.3sp"/>
     </LinearLayout>
 
 </LinearLayout>

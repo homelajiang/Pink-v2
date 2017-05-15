@@ -4,9 +4,9 @@ import android.graphics.drawable.Drawable;
 
 /* compiled from: unknown */
 public interface FrescoHtmlTextViewListener {
-    void a();
+    void onDetachedFromWindow();
 
-    boolean a(Drawable drawable);
+    boolean onDetachedFromWindow(Drawable drawable);
 
     void b();
 

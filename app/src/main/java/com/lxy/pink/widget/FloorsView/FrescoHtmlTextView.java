@@ -1,15 +1,10 @@
 package com.lxy.pink.widget.FloorsView;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
-import tv.acfun.core.control.helper.LogHelper;
-
-/* compiled from: unknown */
-public class FrescoHtmlTextView extends TextView {
+public class FrescoHtmlTextView extends android.support.v7.widget.AppCompatTextView {
     private String TAG = "FrescoHtmlTextView";
     private FrescoHtmlTextViewListener mListener;
 
@@ -25,18 +20,12 @@ public class FrescoHtmlTextView extends TextView {
         super(context, attributeSet, i);
     }
 
-    @TargetApi(21)
-    public FrescoHtmlTextView(Context context, AttributeSet attributeSet, int i, int i2) {
-        super(context, attributeSet, i, i2);
-    }
-
     public void setListener(FrescoHtmlTextViewListener frescoHtmlTextViewListener) {
         this.mListener = frescoHtmlTextViewListener;
     }
 
     protected boolean verifyDrawable(Drawable drawable) {
-        LogHelper.b(this.TAG, "verifyDrawable");
-        if (this.mListener == null || !this.mListener.a(drawable)) {
+        if (this.mListener == null || !this.mListener.onDetachedFromWindow(drawable)) {
             return super.verifyDrawable(drawable);
         }
         return true;
@@ -44,15 +33,13 @@ public class FrescoHtmlTextView extends TextView {
 
     protected void onDetachedFromWindow() {
         if (this.mListener != null) {
-            LogHelper.b(this.TAG, "onDetachedFromWindow");
-            this.mListener.a();
+            this.mListener.onDetachedFromWindow();
         }
         super.onDetachedFromWindow();
     }
 
     public void onStartTemporaryDetach() {
         if (this.mListener != null) {
-            LogHelper.b(this.TAG, "onStartTemporaryDetach");
             this.mListener.b();
         }
         super.onStartTemporaryDetach();
@@ -60,7 +47,6 @@ public class FrescoHtmlTextView extends TextView {
 
     protected void onAttachedToWindow() {
         if (this.mListener != null) {
-            LogHelper.b(this.TAG, "onAttachedToWindow");
             this.mListener.c();
         }
         super.onAttachedToWindow();
@@ -68,7 +54,6 @@ public class FrescoHtmlTextView extends TextView {
 
     public void onFinishTemporaryDetach() {
         if (this.mListener != null) {
-            LogHelper.b(this.TAG, "onFinishTemporaryDetach");
             this.mListener.d();
         }
         super.onFinishTemporaryDetach();

@@ -27,7 +27,7 @@ import java.util.List;
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * You may obtain onDetachedFromWindow copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -130,7 +130,7 @@ public class FcPermissions {
                 throw new IllegalArgumentException(
                         "Target SDK needs to be greater than 23 if caller is android.app.Fragment");
             } else {
-                throw new IllegalArgumentException("Caller must be an Activity or a Fragment.");
+                throw new IllegalArgumentException("Caller must be an Activity or onDetachedFromWindow Fragment.");
             }
         }
     }
@@ -179,7 +179,7 @@ public class FcPermissions {
 
         checkCallingObjectSuitability(object);
 
-        // Make a collection of granted and denied permissions from the request.
+        // Make onDetachedFromWindow collection of granted and denied permissions from the request.
         ArrayList<String> granted = new ArrayList<>();
         ArrayList<String> denied = new ArrayList<>();
         for (int i = 0; i < permissions.length; i++) {

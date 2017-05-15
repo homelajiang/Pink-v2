@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -17,8 +18,10 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACComment;
+import com.lxy.pink.utils.EmojiParser;
 import com.lxy.pink.utils.FrescoUtils;
 import com.lxy.pink.utils.FuzzyDateFormatter;
+import com.lxy.pink.utils.UBBUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -50,7 +53,6 @@ public class FloorsView extends LinearLayout {
         this.mPaint = new Paint(1);
         this.mPaint.setColor(context.getResources().getColor(R.color.quote_border));
         this.mPaint.setStyle(Paint.Style.FILL);
-
     }
 
     @Override
@@ -122,12 +124,15 @@ public class FloorsView extends LinearLayout {
         SimpleDraweeView headIcon = (SimpleDraweeView) view.findViewById(R.id.simpleDraweeView);
         TextView publishTime = (TextView) view.findViewById(R.id.publish_time);
         TextView floor = (TextView) view.findViewById(R.id.floor);
-        TextView content = (TextView) view.findViewById(R.id.content);
+        TextView content = (FrescoHtmlTextView) view.findViewById(R.id.content);
         name.setText(comment.getUsername());
         int nameColor = comment.getNameRed() == 0 ? android.R.color.holo_red_dark : R.color.black;
         name.setTextColor(ContextCompat.getColor(getContext(), nameColor));
         FrescoUtils.setImage(comment.getAvatar(), headIcon);
-        content.setText(comment.getContent());
+        FrescoImageGetter imageGetter = new FrescoImageGetter(getContext());
+        imageGetter.putTextView(content);
+        content.setText(Html.fromHtml(UBBUtil.a(EmojiParser.b(comment.getContent())), imageGetter, null));
+
         floor.setText(String.valueOf("#" + comment.getFloor()));
         publishTime.setText(FuzzyDateFormatter.getTimeAgo(getContext(), new Date(comment.getTime())));
         return view;

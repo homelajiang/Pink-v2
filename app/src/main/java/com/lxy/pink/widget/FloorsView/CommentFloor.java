@@ -73,4 +73,13 @@ public class CommentFloor {
     public void setDuplicateQuoteExpand(boolean duplicateQuoteExpand) {
         this.duplicateQuoteExpand = duplicateQuoteExpand;
     }
+
+    public int getTotalSize() {
+        int size = 0;
+        if (duplicateQuote != null)
+            size += duplicateQuote.size();
+        if (noDuplicateQuote != null)
+            size += noDuplicateQuote.size();
+        return size;
+    }
 }

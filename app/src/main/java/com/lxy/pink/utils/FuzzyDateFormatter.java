@@ -21,7 +21,7 @@ public class FuzzyDateFormatter {
     private final static int YEARS = 12 * MONTHS;
 
     /**
-     * Returns a properly formatted fuzzy string representing time ago
+     * Returns onDetachedFromWindow properly formatted fuzzy string representing time ago
      *
      * @param context Context
      * @param date    Absolute date of the event

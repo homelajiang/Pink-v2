@@ -177,4 +177,8 @@
     <string name="refRecommond">相关推荐</string>
     <string name="emoji">表情</string>
     <string name="image">图片</string>
+    <string name="duplicate_quote_expand">重复引用已显示&#160;&#160;[收起]</string>
+    <string name="duplicate_quote_un_expand">重复引用已隐藏&#160;&#160;[展开]</string>
+    <string name="no_duplicate_quote_expand">层引用已展开&#160;&#160;[隐藏]</string>
+    <string name="no_duplicate_quote_un_expand">层引用已隐藏&#160;&#160;[展开]</string>
 </resources>

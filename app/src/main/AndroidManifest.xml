@@ -49,7 +49,7 @@
         <activity android:name=".ui.auth.LoginActivity" />
 
         <activity
-            android:name=".ui.video.video.ACVideoActivity"
+            android:name=".ui.video.detail.ACVideoActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
