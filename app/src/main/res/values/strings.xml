@@ -181,4 +181,5 @@
     <string name="duplicate_quote_un_expand">重复引用已隐藏&#160;&#160;[展开]</string>
     <string name="no_duplicate_quote_expand">层引用已展开&#160;&#160;[隐藏]</string>
     <string name="no_duplicate_quote_un_expand">层引用已隐藏&#160;&#160;[展开]</string>
+    <string name="part">分集</string>
 </resources>

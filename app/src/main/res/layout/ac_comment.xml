@@ -45,13 +45,6 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_expand_less_black_24dp"/>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/floors_bound"
-        android:orientation="vertical">
 
         <com.lxy.pink.widget.FloorsView.FloorsView
             android:id="@+id/no_duplicate_quote_floors_view"

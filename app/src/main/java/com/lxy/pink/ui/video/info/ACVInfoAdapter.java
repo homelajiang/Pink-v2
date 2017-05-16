@@ -25,6 +25,8 @@ import com.lxy.pink.ui.video.models.ACVHeaderModel_;
 import com.lxy.pink.ui.video.models.ACVInfoModel;
 import com.lxy.pink.ui.video.models.ACVInfoModel_;
 import com.lxy.pink.ui.video.models.ACVListModel_;
+import com.lxy.pink.ui.video.models.ACVPartModel;
+import com.lxy.pink.ui.video.models.ACVPartModel_;
 import com.lxy.pink.ui.video.models.ACVUserHModel_;
 import com.lxy.pink.ui.video.models.ACVUserListModel_;
 
@@ -84,8 +86,17 @@ public class ACVInfoAdapter extends EpoxyAdapter implements ACVInfoContract.View
                 .titles(videoInfo.getTags());
         addModels(
                 acvInfoModel,
-                acvUserHModel,
-                acvActionModel,
+                acvActionModel
+        );
+        if (videoInfo.getVideos() != null && videoInfo.getVideos().size() > 1) {
+            ACVHeaderModel partTitle = new ACVHeaderModel_()
+                    .title(context.getString(R.string.part));
+            ACVPartModel partModel = new ACVPartModel_()
+                    .videoList(videoInfo.getVideos());
+            addModels(partTitle,
+                    partModel);
+        }
+        addModels(acvUserHModel,
                 tagsModel,
                 acvFlowModel,
                 upListModel,
