@@ -1,9 +1,10 @@
 package com.lxy.pink.ui.video.detail;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
 import com.lxy.pink.data.source.AppRepository;
+import com.lxy.pink.utils.schedulers.BaseSchedulerProvider;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -19,15 +20,17 @@ public class ACVideoPresenter implements ACVideoContract.Presenter {
 
 
     private final int contentId;
-    private Context context;
+    private final BaseSchedulerProvider mSchedulerProvider;
     private ACVideoContract.View view;
     private AppRepository respository;
     private CompositeSubscription subscriptions;
 
-    ACVideoPresenter(Context context, ACVideoContract.View view, int contentId) {
+    ACVideoPresenter(@NonNull ACVideoContract.View view,
+                     @NonNull BaseSchedulerProvider schedulerProvider,
+                     @NonNull int contentId) {
         this.contentId = contentId;
-        this.context = context;
         this.view = view;
+        mSchedulerProvider = schedulerProvider;
         this.respository = AppRepository.getInstance();
         this.subscriptions = new CompositeSubscription();
         view.setPresenter(this);
@@ -69,7 +72,6 @@ public class ACVideoPresenter implements ACVideoContract.Presenter {
 
     @Override
     public void unSubscribe() {
-        context = null;
         view = null;
         subscriptions.clear();
     }

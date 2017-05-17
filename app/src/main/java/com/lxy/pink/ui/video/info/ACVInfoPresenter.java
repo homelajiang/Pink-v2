@@ -21,14 +21,12 @@ import rx.subscriptions.CompositeSubscription;
 public class ACVInfoPresenter implements ACVInfoContract.Presenter {
 
     private int contentId;
-    private Context context;
     private ACVInfoContract.View view;
     private AppRepository respository;
     private CompositeSubscription subscriptions;
 
-    ACVInfoPresenter(Context context, ACVInfoContract.View view, int contentId) {
+    ACVInfoPresenter(ACVInfoContract.View view, int contentId) {
         this.contentId = contentId;
-        this.context = context;
         this.view = view;
         this.respository = AppRepository.getInstance();
         this.subscriptions = new CompositeSubscription();
@@ -42,7 +40,6 @@ public class ACVInfoPresenter implements ACVInfoContract.Presenter {
 
     @Override
     public void unSubscribe() {
-            context = null;
             view = null;
             subscriptions.clear();
     }

@@ -14,6 +14,7 @@ import com.lxy.pink.ui.video.models.ACVInfoModel_;
 import com.lxy.pink.ui.video.models.ACVListModel_;
 import com.lxy.pink.ui.video.models.ACVUserHModel_;
 import com.lxy.pink.ui.video.models.ACVUserListModel_;
+import com.lxy.pink.utils.schedulers.SchedulerProvider;
 
 /**
  * Created by homelajiang on 2017/3/1 0001.
@@ -32,7 +33,7 @@ public class ACVideoAdapter extends EpoxyAdapter implements ACVideoContract.View
     ACVideoAdapter(ACVideoActivity activity, int contentId) {
         this.context = activity;
         this.contentId = contentId;
-        new ACVideoPresenter(activity, this, contentId).subscribe();
+        new ACVideoPresenter(this, SchedulerProvider.getInstance(), contentId).subscribe();
     }
 
     @Override

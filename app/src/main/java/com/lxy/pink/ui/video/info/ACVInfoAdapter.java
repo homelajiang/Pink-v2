@@ -60,7 +60,7 @@ public class ACVInfoAdapter extends EpoxyAdapter implements ACVInfoContract.View
         removeModel(loadingModel);
         if (videoInfo == null)
             return;
-        new ACVInfoPresenter(context, this, videoInfo.getContentId()).subscribe();
+        new ACVInfoPresenter(this, videoInfo.getContentId()).subscribe();
         ACVInfoModel acvInfoModel = new ACVInfoModel_()
                 .videoInfo(videoInfo.getDescription())
                 .title(videoInfo.getTitle())

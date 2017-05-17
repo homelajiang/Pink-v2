@@ -23,6 +23,7 @@ import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.video.comment.ACCommentFragment;
 import com.lxy.pink.ui.video.info.ACVideoInfoFragment;
+import com.lxy.pink.utils.schedulers.SchedulerProvider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,7 +83,7 @@ public class ACVideoActivity extends BaseActivity implements ACVideoContract.Vie
         ACVideoPageAdapter adapter = new ACVideoPageAdapter(getSupportFragmentManager(), titles, fragments);
         mViewpage.setAdapter(adapter);
         mTablayout.setupWithViewPager(mViewpage);
-        new ACVideoPresenter(this, this, 3529332).subscribe();
+        new ACVideoPresenter(this, SchedulerProvider.getInstance(), 3529332).subscribe();
     }
 
     @Override
