@@ -3,8 +3,10 @@ package com.lxy.pink.ui.video.detail;
 import android.widget.Toast;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.lxy.pink.Injection;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
+import com.lxy.pink.data.source.AppRepository;
 import com.lxy.pink.ui.video.models.ACVActionModel;
 import com.lxy.pink.ui.video.models.ACVActionModel_;
 import com.lxy.pink.ui.video.models.ACVHeaderModel;
@@ -33,7 +35,7 @@ public class ACVideoAdapter extends EpoxyAdapter implements ACVideoContract.View
     ACVideoAdapter(ACVideoActivity activity, int contentId) {
         this.context = activity;
         this.contentId = contentId;
-        new ACVideoPresenter(this, SchedulerProvider.getInstance(), contentId).subscribe();
+        new ACVideoPresenter(this, AppRepository.getInstance(), Injection.provideSchedulerProvider(), contentId).subscribe();
     }
 
     @Override

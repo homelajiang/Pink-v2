@@ -26,12 +26,13 @@ public class ACVideoPresenter implements ACVideoContract.Presenter {
     private CompositeSubscription subscriptions;
 
     ACVideoPresenter(@NonNull ACVideoContract.View view,
+                     AppRepository appRepository,
                      @NonNull BaseSchedulerProvider schedulerProvider,
                      @NonNull int contentId) {
         this.contentId = contentId;
         this.view = view;
         mSchedulerProvider = schedulerProvider;
-        this.respository = AppRepository.getInstance();
+        this.respository = appRepository;
         this.subscriptions = new CompositeSubscription();
         view.setPresenter(this);
     }

@@ -17,8 +17,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.lxy.pink.Injection;
 import com.lxy.pink.R;
 import com.lxy.pink.data.model.acfun.ACVideoInfo;
+import com.lxy.pink.data.source.AppRepository;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.video.comment.ACCommentFragment;
@@ -83,7 +85,7 @@ public class ACVideoActivity extends BaseActivity implements ACVideoContract.Vie
         ACVideoPageAdapter adapter = new ACVideoPageAdapter(getSupportFragmentManager(), titles, fragments);
         mViewpage.setAdapter(adapter);
         mTablayout.setupWithViewPager(mViewpage);
-        new ACVideoPresenter(this, SchedulerProvider.getInstance(), 3529332).subscribe();
+        new ACVideoPresenter(this, AppRepository.getInstance(),Injection.provideSchedulerProvider(), 3529332).subscribe();
     }
 
     @Override

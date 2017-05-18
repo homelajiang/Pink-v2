@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.google.gson.Gson;
+import com.lxy.pink.Injection;
 import com.lxy.pink.data.db.DaoSession;
 import com.lxy.pink.data.db.WeatherDao;
 import com.lxy.pink.data.model.BaseModel;
@@ -57,9 +58,9 @@ public class AppDataSource implements AppContract {
     private DaoSession daoSession;
     private Gson gson;
 
-    public AppDataSource(Context context, DaoSession daoSession) {
-        this.context = context;
-        this.daoSession = daoSession;
+    public AppDataSource() {
+        this.context = Injection.provideContext();
+        this.daoSession = DaoMasterHelper.getDaoSession();
         this.gson = new Gson();
     }
 

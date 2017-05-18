@@ -45,7 +45,7 @@ public class AppRepository implements AppContract {
     private AppDataSource appDataSource;
 
     private AppRepository() {
-        appDataSource = new AppDataSource(Injection.provideContext(), DaoMasterHelper.getDaoSession());
+        appDataSource = new AppDataSource();
     }
 
     public static AppRepository getInstance() {
