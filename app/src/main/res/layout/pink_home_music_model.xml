@@ -1,5 +1,6 @@
 <com.lxy.pink.ui.home.view.PinkMusicView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:elevation="@dimen/pink_card_elevation" />
+                                         xmlns:app="http://schemas.android.com/apk/res-auto"
+                                         android:layout_width="match_parent"
+                                         android:layout_height="100dp"
+                                         android:background="@color/foreground"
+                                         android:elevation="@dimen/pink_card_elevation"/>

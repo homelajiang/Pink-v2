@@ -54,7 +54,6 @@ public class ACVideoActivity extends BaseActivity implements ACVideoContract.Vie
     TabLayout mTablayout;
     @BindView(R.id.viewpage)
     ViewPager mViewpage;
-    private ACVideoAdapter adapter;
     private TabLayout.Tab commentTab;
     private BaseFragment[] fragments;
     private ACVideoContract.Presenter presenter;
@@ -98,7 +97,6 @@ public class ACVideoActivity extends BaseActivity implements ACVideoContract.Vie
 
     @Override
     protected void onDestroy() {
-        adapter.onDestroy();
         super.onDestroy();
     }
 

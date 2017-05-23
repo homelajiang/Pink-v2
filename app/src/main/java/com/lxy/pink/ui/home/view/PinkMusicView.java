@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -28,7 +29,7 @@ import butterknife.OnClick;
  * Created by homelajiang on 2016/12/23 0023.
  */
 
-public class PinkMusicView extends RelativeLayout implements IPlayback.Callback {
+public class PinkMusicView extends CardView implements IPlayback.Callback {
     @BindView(R.id.music_play)
     FloatingActionButton mMusicPlay;
     @BindView(R.id.music_album)
