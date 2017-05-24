@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/pink_card_radius"
@@ -56,27 +55,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginStart="3dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatImageButton
-                        android:id="@+id/music_mode_toggle"
-                        style="@style/PinkMusicItem.Button"
-                        android:layout_alignParentBottom="true"
-                        android:layout_toStartOf="@+id/music_time"
-                        app:srcCompat="@drawable/ic_repeat_black_20dp"/>
-
-                    <android.support.v7.widget.AppCompatImageButton
                         android:id="@+id/music_note_toggle"
                         style="@style/PinkMusicItem.Button"
-                        android:layout_alignParentBottom="true"
-                        android:layout_toStartOf="@+id/music_mode_toggle"
                         app:srcCompat="@drawable/ic_music_note_black_20dp"/>
+
+                    <android.support.v7.widget.AppCompatImageButton
+                        android:id="@+id/music_mode_toggle"
+                        style="@style/PinkMusicItem.Button"
+                        app:srcCompat="@drawable/ic_repeat_black_20dp"/>
 
                     <TextView
                         android:id="@+id/music_time"
                         style="@style/PinkMusicItem.Time"
-                        android:layout_alignParentBottom="true"
                         android:layout_gravity="bottom"
                         tools:text="03:56"/>
 
@@ -84,34 +79,34 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true">
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/music_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/music_play"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="-5dp"
+                    android:layout_marginStart="5dp"
                     android:clickable="true"
                     android:tint="@color/secondary_text"
                     app:backgroundTint="@color/foreground"
                     app:elevation="4dp"
-                    android:layout_marginStart="5dp"
                     app:fabSize="mini"
-                    android:layout_marginEnd="-5dp"
-                    android:layout_alignParentBottom="true"
                     app:srcCompat="@drawable/ic_skip_next_black_24dp"/>
 
                 <android.support.design.widget.FloatingActionButton
 
                     android:id="@+id/music_play"
-                    android:layout_toEndOf="@+id/music_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/music_next"
                     android:clickable="true"
                     android:tint="@color/secondary_text"
                     app:backgroundTint="@color/foreground"
@@ -126,7 +121,6 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/pink_music_controller_progress"
-            android:layout_alignParentBottom="true"
             android:background="@color/progress_bg"
             android:max="10000"
             android:progress="5000"
