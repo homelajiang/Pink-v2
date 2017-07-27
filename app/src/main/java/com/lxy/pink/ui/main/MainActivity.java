@@ -58,10 +58,8 @@ public class MainActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-//        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         StatusBarUtil.setTranslucentForDrawerLayout(this,mDrawerLayout,0);
-//        initView();
+        initView();
     }
 
     private void initView() {

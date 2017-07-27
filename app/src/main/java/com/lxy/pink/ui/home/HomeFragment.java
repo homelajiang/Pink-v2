@@ -49,14 +49,6 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
     public static final String TAG = "HomeFragment";
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-//    @BindView(R.id.app_bar_layout)
-//    AppBarLayout mAppBarLayout;
-    @BindView(R.id.background)
-    ImageView mBackground;
-    @BindView(R.id.layout)
-    LinearLayout mLayout;
 
     private PinkService.PinkBinder pinkBinder;
     private HomeAdapter homeAdapter;
@@ -108,7 +100,7 @@ public class HomeFragment extends BaseFragment implements FcPermissionsCallbacks
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        View root = inflater.inflate(R.layout.recyclerview, container, false);
         ButterKnife.bind(this, root);
         initView();
         initData();
