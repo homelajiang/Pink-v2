@@ -34,7 +34,7 @@ greendao {
     targetGenDir 'src/main/java'
 }
 
-final APPCOMPAT_VERSION = '25.2.0'
+final APPCOMPAT_VERSION = '25.3.1'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -71,4 +71,6 @@ dependencies {
     //    compile 'com.lovedise:permissiongen:0.0.6'
     //    compile 'com.github.hotchemi:permissionsdispatcher:2.2.0'
     //    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.2.0'
+    compile 'com.jaeger.statusbarutil:library:1.4.0'
+
 }

@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.jaeger.library.StatusBarUtil;
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.data.model.auth.Auth;
@@ -24,6 +27,7 @@ import com.lxy.pink.event.ProfileUpdateEvent;
 import com.lxy.pink.ui.auth.LoginActivity;
 import com.lxy.pink.ui.base.BaseActivity;
 import com.lxy.pink.core.PinkService;
+import com.lxy.pink.ui.home.HomeFragment;
 import com.lxy.pink.ui.video.fun.ACFunActivity;
 import com.lxy.pink.ui.video.detail.ACVideoActivity;
 
@@ -54,7 +58,10 @@ public class MainActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-        initView();
+//        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        StatusBarUtil.setTranslucentForDrawerLayout(this,mDrawerLayout,0);
+//        initView();
     }
 
     private void initView() {
@@ -69,19 +76,18 @@ public class MainActivity extends BaseActivity implements
         headerViewHolder.mHeadIcon.setOnClickListener(this);
         headerViewHolder.mName.setOnClickListener(this);
 
-//        setSupportActionBar(mToolbar);
-//
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, mDrawerLayout, mToolbar,
-//                R.string.navigation_drawer_open, R.string.navigation_drawer_close
-//        );
-//        mDrawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
+        // TODO: 2017/7/27 0027 修改toggle
+/*        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, mToolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        );
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();*/
         mNavView.setNavigationItemSelectedListener(this);
-        MainFragment mainFragment = new MainFragment();
+        HomeFragment homeFragment = new HomeFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, mainFragment, MainFragment.TAG)
+                .replace(R.id.fragment_container, homeFragment, HomeFragment.TAG)
                 .commit();
         if (auth != null && profile != null) {
             updateProfile(profile);
