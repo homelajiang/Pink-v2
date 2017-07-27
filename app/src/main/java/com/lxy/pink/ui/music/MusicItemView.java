@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  * Created by homelajiang on 2016/11/3 0003.
  */
 
-public class SongListItemView extends RelativeLayout implements IAdapterView<Song> {
+public class MusicItemView extends RelativeLayout implements IAdapterView<Song> {
 
     @BindView(R.id.text_view_index)
     TextView textViewIndex;
@@ -32,7 +32,7 @@ public class SongListItemView extends RelativeLayout implements IAdapterView<Son
     @BindView(R.id.layout_action)
     FrameLayout layoutAction;
 
-    public SongListItemView(Context context) {
+    public MusicItemView(Context context) {
         super(context);
         View.inflate(context, R.layout.item_play_list_detail_song, this);
         ButterKnife.bind(this);

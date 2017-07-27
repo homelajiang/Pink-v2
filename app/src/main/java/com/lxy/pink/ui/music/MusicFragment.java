@@ -15,14 +15,11 @@ import android.view.ViewGroup;
 import com.lxy.pink.R;
 import com.lxy.pink.RxBus;
 import com.lxy.pink.data.model.music.PlayList;
-import com.lxy.pink.event.PlayListLoadedEvent;
 import com.lxy.pink.event.PlayListNowEvent;
 import com.lxy.pink.ui.base.BaseFragment;
 import com.lxy.pink.ui.base.adapter.OnItemClickListener;
 import com.lxy.pink.ui.permission.FcPermissions;
 import com.lxy.pink.ui.permission.FcPermissionsCallbacks;
-import com.lxy.pink.ui.video.VideoFragment;
-import com.lxy.pink.ui.video.VideoFragmentPresenter;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -35,16 +32,17 @@ import butterknife.ButterKnife;
  * Created by yuan on 2016/10/18.
  */
 
-public class SongListFragment extends BaseFragment implements
-        SongListAdapter.AddPlayListCallback, SongListContract.View, SwipeRefreshLayout.OnRefreshListener,
+public class MusicFragment extends BaseFragment implements
+        MusicAdapter.AddPlayListCallback, MusicContract.View, SwipeRefreshLayout.OnRefreshListener,
         FcPermissionsCallbacks {
+    public static final String TAG = "MUSIC_FRAGMENT";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private View root;
-    private SongListAdapter mAdapter;
-    private SongListContract.Presenter presenter;
+    private MusicAdapter mAdapter;
+    private MusicContract.Presenter presenter;
     private PlayList playList;
 
     private String[] PERMISSION_STROGE = {
@@ -58,9 +56,9 @@ public class SongListFragment extends BaseFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.recyclerview_with_refresh, container, false);
         ButterKnife.bind(this, root);
-        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.pink));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.pink));
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter = new SongListAdapter(getContext(), null);
+        mAdapter = new MusicAdapter(getContext(), null);
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -88,16 +86,16 @@ public class SongListFragment extends BaseFragment implements
 
     @Override
     protected void loadData() {
-        if(!isPrepared || !isVisible ||!isFirstInit) {
+        if (!isPrepared || !isVisible || !isFirstInit) {
             return;
         }
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                new SongListPresenter(SongListFragment.this).subscribe();
+                new MusicPresenter(MusicFragment.this).subscribe();
                 //※ link start ※
-                FcPermissions.requestPermissions(SongListFragment.this, "", PERMISSION_CODE_STORAFGE, PERMISSION_STROGE);
+                FcPermissions.requestPermissions(MusicFragment.this, "", PERMISSION_CODE_STORAFGE, PERMISSION_STROGE);
             }
         }, 500);
     }
@@ -142,7 +140,7 @@ public class SongListFragment extends BaseFragment implements
     }
 
     @Override
-    public void setPresenter(SongListContract.Presenter presenter) {
+    public void setPresenter(MusicContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -172,8 +170,8 @@ public class SongListFragment extends BaseFragment implements
         mSwipeRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-               presenter.loadMusicList(new ArrayList<String>());
+                presenter.loadMusicList(new ArrayList<String>());
             }
-        },500);
+        }, 500);
     }
 }

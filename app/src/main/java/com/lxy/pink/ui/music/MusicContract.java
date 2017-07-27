@@ -10,7 +10,7 @@ import java.util.List;
  * Created by homelajiang on 2016/11/3 0003.
  */
 
-public interface SongListContract {
+public interface MusicContract {
 
     interface View extends BaseView<Presenter> {
         void showLoading();

@@ -14,6 +14,7 @@ import com.lxy.pink.ui.base.BaseFragment;
  */
 
 public class NewsFragment extends BaseFragment {
+    public static final String TAG = "NEW_FRAGMENT";
     private View root;
 
     @Nullable

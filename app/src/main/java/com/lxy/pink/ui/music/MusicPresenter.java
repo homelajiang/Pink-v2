@@ -16,13 +16,13 @@ import rx.subscriptions.CompositeSubscription;
  * Created by homelajiang on 2016/11/3 0003.
  */
 
-public class SongListPresenter implements SongListContract.Presenter {
+public class MusicPresenter implements MusicContract.Presenter {
 
-    private SongListContract.View mView;
+    private MusicContract.View mView;
     private AppRepository mRepository;
     private CompositeSubscription mSubscriptions;
 
-    public SongListPresenter(SongListContract.View view) {
+    public MusicPresenter(MusicContract.View view) {
         mView = view;
         mRepository = AppRepository.getInstance();
         mSubscriptions = new CompositeSubscription();

@@ -13,7 +13,7 @@ import com.lxy.pink.ui.base.adapter.OnItemClickListener;
  * Created by homelajiang on 2016/11/3 0003.
  */
 
-public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context mContext;
     private PlayList playList;
@@ -24,7 +24,7 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int NORMAL = 0;
     private OnItemClickListener onItemClickListener;
 
-    public SongListAdapter(Context context, PlayList playList) {
+    public MusicAdapter(Context context, PlayList playList) {
         this.mContext = context;
         this.playList = playList;
         registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -51,13 +51,13 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final RecyclerView.ViewHolder holder;
         if (viewType == HEADER) {
-            holder = new RecyclerView.ViewHolder(new SongListItemHeaderView(mContext)) {
+            holder = new RecyclerView.ViewHolder(new MusicItemHeaderView(mContext)) {
             };
         } else {
-            holder = new RecyclerView.ViewHolder(new SongListItemView(mContext)) {
+            holder = new RecyclerView.ViewHolder(new MusicItemView(mContext)) {
             };
             if (mPlayListCallback != null) {
-                ((SongListItemView) holder
+                ((MusicItemView) holder
                         .itemView).layoutAction
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -84,9 +84,9 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == HEADER) {
-            ((SongListItemHeaderView) holder.itemView).bind(playList, position);
+            ((MusicItemHeaderView) holder.itemView).bind(playList, position);
         } else {
-            ((SongListItemView) holder.itemView).bind(playList.getSong(position - 1), position - 1);
+            ((MusicItemView) holder.itemView).bind(playList.getSong(position - 1), position - 1);
         }
     }
 

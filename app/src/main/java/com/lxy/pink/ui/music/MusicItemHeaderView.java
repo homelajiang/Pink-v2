@@ -22,11 +22,11 @@ import butterknife.OnCheckedChanged;
  * Created by homelajiang on 2016/11/3 0003.
  */
 
-public class SongListItemHeaderView extends RelativeLayout implements IAdapterView<PlayList> {
+public class MusicItemHeaderView extends RelativeLayout implements IAdapterView<PlayList> {
 
     private final Context context;
 
-    public SongListItemHeaderView(Context context) {
+    public MusicItemHeaderView(Context context) {
         super(context);
         this.context = context;
         View.inflate(context, R.layout.item_play_list_detail_song_header, this);

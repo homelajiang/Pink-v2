@@ -37,6 +37,7 @@ import rx.functions.Action1;
  */
 
 public class VideoFragment extends BaseFragment implements VideoContract.View, SwipeRefreshLayout.OnRefreshListener {
+    public static final String TAG = "VIDEO_FRAGMENT";
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipeRefreshLayout)

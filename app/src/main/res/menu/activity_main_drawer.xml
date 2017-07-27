@@ -7,15 +7,15 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/pink_menu_nva_home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_music"
             android:icon="@drawable/ic_menu_gallery"
             android:title="音乐" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_video"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="视频" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_news"
             android:icon="@drawable/ic_menu_manage"
             android:title="新闻" />
     </group>
